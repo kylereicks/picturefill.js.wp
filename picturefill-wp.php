@@ -15,7 +15,7 @@ if(!class_exists('Picturefill_WP')){
       require_once(ABSPATH . 'wp-admin/includes/image.php');
       add_action('wp_enqueue_scripts', array($this, 'picturefill_scripts'));
       add_action('init', array($this, 'add_image_sizes'));
-      add_filter('the_content', array($this, 'replace_images'), 999);
+      add_filter('the_content', array($this, 'replace_images'), 11);
     }
 
     function picturefill_scripts(){
@@ -48,8 +48,6 @@ if(!class_exists('Picturefill_WP')){
           $picture .= !empty($title) ? ' title="' . $title . '"' : '';
           $picture .= !empty($id) ? ' id="' . $id . '"' : '';
           $picture .= !empty($class) ? ' class="' . $class . '"' : '';
-          $picture .= !empty($width) ? ' width="' . $width . '"' : '';
-          $picture .= !empty($height) ? ' height="' . $height . '"' : '';
           $picture .= '>';
 
           $picture .= '<div data-src="' . $src . '"></div>';
