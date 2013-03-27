@@ -34,8 +34,12 @@
 					picImg.className = ps[ i ].getAttribute( "data-class" );
 					picImg.alt = ps[ i ].getAttribute( "data-alt" );
 					picImg.title = ps[ i ].getAttribute( "data-title" );
-					picImg.width = ps[ i ].getAttribute( "data-width" );
-					picImg.height = ps[ i ].getAttribute( "data-height" );
+          if(ps[i].getAttribute("data-width") > 0){
+            picImg.width = ps[ i ].getAttribute( "data-width" );
+          }
+          if(ps[i].getAttribute("data-height") > 0){
+            picImg.height = ps[ i ].getAttribute( "data-height" );
+          }
 					ps[ i ].appendChild( picImg );
 				}
 				
