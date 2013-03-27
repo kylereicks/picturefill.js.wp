@@ -30,7 +30,12 @@
 			if( matches.length ){			
 				if( !picImg ){
 					picImg = w.document.createElement( "img" );
+					picImg.id = ps[ i ].getAttribute( "data-id" );
+					picImg.className = ps[ i ].getAttribute( "data-class" );
 					picImg.alt = ps[ i ].getAttribute( "data-alt" );
+					picImg.title = ps[ i ].getAttribute( "data-title" );
+					picImg.width = ps[ i ].getAttribute( "data-width" );
+					picImg.height = ps[ i ].getAttribute( "data-height" );
 					ps[ i ].appendChild( picImg );
 				}
 				

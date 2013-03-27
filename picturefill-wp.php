@@ -44,10 +44,12 @@ if(!class_exists('Picturefill_WP')){
           preg_match('/(?:wp-image-)(\w+)/', $class, $attachment_id);
 
           $picture = '<span data-picture';
+          $picture .= !empty($id) ? ' data-id="' . $id . '"' : '';
+          $picture .= !empty($class) ? ' data-class="' . $class . '"' : '';
           $picture .= !empty($alt) ? ' data-alt="' . $alt . '"' : '';
-          $picture .= !empty($title) ? ' title="' . $title . '"' : '';
-          $picture .= !empty($id) ? ' id="' . $id . '"' : '';
-          $picture .= !empty($class) ? ' class="' . $class . '"' : '';
+          $picture .= !empty($title) ? ' data-title="' . $title . '"' : '';
+          $picture .= !empty($width) ? ' data-width="' . $width . '"' : '';
+          $picture .= !empty($height) ? ' data-height="' . $height . '"' : '';
           $picture .= '>';
 
           $picture .= '<span data-src="' . $src . '"></span>';
