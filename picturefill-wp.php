@@ -19,7 +19,7 @@ if(!class_exists('Picturefill_WP')){
     }
 
     function picturefill_scripts(){
-      wp_register_script('picturefill', plugins_url('js/libs/picturefill.min.js', __FILE__), array(), false, true);
+      wp_register_script('picturefill', plugins_url('js/libs/picturefill.js', __FILE__), array(), false, true);
     }
 
     function replace_images($html){
@@ -43,14 +43,14 @@ if(!class_exists('Picturefill_WP')){
           preg_match('/(?:size-)(\w+)/', $class, $size);
           preg_match('/(?:wp-image-)(\w+)/', $class, $attachment_id);
 
-          $picture = '<div data-picture';
+          $picture = '<span data-picture';
           $picture .= !empty($alt) ? ' data-alt="' . $alt . '"' : '';
           $picture .= !empty($title) ? ' title="' . $title . '"' : '';
           $picture .= !empty($id) ? ' id="' . $id . '"' : '';
           $picture .= !empty($class) ? ' class="' . $class . '"' : '';
           $picture .= '>';
 
-          $picture .= '<div data-src="' . $src . '"></div>';
+          $picture .= '<span data-src="' . $src . '"></span>';
 
           if(!empty($size) && !empty($attachment_id) && in_array($size[1] . 'x2', get_intermediate_image_sizes())){
             $image_attachment_data = array(
@@ -65,12 +65,12 @@ if(!class_exists('Picturefill_WP')){
             }
 
             if($image_attachment_data !== false){
-              $picture .= '<div data-src="' . $image_attachment_data[$size[1] . 'x2'][0] . '" data-media="min-device-pixel-ratio:2.0"></div>';
+              $picture .= '<span data-src="' . $image_attachment_data[$size[1] . 'x2'][0] . '" data-media="min-device-pixel-ratio:2.0"></span>';
             }
           }
 
           $picture .= '<noscript>' . $original_image . '</noscript>';
-          $picture .= '</div>';
+          $picture .= '</span>';
 
           $html = str_replace($original_image, $picture, $html);
         }
