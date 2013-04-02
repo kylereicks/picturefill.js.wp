@@ -52,23 +52,30 @@ if(!class_exists('Picturefill_WP')){
           $picture .= !empty($height) ? ' data-height="' . $height . '"' : '';
           $picture .= '>';
 
-          $picture .= '<span data-src="' . $src . '"></span>';
-
           if(!empty($size) && !empty($attachment_id) && in_array($size[1] . 'x2', get_intermediate_image_sizes())){
-            $image_attachment_data = array(
-              'original' => wp_get_attachment_image_src($attachment_id[1], 'full'),
-              $size[1] . 'x2' => wp_get_attachment_image_src($attachment_id[1], $size[1] . 'x2')
-            );
+            $image_attachment_data = $this->image_attachment_data($attachment_id[1]);
 
-            if($image_attachment_data['original'][0] === $image_attachment_data[$size[1] . 'x2'][0] && $image_attachment_data['original'][1] > $image_attachment_data[$size[1] . 'x2'][1] && $image_attachment_data['original'][2] > $image_attachment_data[$size[1] . 'x2'][2]){
-              $new_meta_data = wp_generate_attachment_metadata($attachment_id[1], get_attached_file($attachment_id[1]));
-              wp_update_attachment_metadata($attachment_id[1], $new_meta_data);
-              $image_attachment_data[$size[1] . 'x2'] = wp_get_attachment_image_src($attachment_id[1], $size[1] . 'x2');
+            if($size[1] === 'original' || $size[1] === 'large' || $size[1] === 'medium' || $size[1] === 'thumbnail'){
+              $picture .= '<span data-src="' . $image_attachment_data['thumbnail'][0] . '"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['thumbnailx2'][0] . '" data-media="(min-device-pixel-ratio:2.0)"></span>';
             }
+            if($size[1] === 'original' || $size[1] === 'large' || $size[1] === 'medium'){
+              $breakpoint = $image_attachment_data['medium'][1] + 20;
+              $picture .= '<span data-src="' . $image_attachment_data['medium'][0] . '" data-media="(min-device-width: ' . $breakpoint . 'px)"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['mediumx2'][0] . '" data-media="(min-device-width: ' . $breakpoint . 'px) and (min-device-pixel-ratio:2.0)"></span>';
+            }
+            if($size[1] === 'original' || $size === 'large'){
+              $breakpoint = $image_attachment_data['large'][1] + 20;
+              $picture .= '<span data-src="' . $image_attachment_data['large'][0] . '" data-media="(min-device-width: ' . $breakpoint . 'px)"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['largex2'][0] . '" data-media="(min-device-width: ' . $breakpoint . 'px) and (min-device-pixel-ratio:2.0)"></span>';
+            }
+            if($size[1] === 'original'){
+              $picture .= '<span data-src="' . $src . '" data-media="(min-device-width: ' . $width . 'px)"></span>';
+            }
+          }
 
-            if($image_attachment_data !== false){
-              $picture .= '<span data-src="' . $image_attachment_data[$size[1] . 'x2'][0] . '" data-media="min-device-pixel-ratio:2.0"></span>';
-            }
+          if(empty($size)){
+            $picture .= '<span data-src="' . $src . '"></span>';
           }
 
           $picture .= '<noscript>' . $original_image . '</noscript>';
@@ -77,7 +84,29 @@ if(!class_exists('Picturefill_WP')){
           $html = str_replace($original_image, $picture, $html);
         }
       }
-        return $html;
+      return $html;
+    }
+
+    private function image_attachment_data($attachment_id){
+      $image_attachment_data = array(
+        'original' => wp_get_attachment_image_src($attachment_id, 'full'),
+        'thumbnail' => wp_get_attachment_image_src($attachment_id, 'thumbnail'),
+        'thumbnailx2' => wp_get_attachment_image_src($attachment_id, 'thumbnailx2'),
+        'medium' => wp_get_attachment_image_src($attachment_id, 'medium'),
+        'mediumx2' => wp_get_attachment_image_src($attachment_id, 'mediumx2'),
+        'large' => wp_get_attachment_image_src($attachment_id, 'large'),
+        'largex2' => wp_get_attachment_image_src($attachment_id, 'largex2')
+      );
+
+      foreach($image_attachment_data as $attachment_size => $attachment_data){
+        if($image_attachment_data['original'][0] === $attachment_data[0] && $image_attachment_data['original'][1] > $attachment_data[1] && $image_attachment_data['original'][2] > $image_attachment_data[2]){
+          $new_meta_data = wp_generate_attachment_metadata($attachment_id, get_attached_file($attachment_id));
+          wp_update_attachment_metadata($attachment_id, $new_meta_data);
+          $image_attachment_data[$attachment_size] = wp_get_attachment_image_src($attachment_id, $attachment_size);
+        }
+      }
+
+      return $image_attachment_data;
     }
 
     function add_image_sizes(){
