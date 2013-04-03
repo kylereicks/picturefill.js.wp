@@ -42,7 +42,13 @@
           }
 					ps[ i ].appendChild( picImg );
 				}
-				
+
+        if(matches[matches.length -1].getAttribute( "data-width" )){
+          picImg.width =  matches[matches.length -1].getAttribute( "data-width" );
+        }
+        if(matches[matches.length -1].getAttribute( "data-height" )){
+          picImg.height =  matches[matches.length -1].getAttribute( "data-height" );
+        }
 				picImg.src =  matches.pop().getAttribute( "data-src" );
 			}
 			else if( picImg ){
