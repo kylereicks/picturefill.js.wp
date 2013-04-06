@@ -37,16 +37,16 @@ The adapted version of picturefill.js then looks for the last `data-src` listed 
 
 ###Heights and Widths and Breakpoints
 
-One of the goals of this plugin is to be completely "plug and play" i.e. no setup and no options. Just turn it on and it works. To do this, the plugin relies on several Wordpress defaults and convetions.
+One of the goals of this plugin is to be completely "plug and play" i.e. no setup and no options. Just turn it on and it works. To do this, the plugin relies on several Wordpress defaults and conventions.
 
 ####Wordpress Image Sizes
 
-By default, Wordpress creates as many as 3 images of diferent sizes for each uploaded image ("large", "medium", and "thumbnail"), in addition to the "full" image size.
+By default, Wordpress creates as many as 3 images of different sizes for each uploaded image ("large", "medium", and "thumbnail"), in addition to the "full" image size.
 
-This plugin adds responsive breakpoints based on the with of the image. The largest avilable image will display unless the browser width is less than the image with + 20px, in which case the next size down is displayed.
+This plugin adds responsive breakpoints based on the with of the image. The largest available image will display unless the browser width is less than the image with + 20px, in which case the next size down is displayed.
 
-To use this plugin most efectivly, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
+To use this plugin most effectively, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
 
 ####Wordpress Image Classes
 
-This plugin uses the default Wordpress image classes `size-{size}` and `wp-image-{image id}` as a source of information. It will not work effectively if these classes are removed. The original image will stil be loaded, but it will not be responsive.
+This plugin uses the default Wordpress image classes `size-{size}` and `wp-image-{image id}` as a source of information. It will not work effectively if these classes are removed. The original image will still be loaded, but it will not be responsive.
