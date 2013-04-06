@@ -33,7 +33,7 @@ then replaces them with something like this:
 </span>
 ```
 
-The adapted version of picturefill.js then looks for the last `data-src` listed where the associated `data-media` matches the device and browser, and loads the appropriate image inside the parrent `<span>` element.
+The adapted version of picturefill.js then looks for the last `data-src` listed where the associated `data-media` matches the device and browser, and loads the appropriate image inside the parent `<span>` element.
 
 ###Heights and Widths and Breakpoints
 
@@ -47,6 +47,6 @@ This plugin adds responsive breakpoints based on the with of the image. The larg
 
 To use this plugin most efectivly, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
 
-####wordpress Image Classes
+####Wordpress Image Classes
 
 This plugin uses the default Wordpress image classes `size-{size}` and `wp-image-{image id}` as a source of information. It will not work effectively if these classes are removed. The original image will stil be loaded, but it will not be responsive.
