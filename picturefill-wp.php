@@ -19,7 +19,7 @@ if(!class_exists('Picturefill_WP')){
     }
 
     function picturefill_scripts(){
-      wp_register_script('picturefill', plugins_url('js/libs/picturefill.js', __FILE__), array(), false, true);
+      wp_register_script('picturefill', plugins_url('js/libs/picturefill.min.js', __FILE__), array(), false, true);
     }
 
     function replace_images($html){
