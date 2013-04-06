@@ -57,17 +57,17 @@ if(!class_exists('Picturefill_WP')){
 
             if($size[1] === 'full' || $size[1] === 'large' || $size[1] === 'medium' || $size[1] === 'thumbnail'){
               $picture .= '<span data-src="' . $image_attachment_data['thumbnail'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '"></span>';
-              $picture .= '<span data-src="' . $image_attachment_data['thumbnailx2'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '" data-media="(min-device-pixel-ratio:2.0)"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['thumbnail@2x'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '" data-media="(min-device-pixel-ratio: 2.0)"></span>';
             }
             if($size[1] === 'full' || $size[1] === 'large' || $size[1] === 'medium'){
               $breakpoint = $image_attachment_data['medium'][1] + 20;
               $picture .= '<span data-src="' . $image_attachment_data['medium'][0] . '" data-width="' . $image_attachment_data['medium'][1] . '" data-height="' . $image_attachment_data['medium'][2] . '" data-media="(min-width: ' . $breakpoint . 'px)"></span>';
-              $picture .= '<span data-src="' . $image_attachment_data['mediumx2'][0] . '" data-width="' . $image_attachment_data['medium'][1] . '" data-height="' . $image_attachment_data['medium'][2] . '" data-media="(min-width: ' . $breakpoint . 'px) and (min-device-pixel-ratio:2.0)"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['medium@2x'][0] . '" data-width="' . $image_attachment_data['medium'][1] . '" data-height="' . $image_attachment_data['medium'][2] . '" data-media="(min-width: ' . $breakpoint . 'px) and (min-device-pixel-ratio: 2.0)"></span>';
             }
             if($size[1] === 'full' || $size[1] === 'large'){
               $breakpoint = $image_attachment_data['large'][1] + 20;
               $picture .= '<span data-src="' . $image_attachment_data['large'][0] . '" data-width="' . $image_attachment_data['large'][1] . '" data-height="' . $image_attachment_data['large'][2] . '" data-media="(min-width: ' . $breakpoint . 'px)"></span>';
-              $picture .= '<span data-src="' . $image_attachment_data['largex2'][0] . '" data-width="' . $image_attachment_data['large'][1] . '" data-height="' . $image_attachment_data['large'][2] . '" data-media="(min-width: ' . $breakpoint . 'px) and (min-device-pixel-ratio:2.0)"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['large@2x'][0] . '" data-width="' . $image_attachment_data['large'][1] . '" data-height="' . $image_attachment_data['large'][2] . '" data-media="(min-width: ' . $breakpoint . 'px) and (min-device-pixel-ratio: 2.0)"></span>';
             }
             if($size[1] === 'full'){
               $picture .= '<span data-src="' . $src . '" data-width="' . $image_attachment_data['full'][1] . '" data-height="' . $image_attachment_data['full'][2] . '" data-media="(min-width: ' . $width . 'px)"></span>';
@@ -77,6 +77,8 @@ if(!class_exists('Picturefill_WP')){
           if(empty($size)){
             $picture .= '<span data-src="' . $src . '"></span>';
           }
+
+          $picture .= '<!--[if (lt IE 9) & (!IEMobile)]><span data-src="' . $src . '"></span><![endif]-->';
 
           $picture .= '<noscript>' . $original_image . '</noscript>';
           $picture .= '</span>';
@@ -91,11 +93,11 @@ if(!class_exists('Picturefill_WP')){
       $image_attachment_data = array(
         'full' => wp_get_attachment_image_src($attachment_id, 'full'),
         'thumbnail' => wp_get_attachment_image_src($attachment_id, 'thumbnail'),
-        'thumbnailx2' => wp_get_attachment_image_src($attachment_id, 'thumbnailx2'),
+        'thumbnail2x' => wp_get_attachment_image_src($attachment_id, 'thumbnail@2x'),
         'medium' => wp_get_attachment_image_src($attachment_id, 'medium'),
-        'mediumx2' => wp_get_attachment_image_src($attachment_id, 'mediumx2'),
+        'medium@2x' => wp_get_attachment_image_src($attachment_id, 'medium@2x'),
         'large' => wp_get_attachment_image_src($attachment_id, 'large'),
-        'largex2' => wp_get_attachment_image_src($attachment_id, 'largex2')
+        'large@2x' => wp_get_attachment_image_src($attachment_id, 'large@2x')
       );
 
       foreach($image_attachment_data as $attachment_size => $attachment_data){
