@@ -93,7 +93,7 @@ if(!class_exists('Picturefill_WP')){
       $image_attachment_data = array(
         'full' => wp_get_attachment_image_src($attachment_id, 'full'),
         'thumbnail' => wp_get_attachment_image_src($attachment_id, 'thumbnail'),
-        'thumbnail2x' => wp_get_attachment_image_src($attachment_id, 'thumbnail@2x'),
+        'thumbnail@2x' => wp_get_attachment_image_src($attachment_id, 'thumbnail@2x'),
         'medium' => wp_get_attachment_image_src($attachment_id, 'medium'),
         'medium@2x' => wp_get_attachment_image_src($attachment_id, 'medium@2x'),
         'large' => wp_get_attachment_image_src($attachment_id, 'large'),
