@@ -23,7 +23,6 @@ if(!class_exists('Picturefill_WP')){
     }
 
     function replace_images($html){
-      global $_wp_additional_image_sizes;
       $content = new DOMDocument();
       $content->loadHTML($html);
       $images = $content->getElementsByTagName('img');
