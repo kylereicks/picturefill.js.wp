@@ -28,6 +28,7 @@ if(!class_exists('Picturefill_WP')){
       $images = $content->getElementsByTagName('img');
       if($images->length > 0){
         wp_enqueue_script('picturefill');
+        $html = $this->standardize_img_tags($html);
         foreach($images as $image){
           $original_image = $content->saveHTML($image);
           $original_image = substr($original_image, 0, strlen($original_image) - 1) . ' />';
@@ -114,6 +115,10 @@ if(!class_exists('Picturefill_WP')){
       add_image_size('thumbnailx2', get_option('thumbnail_size_w') * 2, get_option('thumbnail_size_h') * 2, get_option('thumbnail_crop'));
       add_image_size('mediumx2', get_option('medium_size_w') * 2, get_option('medium_size_h') * 2, get_option('medium_crop'));
       add_image_size('largex2', get_option('large_size_w') * 2, get_option('large_size_h') * 2, get_option('large_crop'));
+    }
+
+    private function standardize_img_tags($html){
+      return preg_replace('/(<img[^<]*?)(?:>|\/>|\s\/>)/', '$1 />', $html);
     }
   }
   $picturefill_wp = new Picturefill_WP();
