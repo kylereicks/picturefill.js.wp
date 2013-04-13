@@ -101,7 +101,7 @@ if(!class_exists('Picturefill_WP')){
       );
 
       foreach($image_attachment_data as $attachment_size => $attachment_data){
-        if($image_attachment_data['full'][0] === $attachment_data[0] && $image_attachment_data['full'][1] > $attachment_data[1] && $image_attachment_data['full'][2] > $image_attachment_data[2]){
+        if($image_attachment_data['full'][0] === $attachment_data[0] && $image_attachment_data['full'][1] > $attachment_data[1] && $image_attachment_data['full'][2] > $attachment_data[2]){
           $new_meta_data = wp_generate_attachment_metadata($attachment_id, get_attached_file($attachment_id));
           wp_update_attachment_metadata($attachment_id, $new_meta_data);
           $image_attachment_data[$attachment_size] = wp_get_attachment_image_src($attachment_id, $attachment_size);
@@ -112,9 +112,9 @@ if(!class_exists('Picturefill_WP')){
     }
 
     function add_image_sizes(){
-      add_image_size('thumbnailx2', get_option('thumbnail_size_w') * 2, get_option('thumbnail_size_h') * 2, get_option('thumbnail_crop'));
-      add_image_size('mediumx2', get_option('medium_size_w') * 2, get_option('medium_size_h') * 2, get_option('medium_crop'));
-      add_image_size('largex2', get_option('large_size_w') * 2, get_option('large_size_h') * 2, get_option('large_crop'));
+      add_image_size('thumbnail@2x', get_option('thumbnail_size_w') * 2, get_option('thumbnail_size_h') * 2, get_option('thumbnail_crop'));
+      add_image_size('medium@2x', get_option('medium_size_w') * 2, get_option('medium_size_h') * 2, get_option('medium_crop'));
+      add_image_size('large@2x', get_option('large_size_w') * 2, get_option('large_size_h') * 2, get_option('large_crop'));
     }
 
     private function standardize_img_tags($html){
