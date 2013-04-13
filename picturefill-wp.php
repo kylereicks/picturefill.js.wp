@@ -78,7 +78,7 @@ if(!class_exists('Picturefill_WP')){
             $picture .= '<span data-src="' . $src . '"></span>';
           }
 
-          $picture .= '<!--[if (lt IE 9) & (!IEMobile)]><span data-src="' . $src . '"></span><![endif]-->';
+          $picture .= '<!--[if (lt IE 10) & (!IEMobile)]><span data-src="' . $src . '"></span><![endif]-->';
 
           $picture .= '<noscript>' . $original_image . '</noscript>';
           $picture .= '</span>';
