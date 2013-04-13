@@ -30,8 +30,8 @@ if(!class_exists('Picturefill_WP')){
         wp_enqueue_script('picturefill');
         $html = $this->standardize_img_tags($html);
         foreach($images as $image){
-          $original_image = $content->saveHTML($image);
-          $original_image = substr($original_image, 0, strlen($original_image) - 1) . ' />';
+          $original_image = $content->saveXML($image);
+          $original_image = $this->standardize_img_tags($original_image);
           $src = $image->getAttribute('src');
           $alt = $image->getAttribute('alt');
           $title = $image->getAttribute('title');
