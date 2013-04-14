@@ -55,9 +55,11 @@ if(!class_exists('Picturefill_WP')){
           if(!empty($size) && !empty($attachment_id)){
             $image_attachment_data = $this->image_attachment_data($attachment_id[1]);
 
+            $picture .= '<span data-src="' . $src . '"></span>';
+
             if($size[1] === 'full' || $size[1] === 'large' || $size[1] === 'medium' || $size[1] === 'thumbnail'){
-              $picture .= '<span data-src="' . $image_attachment_data['thumbnail'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '"></span>';
-              $picture .= '<span data-src="' . $image_attachment_data['thumbnail@2x'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '" data-media="(-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['thumbnail'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '" data-media="(min-width: 1px)"></span>';
+              $picture .= '<span data-src="' . $image_attachment_data['thumbnail@2x'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '" data-media="(min-width: 1px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
             }
             if($size[1] === 'full' || $size[1] === 'large' || $size[1] === 'medium'){
               $breakpoint = $image_attachment_data['medium'][1] + 20;
@@ -73,12 +75,6 @@ if(!class_exists('Picturefill_WP')){
               $picture .= '<span data-src="' . $src . '" data-width="' . $image_attachment_data['full'][1] . '" data-height="' . $image_attachment_data['full'][2] . '" data-media="(min-width: ' . $width . 'px)"></span>';
             }
           }
-
-          if(empty($size)){
-            $picture .= '<span data-src="' . $src . '"></span>';
-          }
-
-          $picture .= '<!--[if (lt IE 10) & (!IEMobile)]><span data-src="' . $src . '"></span><![endif]-->';
 
           $picture .= '<noscript>' . $original_image . '</noscript>';
           $picture .= '</span>';
