@@ -52,10 +52,10 @@ if(!class_exists('Picturefill_WP')){
           $picture .= !empty($height) ? ' data-height="' . $height . '"' : '';
           $picture .= '>';
 
+          $picture .= '<span data-src="' . $src . '"></span>';
+
           if(!empty($size) && !empty($attachment_id)){
             $image_attachment_data = $this->image_attachment_data($attachment_id[1]);
-
-            $picture .= '<span data-src="' . $src . '"></span>';
 
             if($size[1] === 'full' || $size[1] === 'large' || $size[1] === 'medium' || $size[1] === 'thumbnail'){
               $picture .= '<span data-src="' . $image_attachment_data['thumbnail'][0] . '" data-width="' . $image_attachment_data['thumbnail'][1] . '" data-height="' . $image_attachment_data['thumbnail'][2] . '" data-media="(min-width: 1px)"></span>';
