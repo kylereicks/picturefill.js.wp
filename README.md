@@ -18,15 +18,13 @@ then replaces them with something like this:
 
 ```html
 <span data-picture data-class="alignnone size-large wp-image-123" dat-alt="Accessible alternate text for the image" data-title="A title that displays on hover" data-width="770" data-height="577">
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-150x150" data-width="150" data-height="150"></span>
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-300x300" data-width="150" data-height="150" data-media="(-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>
+  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-770x577"></span>
+  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-150x150" data-width="150" data-height="150" data-media="(min-width: 1px)"></span>
+  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-300x300" data-width="150" data-height="150" data-media="(min-width: 1px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>
   <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-400x300" data-width="400" data-height="300" data-media="(min-width: 420px)"></span>
   <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-800x600" data-width="400" data-height="300" data-media="(min-width: 420px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>
   <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-770x577" data-width="770" data-height="577" data-media="(min-width: 790px)"></span>
   <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-1540x1155" data-width="770" data-height="577" data-media="(min-width: 790px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>
-  <!--[if (lt IE 9) & (!IEMobile)]>
-    <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-770x577"></span>
-  <![endif]-->
   <noscript>
     <img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-770x577" width="770" height="577" />
   </noscript>
