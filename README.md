@@ -5,6 +5,11 @@ A Wordpress plugin to use picturefill.js to load images mimicking the proposed H
 
 This plugin uses and adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) that uses `span` instead of `div` and adds additional attributes such as `id`, `class`, and `title`.
 
+Download
+--------
+
+The latest stable version of Picturefill.WP is available in the Wordpress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
+
 Details
 -------
 
