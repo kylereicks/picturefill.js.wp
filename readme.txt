@@ -64,7 +64,7 @@ This is the long description.  No limit, and you can use Markdown (as well as in
 
 = Where are the plugin options? =
 
-There aren't any. Breakpoints, retina, and responsive images are created based on the image sizes in your media settings.
+There aren't any. Breakpoints, as well as retina and responsive images are created based on the image sizes in your media settings.
 
 = Is this plugin on GitHub? =
 
