@@ -4,7 +4,7 @@ Plugin Name: Picturefill.WP
 Plugin URI: http://github.com/kylereicks/picturefill.js.wp
 Description: A wordpress plugin to load images via picturefill.js.
 Author: Kyle Reicks
-Version: 1.0.1
+Version: 1.1.0
 Author URI: http://github.com/kylereicks/
 */
 

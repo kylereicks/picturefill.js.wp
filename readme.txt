@@ -4,7 +4,7 @@ Donate link: http://shakopee.dollarsforscholars.org/
 Tags: retina, responsive images, picturefill
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,7 +55,6 @@ This plugin uses the default Wordpress image classes `size-{size}` and `wp-image
 This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
 
 == Installation ==
-
 
 1. Upload the plugin folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
