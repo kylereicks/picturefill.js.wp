@@ -52,4 +52,4 @@ To use this plugin most effectively, set the default image sizes ("large", "medi
 
 ####Wordpress Image Classes
 
-This plugin uses the default Wordpress image classes `size-{size}` and `wp-image-{image id}` as a source of information. It will not work effectively if these classes are removed. The original image will still be loaded, but it will not be responsive.
+This plugin uses the default Wordpress image class `wp-image-{image id}` as a source of information. It will not work effectively if this class is removed. The original image will still be loaded, but it will not be responsive.

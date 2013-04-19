@@ -1,7 +1,7 @@
 === Picturefill.WP ===
 Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
-Tags: retina, responsive images, picturefill
+Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js
 Requires at least: 3.2
 Tested up to: 3.5.1
 Stable tag: 1.1.0
@@ -51,8 +51,7 @@ To use this plugin most effectively, set the default image sizes ("large", "medi
 
 ####Wordpress Image Classes
 
-This plugin uses the default Wordpress image classes `size-{size}` and `wp-image-{image id}` as a source of information. It will not work effectively if these classes are removed. The original image will still be loaded, but it will not be responsive.
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+This plugin uses the default Wordpress image class `wp-image-{image id}` as a source of information. It will not work effectively if this class is removed. The original image will still be loaded, but it will not be responsive.
 
 == Installation ==
 
@@ -72,6 +71,9 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 == Screenshots ==
 
 == Changelog ==
+
+= 1.1
+* Allow for responsive images for non-standard sizes
 
 = 1.0 =
 * Release 1.0.
