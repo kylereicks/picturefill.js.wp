@@ -53,10 +53,13 @@ To use this plugin most effectively, set the default image sizes ("large", "medi
 
 This plugin uses the default Wordpress image class `wp-image-{image id}` as a source of information. It will not work effectively if this class is removed. The original image will still be loaded, but it will not be responsive.
 
+The responsiveness of an image can be limited by adding the class `min-size-{image size}`. For example, an image with the class `min-size-medium` will not load an image smaller than size `medium`.
+
 == Installation ==
 
-1. Upload the plugin folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+1. First, make sure that the image sizes set in your media settings reflect useful breakpoints in your design.
+2. Upload the plugin folder to the `/wp-content/plugins/` directory
+3. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
@@ -74,6 +77,7 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
 = 1.1
 * Allow for responsive images for non-standard sizes
+* Add a `min-size` class to limit the resposiveness of an image.
 
 = 1.0 =
 * Release 1.0.

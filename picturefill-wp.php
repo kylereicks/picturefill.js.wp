@@ -40,8 +40,9 @@ if(!class_exists('Picturefill_WP')){
           $width = $image->getAttribute('width');
           $height = $image->getAttribute('height');
 
-          preg_match('/(?:size-)(\w+)/', $class, $size);
-          preg_match('/(?:wp-image-)(\w+)/', $class, $attachment_id);
+          preg_match('/(?:(?:^|\s)size-)(\w+)/', $class, $size);
+          preg_match('/(?:(?:^|\s)wp-image-)(\w+)/', $class, $attachment_id);
+          preg_match('/(?:(?:^|\s)min-size-)(\w+)/', $class, $min_size);
 
           $picture = '<span data-picture';
           $picture .= !empty($id) ? ' data-id="' . $id . '"' : '';
@@ -62,24 +63,30 @@ if(!class_exists('Picturefill_WP')){
             }
 
             if($size[1] === 'full' || $size[1] === 'large' || $size[1] === 'medium' || $size[1] === 'thumbnail'){
-              $thumbnail_width = $size[1] === 'thumbnil' ? $width : $image_attachment_data['thumbnail'][1];
-              $thumbnail_height = $size[1] === 'thumbnil' ? $height : $image_attachment_data['thumbnail'][2];
-              $picture .= '<span data-src="' . $image_attachment_data['thumbnail'][0] . '" data-width="' . $thumbnail_width . '" data-height="' . $thumbnail_height . '" data-media="(min-width: 1px)"></span>';
-              $picture .= '<span data-src="' . $image_attachment_data['thumbnail@2x'][0] . '" data-width="' . $thumbnail_width . '" data-height="' . $thumbnail_height . '" data-media="(min-width: 1px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
+              if(empty($min_size) || $min_size[1] !== 'full' && $min_size[1] !== 'large' && $min_size[1] !== 'medium'){
+                $thumbnail_width = $size[1] === 'thumbnil' ? $width : $image_attachment_data['thumbnail'][1];
+                $thumbnail_height = $size[1] === 'thumbnil' ? $height : $image_attachment_data['thumbnail'][2];
+                $picture .= '<span data-src="' . $image_attachment_data['thumbnail'][0] . '" data-width="' . $thumbnail_width . '" data-height="' . $thumbnail_height . '" data-media="(min-width: 1px)"></span>';
+                $picture .= '<span data-src="' . $image_attachment_data['thumbnail@2x'][0] . '" data-width="' . $thumbnail_width . '" data-height="' . $thumbnail_height . '" data-media="(min-width: 1px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
+              }
             }
             if($size[1] === 'full' || $size[1] === 'large' || $size[1] === 'medium'){
-              $medium_width = $size[1] === 'medium' ? $width : $image_attachment_data['medium'][1];
-              $medium_height = $size[1] === 'medium' ? $height : $image_attachment_data['medium'][2];
-              $breakpoint = $medium_width + 20;
-              $picture .= '<span data-src="' . $image_attachment_data['medium'][0] . '" data-width="' . $medium_width . '" data-height="' . $medium_height . '" data-media="(min-width: ' . $breakpoint . 'px)"></span>';
-              $picture .= '<span data-src="' . $image_attachment_data['medium@2x'][0] . '" data-width="' . $medium_width . '" data-height="' . $medium_height . '" data-media="(min-width: ' . $breakpoint . 'px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
+              if(empty($min_size) || $min_size[1] !== 'full' && $min_size[1] !== 'large'){
+                $medium_width = $size[1] === 'medium' ? $width : $image_attachment_data['medium'][1];
+                $medium_height = $size[1] === 'medium' ? $height : $image_attachment_data['medium'][2];
+                $breakpoint = $medium_width + 20;
+                $picture .= '<span data-src="' . $image_attachment_data['medium'][0] . '" data-width="' . $medium_width . '" data-height="' . $medium_height . '" data-media="(min-width: ' . $breakpoint . 'px)"></span>';
+                $picture .= '<span data-src="' . $image_attachment_data['medium@2x'][0] . '" data-width="' . $medium_width . '" data-height="' . $medium_height . '" data-media="(min-width: ' . $breakpoint . 'px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
+              }
             }
             if($size[1] === 'full' || $size[1] === 'large'){
-              $large_width = $size[1] === 'large' ? $width : $image_attachment_data['large'][1];
-              $large_height = $size[1] === 'large' ? $height : $image_attachment_data['large'][2];
-              $breakpoint = $large_width + 20;
-              $picture .= '<span data-src="' . $image_attachment_data['large'][0] . '" data-width="' . $large_width . '" data-height="' . $large_height . '" data-media="(min-width: ' . $breakpoint . 'px)"></span>';
-              $picture .= '<span data-src="' . $image_attachment_data['large@2x'][0] . '" data-width="' . $large_width . '" data-height="' . $large_width . '" data-media="(min-width: ' . $breakpoint . 'px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
+              if(empty($min_size) || $min_size[1] !== 'full'){
+                $large_width = $size[1] === 'large' ? $width : $image_attachment_data['large'][1];
+                $large_height = $size[1] === 'large' ? $height : $image_attachment_data['large'][2];
+                $breakpoint = $large_width + 20;
+                $picture .= '<span data-src="' . $image_attachment_data['large'][0] . '" data-width="' . $large_width . '" data-height="' . $large_height . '" data-media="(min-width: ' . $breakpoint . 'px)"></span>';
+                $picture .= '<span data-src="' . $image_attachment_data['large@2x'][0] . '" data-width="' . $large_width . '" data-height="' . $large_width . '" data-media="(min-width: ' . $breakpoint . 'px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)"></span>';
+              }
             }
             if($size[1] === 'full'){
               $full_width = $size[1] === 'full' ? $width : $image_attachment_data['full'][1];
