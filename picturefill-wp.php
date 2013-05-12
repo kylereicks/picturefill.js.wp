@@ -31,7 +31,7 @@ if(!class_exists('Picturefill_WP')){
         $html = $this->standardize_img_tags($html);
         foreach($images as $image){
           $original_image = $content->saveXML($image);
-          $original_image = $this->standardize_img_tags($original_image);
+          $original_image = html_entity_decode($this->standardize_img_tags($original_image), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
           $src = $image->getAttribute('src');
           $alt = $image->getAttribute('alt');
           $title = $image->getAttribute('title');
@@ -47,8 +47,8 @@ if(!class_exists('Picturefill_WP')){
           $picture = '<span data-picture';
           $picture .= !empty($id) ? ' data-id="' . $id . '"' : '';
           $picture .= !empty($class) ? ' data-class="' . $class . '"' : '';
-          $picture .= !empty($alt) ? ' data-alt="' . $alt . '"' : '';
-          $picture .= !empty($title) ? ' data-title="' . $title . '"' : '';
+          $picture .= !empty($alt) ? ' data-alt="' . html_entity_decode(htmlentities($alt), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1') . '"' : '';
+          $picture .= !empty($title) ? ' data-title="' . html_entity_decode(htmlentities($title), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1') . '"' : '';
           $picture .= !empty($width) ? ' data-width="' . $width . '"' : '';
           $picture .= !empty($height) ? ' data-height="' . $height . '"' : '';
           $picture .= '>';
