@@ -24,14 +24,14 @@ if(!class_exists('Picturefill_WP')){
 
     function replace_images($html){
       $content = new DOMDocument();
-      $content->loadHTML($html);
+      $content->loadHTML('<?xml encoding="UTF-8">' . $html);
       $images = $content->getElementsByTagName('img');
       if($images->length > 0){
         wp_enqueue_script('picturefill');
         $html = $this->standardize_img_tags($html);
         foreach($images as $image){
           $original_image = $content->saveXML($image);
-          $original_image = html_entity_decode($this->encode_non_recognized_characters($this->standardize_img_tags($original_image)), ENT_COMPAT, 'ISO-8859-1');
+          $original_image = html_entity_decode($this->standardize_img_tags($original_image), ENT_COMPAT, 'UTF-8');
           $src = $image->getAttribute('src');
           $alt = $image->getAttribute('alt');
           $title = $image->getAttribute('title');
@@ -47,8 +47,8 @@ if(!class_exists('Picturefill_WP')){
           $picture = '<span data-picture';
           $picture .= !empty($id) ? ' data-id="' . $id . '"' : '';
           $picture .= !empty($class) ? ' data-class="' . $class . '"' : '';
-          $picture .= !empty($alt) ? ' data-alt="' . utf8_decode($alt) . '"' : '';
-          $picture .= !empty($title) ? ' data-title="' . utf8_decode($title) . '"' : '';
+          $picture .= !empty($alt) ? ' data-alt="' . html_entity_decode($alt, ENT_COMPAT, 'UTF-8') . '"' : '';
+          $picture .= !empty($title) ? ' data-title="' . html_entity_decode($title, ENT_COMPAT, 'UTF-8') . '"' : '';
           $picture .= !empty($width) ? ' data-width="' . $width . '"' : '';
           $picture .= !empty($height) ? ' data-height="' . $height . '"' : '';
           $picture .= '>';
@@ -135,18 +135,6 @@ if(!class_exists('Picturefill_WP')){
 
     private function standardize_img_tags($html){
       return preg_replace('/(<img[^<]*?)(?:>|\/>|\s\/>)/', '$1 />', $html);
-    }
-
-    private function encode_non_recognized_characters($string){
-      $find = array(
-        '&#xE2;&#x80;&#x98;'
-      );
-
-      $replace = array(
-        '‘'
-      );
-
-      return str_replace($find, $replace, $string);
     }
 
     private function get_unadjusted_size($image_attachment_data, $src){
