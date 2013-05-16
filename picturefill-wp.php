@@ -2,9 +2,9 @@
 /*
 Plugin Name: Picturefill.WP
 Plugin URI: http://github.com/kylereicks/picturefill.js.wp
-Description: A wordpress plugin to load images via picturefill.js.
+Description: A wordpress plugin to load responsive/retina images via picturefill.js.
 Author: Kyle Reicks
-Version: 1.1.0
+Version: 1.1.1
 Author URI: http://github.com/kylereicks/
 */
 

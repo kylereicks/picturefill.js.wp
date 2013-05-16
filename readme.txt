@@ -4,11 +4,11 @@ Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A Wordpress plugin to use picturefill.js to load images mimicking the proposed HTML5 picture spec.
+A Wordpress plugin to use picturefill.js to load responsive/retina images, mimicking the proposed HTML5 picture spec.
 
 == Description ==
 
@@ -74,6 +74,9 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 == Screenshots ==
 
 == Changelog ==
+
+= 1.1.1
+* Bug-fix to allow special characters in `title` and `alt` attributes.
 
 = 1.1
 * Allow for responsive images for non-standard sizes
