@@ -14,4 +14,4 @@ define('PICTUREFILL_WP_VERSION', '1.1.1');
 
 require_once(PICTUREFILL_WP_PATH . 'php/class-picturefill-wp.php');
 
-$picturefill_wp = new Picturefill_WP();
+Picturefill_WP::get_instance();

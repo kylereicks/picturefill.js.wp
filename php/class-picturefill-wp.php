@@ -2,18 +2,28 @@
 if(!class_exists('Picturefill_WP')){
   class Picturefill_WP{
 
-    function __construct(){
+    public static function get_instance(){
+      static $instance;
+
+      if(null === $instance){
+        $instance = new self();
+      }
+
+      return $instance;
+    }
+
+    private function __construct(){
       require_once(ABSPATH . 'wp-admin/includes/image.php');
       add_action('wp_enqueue_scripts', array($this, 'picturefill_scripts'));
       add_action('init', array($this, 'add_image_sizes'));
       add_filter('the_content', array($this, 'replace_images'), 11);
     }
 
-    function picturefill_scripts(){
+    public function picturefill_scripts(){
       wp_register_script('picturefill', PICTUREFILL_WP_URL . 'js/libs/picturefill.min.js', array(), false, true);
     }
 
-    function replace_images($html){
+    public function replace_images($html){
       $content = new DOMDocument();
       $content->loadHTML('<?xml encoding="UTF-8">' . $html);
       $images = $content->getElementsByTagName('img');
@@ -118,7 +128,7 @@ if(!class_exists('Picturefill_WP')){
       return $image_attachment_data;
     }
 
-    function add_image_sizes(){
+    public function add_image_sizes(){
       add_image_size('thumbnail@2x', get_option('thumbnail_size_w') * 2, get_option('thumbnail_size_h') * 2, get_option('thumbnail_crop'));
       add_image_size('medium@2x', get_option('medium_size_w') * 2, get_option('medium_size_h') * 2, get_option('medium_crop'));
       add_image_size('large@2x', get_option('large_size_w') * 2, get_option('large_size_h') * 2, get_option('large_crop'));
