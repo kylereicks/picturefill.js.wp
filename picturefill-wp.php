@@ -12,6 +12,6 @@ define('PICTUREFILL_WP_PATH', plugin_dir_path(__FILE__));
 define('PICTUREFILL_WP_URL', plugins_url('/', __FILE__));
 define('PICTUREFILL_WP_VERSION', '1.1.1');
 
-require_once(PICTUREFILL_WP_PATH . 'php/class-picturefill-wp.php');
+require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 
 Picturefill_WP::get_instance();
