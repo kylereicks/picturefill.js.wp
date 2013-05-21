@@ -27,7 +27,18 @@ if(!class_exists('View_Picturefill_WP')){
           array_shift($image_sizes);
         }
 
-        $this->image_sizes = array_reverse($image_sizes);
+        $image_sizes = array_reverse($image_sizes);
+
+        if(!empty($image_attributes['min_size'])){
+          foreach($image_sizes as $size){
+            if($image_attributes['min_size'][1] === $size){
+              break;
+            }
+            array_shift($image_sizes);
+          }
+        }
+
+        $this->image_sizes = $image_sizes;
       }
     }
 
