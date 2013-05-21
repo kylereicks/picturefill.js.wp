@@ -24,25 +24,17 @@ if(!class_exists('Picturefill_WP')){
 
     public function replace_images($html){
       require_once(PICTUREFILL_WP_PATH . 'inc/class-model-picturefill-wp.php');
-      $model_picturefill_wp = new Model_Picturefill_WP($html);
-      $images = $model_picturefill_wp->get_images();
+      $DOMDocument = Model_Picturefill_WP::get_DOMDocument();
+      $images = Model_Picturefill_WP::get_images($DOMDocument, $html);
       if($images->length > 0){
         require_once(PICTUREFILL_WP_PATH . 'inc/class-view-picturefill-wp.php');
         wp_enqueue_script('picturefill');
         $html = View_Picturefill_WP::standardize_img_tags($html);
         foreach($images as $image){
-          $original_image_xml = $model_picturefill_wp->save_xml($image);
-          $image_attributes = $model_picturefill_wp->get_image_attributes($image);
-          $image_attachment_data = $model_picturefill_wp->get_image_attachment_data($image_attributes['attachment_id']);
-          $view_picturefill_wp = new View_Picturefill_WP($image_attributes);
+          $model_picturefill_wp = new Model_Picturefill_WP($DOMDocument, $image);
+          $view_picturefill_wp = new View_Picturefill_WP($model_picturefill_wp);
 
-          $template_data = array(
-            'original_image_xml' => $original_image_xml,
-            'image_attributes' => $image_attributes,
-            'image_attachment_data' => $image_attachment_data
-          );
-
-          $html = str_replace($view_picturefill_wp->get_original_image($original_image_xml), $view_picturefill_wp->render_template('picture', $template_data), $html);
+          $html = str_replace($view_picturefill_wp->get_original_image(), $view_picturefill_wp->render_template('picture'), $html);
         }
       }
       return $html;

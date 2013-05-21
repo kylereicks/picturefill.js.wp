@@ -2,46 +2,71 @@
 if(!class_exists('Model_Picturefill_WP')){
   class Model_Picturefill_WP{
 
-    private $content;
+    private $DOMDocument;
+    private $image;
 
-    public function __construct($html){
+    private $image_attributes = array();
+    private $image_attachment_data = array();
+
+    static function get_DOMDocument(){
+      return new DOMDocument();
+    }
+    static function get_images($DOMDocument, $html){
+      $DOMDocument->loadHTML('<?xml encoding="UTF-8">' . $html);
+      return $DOMDocument->getElementsByTagName('img');
+    }
+
+    public function __construct($DOMDocument, $image){
       require_once(ABSPATH . 'wp-admin/includes/image.php');
-      $this->content = new DOMDocument();
-      $this->content->loadHTML('<?xml encoding="UTF-8">' . $html);
+      $this->DOMDocument = $DOMDocument;
+      $this->image = $image;
+      $this->set_image_attributes();
+      $this->set_image_attachment_data($this->image_attributes['attachment_id']);
+      $this->set_unadjusted_image_size();
     }
 
-    public function get_images(){
-      return $this->content->getElementsByTagName('img');
+    public function get_image_attributes(){
+      return $this->image_attributes;
     }
 
-    public function save_xml($DOMDocument_element){
-      return $this->content->saveXML($DOMDocument_element);
+    public function get_image_attachment_data(){
+      return $this->image_attachment_data;
     }
 
-    public function get_image_attributes($DOMDocumnet_image){
+    public function get_image_xml(){
+      return $this->DOMDocument->saveXML($this->image);
+    }
+
+    private function set_image_attributes(){
+      $DOMDocument_image = $this->image;
+
       $attributes = array(
-        'src' => $DOMDocumnet_image->getAttribute('src'),
-        'alt' => $DOMDocumnet_image->getAttribute('alt'),
-        'title' => $DOMDocumnet_image->getAttribute('title'),
-        'class' => $DOMDocumnet_image->getAttribute('class'),
-        'id' => $DOMDocumnet_image->getAttribute('id'),
-        'width' => $DOMDocumnet_image->getAttribute('width'),
-        'height' => $DOMDocumnet_image->getAttribute('height')
+        'src' => $DOMDocument_image->getAttribute('src'),
+        'alt' => $DOMDocument_image->getAttribute('alt'),
+        'title' => $DOMDocument_image->getAttribute('title'),
+        'class' => $DOMDocument_image->getAttribute('class'),
+        'id' => $DOMDocument_image->getAttribute('id'),
+        'width' => $DOMDocument_image->getAttribute('width'),
+        'height' => $DOMDocument_image->getAttribute('height')
       );
 
       preg_match('/(?:(?:^|\s)size-)(\w+)/', $attributes['class'], $attributes['size']);
       preg_match('/(?:(?:^|\s)wp-image-)(\w+)/', $attributes['class'], $attributes['attachment_id']);
       preg_match('/(?:(?:^|\s)min-size-)(\w+)/', $attributes['class'], $attributes['min_size']);
 
-      if(!empty($attributes['attachment_id'])){
-        if(empty($attributes['size'])){
-          $attributes['size'] = $this->get_unadjusted_size($this->get_image_attachment_data($attributes['attachment_id']), $attributes['src']);
-        }
-      }
-      return $attributes;
+      $this->image_attributes = $attributes;
     }
 
-    public function get_image_attachment_data($attachment_id = null){
+    private function set_unadjusted_image_size(){
+      if(!empty($this->image_attributes['attachment_id'])){
+        if(empty($this->image_attributes['size'])){
+          $this->image_attributes['size'] = $this->get_unadjusted_size($this->image_attachment_data, $this->image_attributes['src']);
+        }
+      }
+
+    }
+
+    private function set_image_attachment_data($attachment_id){
       if(!empty($attachment_id)){
         $image_attachment_data = array(
           'full' => wp_get_attachment_image_src($attachment_id[1], 'full'),
@@ -61,9 +86,9 @@ if(!class_exists('Model_Picturefill_WP')){
           }
         }
 
-        return $image_attachment_data;
+        $this->image_attachment_data = $image_attachment_data;
       }else{
-        return false;
+        $this->image_attachment_data = false;
       }
     }
 
