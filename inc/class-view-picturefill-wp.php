@@ -2,57 +2,26 @@
 if(!class_exists('View_Picturefill_WP')){
   class View_Picturefill_WP{
 
+    // Object variables
     private $image_sizes = array();
     private $original_image = '';
     private $image_attributes = array();
     private $image_attachment_data = array();
 
+    // Static methods
     static function standardize_img_tags($html){
       return preg_replace('/(<img[^<]*?)(?:>|\/>|\s\/>)/', '$1 />', $html);
     }
 
+    // Constructor, get data from model object
     public function __construct($model_picturefill_wp){
       $this->original_image = html_entity_decode(self::standardize_img_tags($model_picturefill_wp->get_image_xml()));
       $this->image_attributes = $model_picturefill_wp->get_image_attributes();
       $this->image_attachment_data = $model_picturefill_wp->get_image_attachment_data();
-      $this->set_image_sizes();
+      $this->image_sizes = $model_picturefill_wp->get_image_sizes();
     }
 
-    private function set_image_sizes(){
-      $image_attributes = $this->image_attributes;
-      $image_sizes = array(
-        'full',
-        'large@2x',
-        'large',
-        'medium@2x',
-        'medium',
-        'thumbnail@2x',
-        'thumbnail'
-      );
-
-      if(!empty($image_attributes['size'])){
-        foreach($image_sizes as $size){
-          if($image_attributes['size'][1] === $size || $image_attributes['size'][1] . '@2x' === $size){
-            break;
-          }
-          array_shift($image_sizes);
-        }
-
-        $image_sizes = array_reverse($image_sizes);
-
-        if(!empty($image_attributes['min_size'])){
-          foreach($image_sizes as $size){
-            if($image_attributes['min_size'][1] === $size){
-              break;
-            }
-            array_shift($image_sizes);
-          }
-        }
-
-        $this->image_sizes = $image_sizes;
-      }
-    }
-
+    // Methods to render data in the templates
     public function generate_source_list(){
       $output = '';
       $template_data = array();
@@ -106,6 +75,7 @@ if(!class_exists('View_Picturefill_WP')){
       return '(min-width: ' . $breakpoint . 'px)' . $resolution_query;
     }
 
+    // Render templates
     public function render_template($template, $template_data = array()){
       $template = PICTUREFILL_WP_PATH . 'inc/templates/' . $template . '-template.php';
       $view_picturefill_wp = $this;
@@ -116,6 +86,5 @@ if(!class_exists('View_Picturefill_WP')){
       include($template);
       return ob_get_clean();
     }
-
   }
 }

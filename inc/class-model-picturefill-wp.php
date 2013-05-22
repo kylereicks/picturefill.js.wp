@@ -2,20 +2,26 @@
 if(!class_exists('Model_Picturefill_WP')){
   class Model_Picturefill_WP{
 
+    // Input variables
     private $DOMDocument;
     private $image;
 
+    // Object variables
     private $image_attributes = array();
     private $image_attachment_data = array();
+    private $image_sizes = array();
 
+    // Static methods to generate the input needed to instatiante the object
     static function get_DOMDocument(){
       return new DOMDocument();
     }
+
     static function get_images($DOMDocument, $html){
       $DOMDocument->loadHTML('<?xml encoding="UTF-8">' . $html);
       return $DOMDocument->getElementsByTagName('img');
     }
 
+    // Constructor, set the object variables
     public function __construct($DOMDocument, $image){
       require_once(ABSPATH . 'wp-admin/includes/image.php');
       $this->DOMDocument = $DOMDocument;
@@ -23,8 +29,10 @@ if(!class_exists('Model_Picturefill_WP')){
       $this->set_image_attributes();
       $this->set_image_attachment_data($this->image_attributes['attachment_id']);
       $this->set_unadjusted_image_size();
+      $this->set_image_sizes();
     }
 
+    // Methods to retrieve object data
     public function get_image_attributes(){
       return $this->image_attributes;
     }
@@ -33,10 +41,15 @@ if(!class_exists('Model_Picturefill_WP')){
       return $this->image_attachment_data;
     }
 
+    public function get_image_sizes(){
+      return $this->image_sizes;
+    }
+
     public function get_image_xml(){
       return $this->DOMDocument->saveXML($this->image);
     }
 
+    // Methods to set object data
     private function set_image_attributes(){
       $DOMDocument_image = $this->image;
 
@@ -99,6 +112,41 @@ if(!class_exists('Model_Picturefill_WP')){
         }
       }
       return false;
+    }
+
+    private function set_image_sizes(){
+      $image_attributes = $this->image_attributes;
+      $image_sizes = array(
+        'full',
+        'large@2x',
+        'large',
+        'medium@2x',
+        'medium',
+        'thumbnail@2x',
+        'thumbnail'
+      );
+
+      if(!empty($image_attributes['size'])){
+        foreach($image_sizes as $size){
+          if($image_attributes['size'][1] === $size || $image_attributes['size'][1] . '@2x' === $size){
+            break;
+          }
+          array_shift($image_sizes);
+        }
+
+        $image_sizes = array_reverse($image_sizes);
+
+        if(!empty($image_attributes['min_size'])){
+          foreach($image_sizes as $size){
+            if($image_attributes['min_size'][1] === $size){
+              break;
+            }
+            array_shift($image_sizes);
+          }
+        }
+
+        $this->image_sizes = $image_sizes;
+      }
     }
   }
 }
