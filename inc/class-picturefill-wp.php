@@ -2,6 +2,7 @@
 if(!class_exists('Picturefill_WP')){
   class Picturefill_WP{
 
+    // Setup singleton pattern
     public static function get_instance(){
       static $instance;
 
@@ -12,12 +13,22 @@ if(!class_exists('Picturefill_WP')){
       return $instance;
     }
 
+    private function __clone(){
+      return null;
+    }
+
+    private function __wakeup(){
+      return null;
+    }
+
+    // Constructor, add actions and filters
     private function __construct(){
       add_action('wp_enqueue_scripts', array($this, 'picturefill_scripts'));
       add_action('init', array($this, 'add_image_sizes'));
       add_filter('the_content', array($this, 'replace_images'), 11);
     }
 
+    // Filter and action methods
     public function picturefill_scripts(){
       wp_register_script('picturefill', PICTUREFILL_WP_URL . 'js/libs/picturefill.min.js', array(), false, true);
     }
