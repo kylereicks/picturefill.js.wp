@@ -4,7 +4,7 @@ Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
 == Changelog ==
 
+= 1.1.3 =
+* Correct encoding bug
+
 = 1.1.2
 * Reorganized code and file structure
 
@@ -90,5 +93,5 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
 == Upgrade Notice ==
 
-= 1.1.2 =
-This is a non-essential refactoring update. No new features. No bug-fixes. Just reorganized code.
+= 1.1.3 =
+This update corrects an encoding bug in the last update that caused problems < PHP 5.3.
