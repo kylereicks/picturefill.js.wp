@@ -17,7 +17,7 @@ if(!class_exists('Model_Picturefill_WP')){
     }
 
     static function get_images($DOMDocument, $html){
-      $DOMDocument->loadHTML('<?xml encoding="UTF-8">' . $html);
+      $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
       return $DOMDocument->getElementsByTagName('img');
     }
 
