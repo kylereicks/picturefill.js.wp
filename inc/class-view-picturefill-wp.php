@@ -15,7 +15,7 @@ if(!class_exists('View_Picturefill_WP')){
 
     // Constructor, get data from model object
     public function __construct($model_picturefill_wp){
-      $this->original_image = html_entity_decode(self::standardize_img_tags($model_picturefill_wp->get_image_xml()));
+      $this->original_image = html_entity_decode(self::standardize_img_tags($model_picturefill_wp->get_image_xml()), ENT_COMPAT, 'UTF-8');
       $this->image_attributes = $model_picturefill_wp->get_image_attributes();
       $this->image_attachment_data = $model_picturefill_wp->get_image_attachment_data();
       $this->image_sizes = $model_picturefill_wp->get_image_sizes();
@@ -42,7 +42,7 @@ if(!class_exists('View_Picturefill_WP')){
       $output_string = '';
 
       foreach($image_attributes as $attribute => $value){
-        $output_string .= !empty($value) && !is_array($value) ? ' data-' . $attribute . '="' . $value . '"' : '';
+        $output_string .= !empty($value) && !is_array($value) ? ' data-' . $attribute . '="' . html_entity_decode($value, ENT_COMPAT, 'UTF-8') . '"' : '';
       }
 
       return $output_string;
