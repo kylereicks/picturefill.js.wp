@@ -33,7 +33,7 @@ if(!class_exists('View_Picturefill_WP')){
         $output .= $this->render_template('source', $template_data);
       }
 
-      return $output;
+      return apply_filters('picturefill_wp_source_list', $output);
     }
 
     public function get_picture_attribute_string(){

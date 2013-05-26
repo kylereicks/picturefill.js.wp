@@ -52,7 +52,7 @@ if(!class_exists('Picturefill_WP')){
         }
       }
       do_action('picturefill_wp_after', $html);
-      return $html;
+      return apply_filters('picturefill_wp_the_content_output', $html);
     }
 
     public function add_image_sizes(){
