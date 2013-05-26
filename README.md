@@ -55,3 +55,29 @@ To use this plugin most effectively, set the default image sizes ("large", "medi
 This plugin uses the default Wordpress image class `wp-image-{image id}` as a source of information. It will not work effectively if this class is removed. The original image will still be loaded, but it will not be responsive.
 
 The responsiveness of an image can be limited by adding the class `min-size-{image size}`. For example, an image with the class `min-size-medium` will not load an image smaller than size `medium`.
+
+Extending Picturefill.WP
+------------------------
+
+Like many WordPress themes and plugins, Picturefill.WP can be altered and extended with action and and filter hooks.
+
+###Actions
+
+* `picturefill_wp_before`
+* `picturefill_wp_img_before`
+* `picturefill_wp_img_after`
+* `picturefill_wp_after`
+
+###Filters
+
+* `picturefill_wp_image_attributes`
+* `picturefill_wp_image_attachment_data`
+* `picturefill_wp_image_sizes`
+* `picturefill_wp_source_list`
+* `picturefill_wp_picture_attribute_string`
+* `picturefill_wp_media_query_breakpoint`
+* `picturefill_wp_media_query_resolution_query`
+* `picturefill_wp_template_path`
+* `picturefill_wp_{$template}_template_data`
+* `picturefill_wp_{$template}_template`
+* `picturefill_wp_the_content_output`
