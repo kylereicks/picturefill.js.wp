@@ -16,9 +16,9 @@ if(!class_exists('View_Picturefill_WP')){
     // Constructor, get data from model object
     public function __construct($model_picturefill_wp){
       $this->original_image = html_entity_decode(self::standardize_img_tags($model_picturefill_wp->get_image_xml()), ENT_COMPAT, 'UTF-8');
-      $this->image_attributes = $model_picturefill_wp->get_image_attributes();
-      $this->image_attachment_data = $model_picturefill_wp->get_image_attachment_data();
-      $this->image_sizes = $model_picturefill_wp->get_image_sizes();
+      $this->image_attributes = apply_filters('picturefill_wp_image_attributes', $model_picturefill_wp->get_image_attributes());
+      $this->image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $model_picturefill_wp->get_image_attachment_data());
+      $this->image_sizes = apply_filters('picturefill_wp_image_sizes', $model_picturefill_wp->get_image_sizes());
     }
 
     // Methods to render data in the templates
@@ -45,7 +45,7 @@ if(!class_exists('View_Picturefill_WP')){
         $output_string .= !empty($value) && !is_array($value) ? ' data-' . $attribute . '="' . html_entity_decode($value, ENT_COMPAT, 'UTF-8') . '"' : '';
       }
 
-      return $output_string;
+      return apply_filters('picturefill_wp_picture_attribute_string', $output_string);
     }
 
     public function get_original_image_src(){
@@ -72,19 +72,21 @@ if(!class_exists('View_Picturefill_WP')){
       $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
       $breakpoint = 'thumbnail' === $image_size || 'thumbnail@2x' === $image_size ? 1 : $width + 20;
       $resolution_query = '@2x' === substr($image_size, -3) ? ' and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)' : '';
-      return '(min-width: ' . $breakpoint . 'px)' . $resolution_query;
+      return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width) . 'px)' . apply_filters('picturefill_wp_media_query_resolution_query', $resolution_query);
     }
 
     // Render templates
     public function render_template($template, $template_data = array()){
-      $template = PICTUREFILL_WP_PATH . 'inc/templates/' . $template . '-template.php';
+      $template_path = apply_filters('picturefill_wp_template_path', PICTUREFILL_WP_PATH . 'inc/templates/');
+      $template = $template_path . $template . '-template.php';
       $view_picturefill_wp = $this;
+      $template_data = apply_filters('picturefill_wp_template_data', $template_data, $template);
       if(!empty($template_data)){
         extract($template_data);
       }
       ob_start();
       include($template);
-      return ob_get_clean();
+      return apply_filters('picturefill_wp_' . $template . '_template', ob_get_clean());
     }
   }
 }
