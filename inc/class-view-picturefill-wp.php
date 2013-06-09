@@ -68,6 +68,17 @@ if(!class_exists('View_Picturefill_WP')){
       return $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['height'] : $this->image_attachment_data[$image_size][2];
     }
 
+    public function get_source_class($image_size){
+      $class = 'picturefill-wp-source';
+      if('@2x' === substr($image_size, -3)){
+        $class .= ' retina';
+        $class .= ' ' . substr($image_size, 0, strlen($image_size) - 3);
+      }else{
+        $class .= ' ' . $image_size;
+      }
+      return $class;
+    }
+
     public function get_media_query($image_size){
       $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
       $breakpoint = 'thumbnail' === $image_size || 'thumbnail@2x' === $image_size ? 1 : $width + 20;

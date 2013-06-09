@@ -28,6 +28,7 @@
 			var picImg = ps[ i ].getElementsByTagName( "img" )[ 0 ];
 
 			if( matches.length ){			
+        var matchedEl = matches.pop();
 				if( !picImg ){
 					picImg = w.document.createElement( "img" );
 					picImg.id = ps[ i ].getAttribute( "data-id" );
@@ -40,19 +41,19 @@
           if(ps[i].getAttribute("data-height")){
             picImg.height = ps[ i ].getAttribute( "data-height" );
           }
-					ps[ i ].appendChild( picImg );
 				}
 
-        if(matches[matches.length -1].getAttribute( "data-width" )){
-          picImg.width =  matches[matches.length -1].getAttribute( "data-width" );
+        if(matchedEl.getAttribute( "data-width" )){
+          picImg.width =  matchedEl.getAttribute( "data-width" );
         }
-        if(matches[matches.length -1].getAttribute( "data-height" )){
-          picImg.height =  matches[matches.length -1].getAttribute( "data-height" );
+        if(matchedEl.getAttribute( "data-height" )){
+          picImg.height =  matchedEl.getAttribute( "data-height" );
         }
-				picImg.src =  matches.pop().getAttribute( "data-src" );
+				picImg.src =  matchedEl.getAttribute( "data-src" );
+        matchedEl.appendChild(picImg);
 			}
 			else if( picImg ){
-				ps[ i ].removeChild( picImg );
+				picImg.parentNode.removeChild( picImg );
 			}
 		}
 		}
