@@ -61,13 +61,6 @@ Extending Picturefill.WP
 
 Like many WordPress themes and plugins, Picturefill.WP can be altered and extended with action and and filter hooks.
 
-###Actions
-
-* `picturefill_wp_before`
-* `picturefill_wp_img_before`
-* `picturefill_wp_img_after`
-* `picturefill_wp_after`
-
 ###Filters
 
 * `picturefill_wp_image_attributes`
