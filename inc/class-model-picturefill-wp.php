@@ -95,9 +95,9 @@ if(!class_exists('Model_Picturefill_WP')){
 
         foreach($image_attachment_data as $attachment_size => $attachment_data){
           if($image_attachment_data['full'][0] === $attachment_data[0] && $image_attachment_data['full'][1] > $attachment_data[1] && $image_attachment_data['full'][2] > $attachment_data[2]){
-            $new_meta_data = wp_generate_attachment_metadata($attachment_id, get_attached_file($attachment_id));
-            wp_update_attachment_metadata($attachment_id, $new_meta_data);
-            $image_attachment_data[$attachment_size] = wp_get_attachment_image_src($attachment_id, $attachment_size);
+            $new_meta_data = wp_generate_attachment_metadata($attachment_id[1], get_attached_file($attachment_id[1]));
+            wp_update_attachment_metadata($attachment_id[1], $new_meta_data);
+            $image_attachment_data[$attachment_size] = wp_get_attachment_image_src($attachment_id[1], $attachment_size);
           }
         }
 
