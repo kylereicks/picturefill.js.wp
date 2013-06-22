@@ -91,7 +91,7 @@ if(!class_exists('Model_Picturefill_WP')){
           'large@2x' => wp_get_attachment_image_src($attachment_id[1], 'large@2x')
         );
 
-        apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id[1]);
+        $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id[1]);
 
         foreach($image_attachment_data as $attachment_size => $attachment_data){
           if($image_attachment_data['full'][0] === $attachment_data[0] && $image_attachment_data['full'][1] > $attachment_data[1] && $image_attachment_data['full'][2] > $attachment_data[2]){
