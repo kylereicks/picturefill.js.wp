@@ -17,7 +17,7 @@ if(!class_exists('View_Picturefill_WP')){
     public function __construct($model_picturefill_wp){
       $this->original_image = html_entity_decode(self::standardize_img_tags($model_picturefill_wp->get_image_xml()), ENT_COMPAT, 'UTF-8');
       $this->image_attributes = apply_filters('picturefill_wp_image_attributes', $model_picturefill_wp->get_image_attributes());
-      $this->image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $model_picturefill_wp->get_image_attachment_data());
+      $this->image_attachment_data = $model_picturefill_wp->get_image_attachment_data();
       $this->image_sizes = apply_filters('picturefill_wp_image_sizes', $model_picturefill_wp->get_image_sizes());
     }
 
