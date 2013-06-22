@@ -35,8 +35,9 @@ if(!class_exists('Picturefill_WP')){
 
     // Constructor, add actions and filters
     private function __construct(){
-      add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
       add_action('init', array($this, 'add_image_sizes'));
+      add_action('init', array($this, 'add_update_hook'));
+      add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
 //      add_filter('the_content', array($this, 'replace_images'), 11);
       add_filter('the_content', array($this, 'cache_picturefill_output'), 11);
     }
@@ -51,7 +52,7 @@ if(!class_exists('Picturefill_WP')){
       $post_id = get_the_ID();
       $cache_duration = apply_filters('picturefill_wp_cache_duration', 86400);
       $cached_output = get_transient('picturefill_wp_' . $content_type . '_output_' . $post_id);
-      if(!empty($cached_output) && (get_option('_transient_timeout_picturefill_wp_output_' . $post_id) - $cache_duration) > get_the_modified_time('U')){
+      if(!empty($cached_output) && (get_option('_transient_timeout_picturefill_wp_' . $content_type . '_output_' . $post_id) - $cache_duration) > get_the_modified_time('U') && (get_option('picturefill_wp_update_timestamp') - $cache_duration) > get_the_modified_time('U')){
         wp_enqueue_script('picturefill');
         return $cached_output;
       }else{
@@ -85,6 +86,13 @@ if(!class_exists('Picturefill_WP')){
       add_image_size('thumbnail@2x', get_option('thumbnail_size_w') * 2, get_option('thumbnail_size_h') * 2, get_option('thumbnail_crop'));
       add_image_size('medium@2x', get_option('medium_size_w') * 2, get_option('medium_size_h') * 2, get_option('medium_crop'));
       add_image_size('large@2x', get_option('large_size_w') * 2, get_option('large_size_h') * 2, get_option('large_crop'));
+    }
+
+    public function add_update_hook(){
+      if(get_option('picturefill_wp_version') !== PICTUREFILL_WP_VERSION){
+        update_option('picturefill_wp_update_timestamp', time());
+        update_option('picturefill_wp_version', PICTUREFILL_WP_VERSION);
+      }
     }
   }
 }
