@@ -49,7 +49,7 @@ if(!class_exists('Picturefill_WP')){
     public function cache_picturefill_output($html, $content_type = 'the_content'){
       global $wp_scripts;
       $post_id = get_the_ID();
-      $cache_duration = 86400;
+      $cache_duration = apply_filters('picturefill_wp_cache_duration', 86400);
       $cached_output = get_transient('picturefill_wp_' . $content_type . '_output_' . $post_id);
       if(!empty($cached_output) && (get_option('_transient_timeout_picturefill_wp_output_' . $post_id) - $cache_duration) > get_the_modified_time('U')){
         wp_enqueue_script('picturefill');
