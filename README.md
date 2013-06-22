@@ -74,3 +74,59 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_{$template}_template_data`
 * `picturefill_wp_{$template}_template`
 * `picturefill_wp_the_content_output`
+
+###Examples
+
+The following are examples of how Picturefill.WP can be extended from a theme's `functions.php` file.
+
+####To disable caching
+
+```php
+remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 11);
+add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), 11);
+```
+
+####Using Picturefill.WP to load post-thumbnails in a theme
+
+The following assumes that both `add_theme_support('post-thumbnails')` and `set_post_thumbnail_size()` have been added and set.
+
+```php
+add_action('init', 'add_retina_post_thumbnail');
+add_filter('post_thumbnail_html', 'theme_picturefill_post_thumbnail', 10, 5);
+add_filter('post_thumbnail_html', 'add_attachment_id_to_post_thumbnail_class', 9, 5);
+
+function add_attachment_id_to_post_thumbnail_class($html, $post_id, $post_thumbnail_id, $size, $attr){
+  return preg_replace('/class="([^"]+)"/', 'class="$1 size-' . $size . ' wp-image-' . $post_thumbnail_id . '"',$html);
+}
+
+function add_retina_post_thumbnail(){
+  global $_wp_additional_image_sizes;
+  add_image_size('post-thumbnail@2x', $_wp_additional_image_sizes['post-thumbnail']['width'] * 2, $_wp_additional_image_sizes['post-thumbnail']['height'] * 2, $_wp_additional_image_sizes['post-thumbnail']['crop']);
+}
+
+function theme_picturefill_post_thumbnail($html, $post_id, $post_thumbnail_id, $size, $attr){
+  add_filter('picturefill_wp_image_attachment_data', 'theme_picturefill_post_thumbnail_attachment_data', 10, 2);
+  add_filter('picturefill_wp_image_sizes', 'theme_picturefill_post_thumbnail_sizes', 10, 2);
+  add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_post_thumbnail_breakpoint', 10, 3);
+  return Picturefill_WP::get_instance()->cache_picturefill_output($html, 'post_thumbnail');
+}
+
+function theme_picturefill_post_thumbnail_attachment_data($initial_array, $attachment_id){
+  $post_thumbnail_data = array(
+    'post-thumbnail' => wp_get_attachment_image_src($attachment_id, 'post-thumbnail'),
+    'post-thumbnail@2x' => wp_get_attachment_image_src($attachment_id, 'post-thumbnail@2x')
+  );
+  return array_merge($initial_array, $post_thumbnail_data);
+}
+
+function theme_picturefill_post_thumbnail_sizes($default_image_sizes, $image_attributes){
+  return 'post-thumbnail' === $image_attributes['size'][1] ? array(
+    'post-thumbnail',
+    'post-thumbnail@2x'
+  ) : $default_image_sizes;
+}
+
+function theme_picturefill_post_thumbnail_breakpoint($breakpoint, $image_size, $width){
+  return 'post-thumbnail' === $image_size ? 1 : $breakpoint;
+}
+```
