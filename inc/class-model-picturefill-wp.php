@@ -147,7 +147,7 @@ if(!class_exists('Model_Picturefill_WP')){
           }
         }
 
-        $this->image_sizes = $image_sizes;
+        $this->image_sizes = apply_filters('picturefill_wp_image_sizes', $image_sizes, $image_attributes);
       }
     }
   }
