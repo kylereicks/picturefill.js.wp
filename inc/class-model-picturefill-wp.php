@@ -63,9 +63,9 @@ if(!class_exists('Model_Picturefill_WP')){
         'height' => $DOMDocument_image->getAttribute('height')
       );
 
-      preg_match('/(?:(?:^|\s)size-)(\w+)/', $attributes['class'], $attributes['size']);
-      preg_match('/(?:(?:^|\s)wp-image-)(\w+)/', $attributes['class'], $attributes['attachment_id']);
-      preg_match('/(?:(?:^|\s)min-size-)(\w+)/', $attributes['class'], $attributes['min_size']);
+      preg_match('/(?:(?:^|\s)size-)([\w|-]+)/', $attributes['class'], $attributes['size']);
+      preg_match('/(?:(?:^|\s)wp-image-)(\d+)/', $attributes['class'], $attributes['attachment_id']);
+      preg_match('/(?:(?:^|\s)min-size-)([\w|-]+)/', $attributes['class'], $attributes['min_size']);
 
       $this->image_attributes = $attributes;
     }
