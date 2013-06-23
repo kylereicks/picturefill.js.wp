@@ -3,8 +3,8 @@ Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js
 Requires at least: 3.2
-Tested up to: 3.5.1
-Stable tag: 1.1.3
+Tested up to: 3.6.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,12 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
 == Changelog ==
 
+= 1.2.0 =
+* Update picturefill.js to reflect changes to [@scottjehl's original](https://github.com/scottjehl/picturefill)
+* Add output caching
+* Add hooks
+* Add extension examples in the [github repository](https://github.com/kylereicks/picturefill.js.wp)
+
 = 1.1.3 =
 * Correct encoding bug
 
@@ -93,5 +99,5 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
 == Upgrade Notice ==
 
-= 1.1.3 =
-This update corrects an encoding bug in the last update that caused problems < PHP 5.3.
+= 1.2.0 =
+A feature release. See the changelog for a list of the updates. This is an update mostly for developers looking to extend the plugin in their themes, but it does add a proformance boost with output caching.
