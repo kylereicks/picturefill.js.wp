@@ -38,7 +38,6 @@ if(!class_exists('Picturefill_WP')){
       add_action('init', array($this, 'add_image_sizes'));
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
-//      add_filter('the_content', array($this, 'replace_images'), 11);
       add_filter('the_content', array($this, 'cache_picturefill_output'), 11);
     }
 
@@ -65,6 +64,7 @@ if(!class_exists('Picturefill_WP')){
     }
 
     public function replace_images($html){
+      do_action('picturefill_wp_before_replace_images');
       require_once(PICTUREFILL_WP_PATH . 'inc/class-model-picturefill-wp.php');
       $DOMDocument = Model_Picturefill_WP::get_DOMDocument();
       $images = Model_Picturefill_WP::get_images($DOMDocument, $html);
@@ -79,6 +79,7 @@ if(!class_exists('Picturefill_WP')){
           $html = str_replace($view_picturefill_wp->get_original_image(), $view_picturefill_wp->render_template('picture'), $html);
         }
       }
+      do_action('picturefill_wp_after_replace_images');
       return apply_filters('picturefill_wp_replace_images_output', $html);
     }
 
@@ -92,6 +93,7 @@ if(!class_exists('Picturefill_WP')){
       if(get_option('picturefill_wp_version') !== PICTUREFILL_WP_VERSION){
         update_option('picturefill_wp_update_timestamp', time());
         update_option('picturefill_wp_version', PICTUREFILL_WP_VERSION);
+        do_action('picturefill_wp_updated');
       }
     }
   }
