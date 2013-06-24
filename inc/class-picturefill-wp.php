@@ -51,12 +51,12 @@ if(!class_exists('Picturefill_WP')){
       $post_id = get_the_ID();
       $cache_duration = apply_filters('picturefill_wp_cache_duration', 86400);
       $cached_output = get_transient('picturefill_wp_' . $content_type . '_output_' . $post_id);
-      if(!empty($cached_output) && (get_option('_transient_timeout_picturefill_wp_' . $content_type . '_output_' . $post_id) - $cache_duration) > get_the_modified_time('U') && (get_option('picturefill_wp_update_timestamp') - $cache_duration) > get_the_modified_time('U')){
+      if(is_singular() && is_main_query() && !empty($cached_output) && (get_option('_transient_timeout_picturefill_wp_' . $content_type . '_output_' . $post_id) - $cache_duration) > get_the_modified_time('U') && (get_option('picturefill_wp_update_timestamp') - $cache_duration) > get_the_modified_time('U')){
         wp_enqueue_script('picturefill');
         return $cached_output;
       }else{
         $output = $this->replace_images($html);
-        if(in_array('picturefill', $wp_scripts->queue)){
+        if(is_singular() && is_main_query() && in_array('picturefill', $wp_scripts->queue)){
           set_transient('picturefill_wp_' . $content_type . '_output_' . $post_id, $output, $cache_duration);
         }
         return $output;
