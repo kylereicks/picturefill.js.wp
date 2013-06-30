@@ -63,41 +63,41 @@ if(!class_exists('Model_Picturefill_WP')){
         'height' => $DOMDocument_image->getAttribute('height')
       );
 
+      $attributes['attachment_id'] = self::url_to_attachment_id($attributes['src']);
+
       preg_match('/(?:(?:^|\s)size-)([\w|-]+)/', $attributes['class'], $attributes['size']);
-      preg_match('/(?:(?:^|\s)wp-image-)(\d+)/', $attributes['class'], $attributes['attachment_id']);
       preg_match('/(?:(?:^|\s)min-size-)([\w|-]+)/', $attributes['class'], $attributes['min_size']);
 
       $this->image_attributes = $attributes;
     }
 
     private function set_unadjusted_image_size(){
-      if(!empty($this->image_attributes['attachment_id'])){
+      if(false !== $this->image_attributes['attachment_id']){
         if(empty($this->image_attributes['size'])){
           $this->image_attributes['size'] = $this->get_unadjusted_size($this->image_attachment_data, $this->image_attributes['src']);
         }
       }
-
     }
 
     private function set_image_attachment_data($attachment_id){
-      if(!empty($attachment_id)){
+      if(false !== $attachment_id){
         $image_attachment_data = array(
-          'full' => wp_get_attachment_image_src($attachment_id[1], 'full'),
-          'thumbnail' => wp_get_attachment_image_src($attachment_id[1], 'thumbnail'),
-          'thumbnail@2x' => wp_get_attachment_image_src($attachment_id[1], 'thumbnail@2x'),
-          'medium' => wp_get_attachment_image_src($attachment_id[1], 'medium'),
-          'medium@2x' => wp_get_attachment_image_src($attachment_id[1], 'medium@2x'),
-          'large' => wp_get_attachment_image_src($attachment_id[1], 'large'),
-          'large@2x' => wp_get_attachment_image_src($attachment_id[1], 'large@2x')
+          'full' => wp_get_attachment_image_src($attachment_id, 'full'),
+          'thumbnail' => wp_get_attachment_image_src($attachment_id, 'thumbnail'),
+          'thumbnail@2x' => wp_get_attachment_image_src($attachment_id, 'thumbnail@2x'),
+          'medium' => wp_get_attachment_image_src($attachment_id, 'medium'),
+          'medium@2x' => wp_get_attachment_image_src($attachment_id, 'medium@2x'),
+          'large' => wp_get_attachment_image_src($attachment_id, 'large'),
+          'large@2x' => wp_get_attachment_image_src($attachment_id, 'large@2x')
         );
 
-        $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id[1]);
+        $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id);
 
         foreach($image_attachment_data as $attachment_size => $attachment_data){
-          if($image_attachment_data['full'][0] === $attachment_data[0] && $image_attachment_data['full'][1] > $attachment_data[1] && $image_attachment_data['full'][2] > $attachment_data[2]){
-            $new_meta_data = wp_generate_attachment_metadata($attachment_id[1], get_attached_file($attachment_id[1]));
-            wp_update_attachment_metadata($attachment_id[1], $new_meta_data);
-            $image_attachment_data[$attachment_size] = wp_get_attachment_image_src($attachment_id[1], $attachment_size);
+          if(empty($attachment_data) || $image_attachment_data['full'][0] === $attachment_data[0] && $image_attachment_data['full'][1] > $attachment_data[1] && $image_attachment_data['full'][2] > $attachment_data[2]){
+            $new_meta_data = wp_generate_attachment_metadata($attachment_id, get_attached_file($attachment_id));
+            wp_update_attachment_metadata($attachment_id, $new_meta_data);
+            $image_attachment_data[$attachment_size] = wp_get_attachment_image_src($attachment_id, $attachment_size);
           }
         }
 
@@ -149,6 +149,20 @@ if(!class_exists('Model_Picturefill_WP')){
 
         $this->image_sizes = apply_filters('picturefill_wp_image_sizes', $image_sizes, $image_attributes);
       }
+    }
+
+    public static function url_to_attachment_id($image_url){
+      global $wpdb;
+      $original_image_url = $image_url;
+      $image_url = preg_replace('/^(.+?)(-\d+x\d+)?\.(jpg|jpeg|png|gif)((?:\?|#).+)?$/i', '$1.$3', $image_url);
+      $prefix = $wpdb->prefix;
+      $attachment_id = $wpdb->get_col($wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $image_url ));
+      if(!empty($attachment_id)){
+        return $attachment_id[0];
+      }else{
+        $attachment_id = $wpdb->get_col($wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $original_image_url ));
+      }
+      return !empty($attachment_id) ? $attachment_id[0] : false;
     }
   }
 }
