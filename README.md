@@ -52,8 +52,6 @@ To use this plugin most effectively, set the default image sizes ("large", "medi
 
 ####Wordpress Image Classes
 
-This plugin uses the default Wordpress image class `wp-image-{image id}` as a source of information. It will not work effectively if this class is removed. The original image will still be loaded, but it will not be responsive.
-
 The responsiveness of an image can be limited by adding the class `min-size-{image size}`. For example, an image with the class `min-size-medium` will not load an image smaller than size `medium`.
 
 Extending Picturefill.WP
@@ -100,10 +98,10 @@ The following assumes that both `add_theme_support('post-thumbnails')` and `set_
 ```php
 add_action('init', 'add_retina_post_thumbnail');
 add_filter('post_thumbnail_html', 'theme_picturefill_post_thumbnail', 10, 5);
-add_filter('post_thumbnail_html', 'add_attachment_id_to_post_thumbnail_class', 9, 5);
+add_filter('post_thumbnail_html', 'add_size_to_post_thumbnail_class', 9, 5);
 
-function add_attachment_id_to_post_thumbnail_class($html, $post_id, $post_thumbnail_id, $size, $attr){
-  return preg_replace('/class="([^"]+)"/', 'class="$1 size-' . $size . ' wp-image-' . $post_thumbnail_id . '"',$html);
+function add_size_to_post_thumbnail_class($html, $post_id, $post_thumbnail_id, $size, $attr){
+  return preg_replace('/class="([^"]+)"/', 'class="$1 size-' . $size . '"', $html);
 }
 
 function add_retina_post_thumbnail(){
