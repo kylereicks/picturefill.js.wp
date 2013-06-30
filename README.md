@@ -104,6 +104,24 @@ remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_pictur
 add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), 11);
 ```
 
+####Retina only: Disable browser width responsiveness
+
+```php
+add_filter('picturefill_wp_image_sizes', 'theme_picturefill_retina_only', 10, 2);
+add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_remove_breakpoints');
+
+function theme_picturefill_retina_only($default_image_sizes, $image_attributes){
+  return array(
+    $image_attributes['size'][1],
+    $image_attributes['size'][1] . '@2x'
+  );
+}
+
+function theme_picturefill_remove_breakpoints($breakpoint){
+  return 1;
+}
+```
+
 ####Remove the 20px buffer from the media query breakpoints
 
 ```php
