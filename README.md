@@ -54,6 +54,19 @@ To use this plugin most effectively, set the default image sizes ("large", "medi
 
 The responsiveness of an image can be limited by adding the class `min-size-{image size}`. For example, an image with the class `min-size-medium` will not load an image smaller than size `medium`.
 
+###Caching
+
+To improve performance, especially in image heavy posts, the output of Picturefill.WP is cached after it is generated. The cache will be refreshed automatically every time a post is updated or Picturefill.WP is updated. The cache can be manually refreshed by deactivating and reactivating Picturefill.WP from the plugins menu.
+
+If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
+
+```php
+remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 11);
+add_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 9999);
+```
+
+If you still encounter problems with other plugins or theme features, you may want to disable caching all together. See the subsection on how to disable caching under the "Extending Picturefill.WP" section.
+
 Extending Picturefill.WP
 ------------------------
 
