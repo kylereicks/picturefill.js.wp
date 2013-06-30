@@ -91,6 +91,20 @@ remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_pictur
 add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), 11);
 ```
 
+####Remove the 20px buffer from the media query breakpoints
+
+```php
+add_filter('picturefill_wp_media_query_breakpoint', 'remove_picturefill_wp_breakpoint_buffer', 10, 3);
+
+function remove_picturefill_wp_breakpoint_buffer($breakpoint, $image_size, $width){
+  if('thumbnail' !== $image_size){
+    return $width;
+  }else{
+    return $breakpoint;
+  }
+}
+```
+
 ####Using Picturefill.WP to load post-thumbnails in a theme
 
 The following assumes that both `add_theme_support('post-thumbnails')` and `set_post_thumbnail_size()` have been added and set.
