@@ -12,7 +12,7 @@ A Wordpress plugin to use picturefill.js to load responsive/retina images, mimic
 
 == Description ==
 
-This plugin uses and adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) that uses `span` instead of `div` and adds additional attributes such as `id`, `class`, and `title`.
+This plugin uses and adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) that adds additional attributes such as `id`, `class`, and `title`.
 
 ##Details
 
