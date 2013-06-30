@@ -82,6 +82,10 @@ There aren't any. Breakpoints, as well as retina and responsive images are creat
 
 Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
+= Where can I find information about extending the plugin? =
+
+See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp#extending-picturefillwp) subsection of the GitHub repository for a list of plugin hooks and examples.
+
 == Screenshots ==
 
 == Changelog ==
