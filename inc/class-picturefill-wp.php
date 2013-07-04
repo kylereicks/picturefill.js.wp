@@ -27,7 +27,7 @@ if(!class_exists('Picturefill_WP')){
 
     private static function clear_picturefill_wp_cache(){
       global $wpdb;
-      $picturefill_wp_transients = $wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'_transient%_picturefill_wp%\'');
+      $picturefill_wp_transients = $wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'%_picturefill_wp%\'');
       foreach($picturefill_wp_transients as $transient){
         delete_option($transient);
       }
