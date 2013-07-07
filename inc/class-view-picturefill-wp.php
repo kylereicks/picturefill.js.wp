@@ -61,10 +61,16 @@ if(!class_exists('View_Picturefill_WP')){
     }
 
     public function get_image_width($image_size){
+      if('@2x' === substr($image_size, -3)){
+        $image_size = substr($image_size, 0, -3);
+      }
       return $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
     }
 
     public function get_image_height($image_size){
+      if('@2x' === substr($image_size, -3)){
+        $image_size = substr($image_size, 0, -3);
+      }
       return $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['height'] : $this->image_attachment_data[$image_size][2];
     }
 
