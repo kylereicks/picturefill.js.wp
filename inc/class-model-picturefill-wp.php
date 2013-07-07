@@ -94,7 +94,7 @@ if(!class_exists('Model_Picturefill_WP')){
         $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id);
 
         foreach($image_attachment_data as $attachment_size => $attachment_data){
-          if(empty($attachment_data) || $image_attachment_data['full'][0] === $attachment_data[0] && $image_attachment_data['full'][1] > $attachment_data[1] && $image_attachment_data['full'][2] > $attachment_data[2]){
+          if($this->image_needs_to_be_created($image_attachment_data, $attachment_size, $attachment_data)){
             $new_meta_data = wp_generate_attachment_metadata($attachment_id, get_attached_file($attachment_id));
             wp_update_attachment_metadata($attachment_id, $new_meta_data);
             $image_attachment_data[$attachment_size] = wp_get_attachment_image_src($attachment_id, $attachment_size);
@@ -105,6 +105,46 @@ if(!class_exists('Model_Picturefill_WP')){
       }else{
         $this->image_attachment_data = false;
       }
+    }
+
+    private function image_needs_to_be_created($image_attachment_data, $attachment_size, $attachment_data){
+      global $_wp_additional_image_sizes;
+
+      $big_enough = false;
+
+      if(empty($attachment_data)){
+        return true;
+      }
+
+      if('full' === $attachment_size){
+        return false;
+      }
+
+      if(array_key_exists($attachment_size, $_wp_additional_image_sizes)){
+        if(($_wp_additional_image_sizes[$attachment_size]['width'] == $attachment_data[1] && $_wp_additional_image_sizes[$attachment_size]['height'] >= $attachment_data[2]) || ($_wp_additional_image_sizes[$attachment_size]['height'] == $attachment_data[2] && $_wp_additional_image_sizes[$attachment_size]['width'] >= $attachment_data[1])){
+          return false;
+        }
+
+        if($image_attachment_data['full'][1] < $_wp_additional_image_sizes[$attachment_size]['width'] || $image_attachment_data['full'][2] < $_wp_additional_image_sizes[$attachment_size]['height']){
+          return false;
+        }
+
+      }elseif(in_array($attachment_size, array('thumbnail', 'medium', 'large'))){
+        $crop_setting = get_option($attachment_size . '_crop');
+        $width_setting = get_option($attachment_size . '_size_w');
+        $height_setting = get_option($attachment_size . '_size_h');
+
+        if(($width_setting == $attachment_data[1] && $height_setting >= $attachment_data[2]) || ($height_setting == $attachment_data[2] && $width_setting >= $attachment_data[1])){
+          return false;
+        }
+
+        if($image_attachment_data['full'][1] < $width_setting || $image_attachment_data['full'][2] < $height_setting){
+          return false;
+        }
+
+      }
+
+      return true;
     }
 
     private function get_unadjusted_size($image_attachment_data, $src){
