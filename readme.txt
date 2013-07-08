@@ -1,7 +1,7 @@
 === Picturefill.WP ===
 Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
-Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js
+Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
 Tested up to: 3.6.0
 Stable tag: 1.2.0
@@ -59,12 +59,18 @@ To improve performance, especially in image heavy posts, the output of Picturefi
 
 If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
 
-```php
-remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 11);
-add_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 9999);
-```
+    remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 11);
+    add_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 9999);
 
 If you still encounter problems with other plugins or theme features, you may want to disable caching all together. See the subsection on how to disable caching under the "Extending Picturefill.WP" section of the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp).
+
+###Errors and Warnings
+
+When using Picturefill.WP with your website, you may occasionally notice a warning very much like the following:
+
+    [Mon Jan 01 12:00:00 2000] [error] [client 999.999.99.99] PHP Warning: DOMDocument::loadHTML() [domdocument.loadhtml]: Unexpected end tag : a in Entity, line: 17 in /server/www/wp-content/plugins/picturefill/inc/class-model-picturefill-wp.php on line 20
+
+This error indicates improperly formed HTML. In this case, the `Unexpected end tag : a` comes from nested links. If you are seeing errors like this on your WordPress site, you may want to consider implementing an [error logging](http://codex.wordpress.org/Editing_wp-config.php#Configure_Error_Logging) system, or alternatively suppressing errors by adding `error_reporting(0);` and `@ini_set('display_errors', 0);` to `wp-config.php`.
 
 == Installation ==
 
