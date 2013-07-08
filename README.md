@@ -104,6 +104,16 @@ remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_pictur
 add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), 11);
 ```
 
+####To cache for 100 years (give or take a day or so, depending on when those 100 years land)
+
+```php
+add_filter('picturefill_wp_cache_duration', 'cache_for_one_hundred_years');
+
+function cache_for_one_hundred_years($cache_duration){
+  return (100 * 365 + 24) * 24 * 60 * 60;
+}
+```
+
 ####Retina only: Disable browser width responsiveness
 
 ```php
