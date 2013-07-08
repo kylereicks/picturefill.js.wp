@@ -119,13 +119,20 @@ if(!class_exists('Model_Picturefill_WP')){
       if('full' === $attachment_size){
         return false;
       }
+      
+      $image_size = getimagesize($attachment_data[0]);
+
+      if(!empty($image_size)){
+        $attachment_data[1] = $image_size[0];
+        $attachment_data[2] = $image_size[1];
+      }
 
       if(array_key_exists($attachment_size, $_wp_additional_image_sizes)){
         if(($_wp_additional_image_sizes[$attachment_size]['width'] == $attachment_data[1] && $_wp_additional_image_sizes[$attachment_size]['height'] >= $attachment_data[2]) || ($_wp_additional_image_sizes[$attachment_size]['height'] == $attachment_data[2] && $_wp_additional_image_sizes[$attachment_size]['width'] >= $attachment_data[1])){
           return false;
         }
 
-        if($image_attachment_data['full'][1] < $_wp_additional_image_sizes[$attachment_size]['width'] || $image_attachment_data['full'][2] < $_wp_additional_image_sizes[$attachment_size]['height']){
+        if($image_attachment_data['full'][1] < $_wp_additional_image_sizes[$attachment_size]['width'] && $image_attachment_data['full'][2] < $_wp_additional_image_sizes[$attachment_size]['height']){
           return false;
         }
 
@@ -138,10 +145,9 @@ if(!class_exists('Model_Picturefill_WP')){
           return false;
         }
 
-        if($image_attachment_data['full'][1] < $width_setting || $image_attachment_data['full'][2] < $height_setting){
+        if($image_attachment_data['full'][1] < $width_setting && $image_attachment_data['full'][2] < $height_setting){
           return false;
         }
-
       }
 
       return true;
