@@ -164,6 +164,11 @@ if(!class_exists('Model_Picturefill_WP')){
 
     private function set_image_sizes(){
       $image_attributes = $this->image_attributes;
+
+      if(false === $image_attributes['attachment_id']){
+        return false;
+      }
+
       $image_sizes = array(
         'full',
         'large@2x',
