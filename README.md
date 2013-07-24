@@ -142,6 +142,56 @@ function theme_picturefill_remove_breakpoints($breakpoint){
 }
 ```
 
+####Respond to custom image sizes
+
+As an example, let's say that your theme uses a very small thumbnail image size (maybe 16px by 16px) for a custom image gallery. This gallery probably looks great, but 16px may be too small for the images in your posts resond down to on a mobile device. The following example replaces the thumbnail with a new image size when responding to browser width.
+
+```php
+// Remove thumbnail from responsive image list
+add_filter('picturefill_wp_image_sizes', 'theme_remove_thumbnail_from_responsive_image_list', 11, 2);
+
+function theme_remove_thumbnail_from_responsive_image_list($image_sizes, $image_attributes){
+  return array_diff($image_sizes, array('thumbnail', 'thumbnail@2x'));
+}
+
+// Add a new small image size for an image to respnd to, in the place of the thmbnail
+add_action('init', 'theme_add_new_small_image_size');
+
+function theme_add_new_small_image_size(){
+  add_image_size('new_small_size', 320, 480);
+  add_image_size('new_small_size@2x', 640, 960);
+}
+
+// Make sure Picturefill.WP has the attachment data for the new image size
+add_filter('picturefill_wp_image_attachment_data', 'theme_picturefill_new_small_size_attachment_data', 10, 2);
+
+function theme_picturefill_new_small_size_attachment_data($attachment_data, $attachment_id){
+ $new_small_size_data = array(
+   'new_small_size' => wp_get_attachment_image_src($attachment_id, 'new_small_size'),
+   'new_small_size@2x' => wp_get_attachment_image_src($attachment_id, 'new_small_size@2x')
+ );
+ return array_merge($attachment_data, $new_small_size_data);
+}
+
+// Add the new image size to the responsive queue
+add_filter('picturefill_wp_image_sizes', 'theme_add_new_small_size_to_responsive_image_list', 11, 2);
+
+function theme_add_new_small_size_to_responsive_image_list($image_sizes, $image_attributes){
+  if(!in_array($image_attributes['min_size'], array('medium', 'large', 'full'))){
+    return array_merge(array('new_small_size', 'new_small_size@2x'), $image_sizes);
+  }else{
+    return $image_sizes;
+  }
+}
+
+// Set the breakpoint for the new image as the new smallest size
+add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_new_small_size_breakpoint', 10, 3);
+
+function theme_picturefill_new_small_size_breakpoint($breakpoint, $image_size, $width){
+  return in_array($image_size, array('new_small_size', 'new_small_size@2x')) ? 1 : $breakpoint;
+}
+```
+
 ####Remove the 20px buffer from the media query breakpoints
 
 ```php
