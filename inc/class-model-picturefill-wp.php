@@ -110,8 +110,6 @@ if(!class_exists('Model_Picturefill_WP')){
     private function image_needs_to_be_created($image_attachment_data, $attachment_size, $attachment_data){
       global $_wp_additional_image_sizes;
 
-      $big_enough = false;
-
       if(empty($attachment_data)){
         return true;
       }
