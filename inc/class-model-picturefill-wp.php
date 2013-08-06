@@ -125,6 +125,12 @@ if(!class_exists('Model_Picturefill_WP')){
           $attachment_data[1] = $image_size[0];
           $attachment_data[2] = $image_size[1];
         }
+      }else{
+        preg_match('/^(?:.+?)(?:-(\d+)x(\d+))\.(?:jpg|jpeg|png|gif)(?:(?:\?|#).+)?$/i', $attachment_data[0], $image_width_height);
+        if(!empty($image_width_height)){
+          $attachment_data[1] = $image_width_height[1];
+          $attachment_data[2] = $image_width_height[2];
+        }
       }
 
       if(array_key_exists($attachment_size, $_wp_additional_image_sizes)){
