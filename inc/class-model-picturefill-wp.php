@@ -118,11 +118,13 @@ if(!class_exists('Model_Picturefill_WP')){
         return false;
       }
       
-      $image_size = getimagesize($attachment_data[0]);
+      if(ini_get('allow_url_fopen')){
+        $image_size = getimagesize($attachment_data[0]);
 
-      if(!empty($image_size)){
-        $attachment_data[1] = $image_size[0];
-        $attachment_data[2] = $image_size[1];
+        if(!empty($image_size)){
+          $attachment_data[1] = $image_size[0];
+          $attachment_data[2] = $image_size[1];
+        }
       }
 
       if(array_key_exists($attachment_size, $_wp_additional_image_sizes)){
