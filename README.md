@@ -116,7 +116,7 @@ The following are examples of how Picturefill.WP can be extended from a theme's 
 * [Using Picturefill.WP to load post-thumbnails in a theme](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-to-load-post-thumbnails-in-a-theme)
 * [Using Picturefill.WP with the Advanced Custom Fields Plugin](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-with-the-advanced-custom-fields-plugin)
 
-##Apply Picturefill.WP outside `the_content`
+####Apply Picturefill.WP outside `the_content`
 
 To apply Picturefill.WP outside of `the_content`, call the `cache_picturefill_output` on the desired filter. See the following example.
 
@@ -272,7 +272,7 @@ function theme_picturefill_post_thumbnail_breakpoint($breakpoint, $image_size, $
 }
 ```
 
-##Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
+####Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
 
 If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, apply Picturefill.WP to the `acf/format_value_for_api` filter.
 
