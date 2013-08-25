@@ -56,7 +56,7 @@ The responsiveness of an image can be limited by adding the class `min-size-{ima
 
 ###Caching
 
-To improve performance, especially in image heavy posts, the output of Picturefill.WP is cached after it is generated. The cache will be refreshed automatically every time a post is updated or Picturefill.WP is updated. The cache can be manually refreshed by deactivating and reactivating Picturefill.WP from the plugins menu.
+To improve performance, especially in image heavy posts, the output of Picturefill.WP is cached with WordPress transients after it is generated. The cache will be refreshed automatically every time a post is updated or Picturefill.WP is updated. The cache can be manually refreshed by deactivating and reactivating Picturefill.WP from the plugins menu.
 
 If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
 
@@ -107,9 +107,18 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 
 The following are examples of how Picturefill.WP can be extended from a theme's `functions.php` file.
 
-###Apply Picturefill_WP outside `the_content`
+* [Apply Picturefill.WP outside `the_content`](https://github.com/kylereicks/picturefill.js.wp#apply-picturefill_wp-outside-the_content)
+* [To disable caching](https://github.com/kylereicks/picturefill.js.wp#to-disable-caching)
+* [To cache for 100 years (give or take a day or so, depending on when those 100 years land)](https://github.com/kylereicks/picturefill.js.wp#to-cache-for-100-years-give-or-take-a-day-or-so-depending-on-when-those-100-years-land)
+* [Retina only: Disable browser width responsiveness](https://github.com/kylereicks/picturefill.js.wp#retina-only-disable-browser-width-responsiveness)
+* [Respond to custom image sizes](https://github.com/kylereicks/picturefill.js.wp#respond-to-custom-image-sizes)
+* [Remove the 20px buffer from the media query breakpoints](https://github.com/kylereicks/picturefill.js.wp#remove-the-20px-buffer-from-the-media-query-breakpoints)
+* [Using Picturefill.WP to load post-thumbnails in a theme](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-to-load-post-thumbnails-in-a-theme)
+* [Using Picturefill.WP with the Advanced Custom Fields Plugin](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-with-the-advanced-custom-fields-plugin)
 
-To apply Picturefill_WP outside of `the_content`, call the `cache_picturefill_output` on the desired filter. See the following example.
+##Apply Picturefill.WP outside `the_content`
+
+To apply Picturefill.WP outside of `the_content`, call the `cache_picturefill_output` on the desired filter. See the following example.
 
 ```php
 add_filter('filter', 'theme_function_to_apply_picturefill_wp_to_filter');
@@ -263,7 +272,7 @@ function theme_picturefill_post_thumbnail_breakpoint($breakpoint, $image_size, $
 }
 ```
 
-###Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
+##Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
 
 If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, apply Picturefill.WP to the `acf/format_value_for_api` filter.
 
