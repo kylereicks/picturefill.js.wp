@@ -38,7 +38,7 @@ if(!class_exists('Picturefill_WP')){
       add_action('init', array($this, 'add_image_sizes'));
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
-      add_filter('the_content', array($this, 'cache_picturefill_output'), 11);
+      add_filter('the_content', array($this, 'apply_picturefill_wp_to_the_content'), 11);
     }
 
     // Filter and action methods
@@ -46,7 +46,11 @@ if(!class_exists('Picturefill_WP')){
       wp_register_script('picturefill', PICTUREFILL_WP_URL . 'js/libs/picturefill.min.js', array(), PICTUREFILL_WP_VERSION, true);
     }
 
-    public function cache_picturefill_output($html, $content_type = 'the_content'){
+    public function apply_picturefill_wp_to_the_content($html){
+      return $this->cache_picturefill_output($html, 'the_content');
+    }
+
+    public function cache_picturefill_output($html, $content_type){
       global $wp_scripts;
       $post_id = get_the_ID();
       $cache_duration = apply_filters('picturefill_wp_cache_duration', 86400);
