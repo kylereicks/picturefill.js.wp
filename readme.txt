@@ -4,7 +4,7 @@ Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
 Tested up to: 3.6.0
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,7 +59,7 @@ To improve performance, especially in image heavy posts, the output of Picturefi
 
 If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
 
-    remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 11);
+    remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
     add_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 9999);
 
 If you still encounter problems with other plugins or theme features, you may want to disable caching all together. See the subsection on how to disable caching under the "Extending Picturefill.WP" section of the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp).
@@ -71,6 +71,10 @@ When using Picturefill.WP with your website, you may occasionally notice a warni
     [Mon Jan 01 12:00:00 2000] [error] [client 999.999.99.99] PHP Warning: DOMDocument::loadHTML() [domdocument.loadhtml]: Unexpected end tag : a in Entity, line: 17 in /server/www/wp-content/plugins/picturefill/inc/class-model-picturefill-wp.php on line 20
 
 This error indicates improperly formed HTML. In this case, the `Unexpected end tag : a` comes from nested links. If you are seeing errors like this on your WordPress site, you may want to consider implementing an [error logging](http://codex.wordpress.org/Editing_wp-config.php#Configure_Error_Logging) system, or alternatively suppressing errors by adding `error_reporting(0);` and `@ini_set('display_errors', 0);` to `wp-config.php`.
+
+##Extending Picturefill.WP
+
+See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp#extending-picturefillwp) subsection of the GitHub repository for a list of plugin hooks and examples.
 
 == Installation ==
 
@@ -92,9 +96,18 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
 See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp#extending-picturefillwp) subsection of the GitHub repository for a list of plugin hooks and examples.
 
+= Can I use this plugin with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)? =
+
+Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, see the subsection of the GitHub documentation [using Picturefill.WP with Advaned Custom Fields]().
+
 == Screenshots ==
 
 == Changelog ==
+
+= 1.2.1 =
+* Update handling image sizes
+* Make the `$content_type` attribute required in the `cache_picturefill_output_method`
+* Update documentation
 
 = 1.2.0 =
 * Update picturefill.js to reflect changes to [@scottjehl's original](https://github.com/scottjehl/picturefill)
@@ -120,5 +133,5 @@ See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.
 
 == Upgrade Notice ==
 
-= 1.2.0 =
-A feature release. See the changelog for a list of the updates. This is an update mostly for developers looking to extend the plugin in their themes, but it does add a proformance boost with output caching.
+= 1.2.1 =
+A bug fix update. See [the commits on github](https://github.com/kylereicks/picturefill.js.wp/commits/master) for details.

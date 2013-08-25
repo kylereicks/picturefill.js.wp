@@ -61,8 +61,8 @@ To improve performance, especially in image heavy posts, the output of Picturefi
 If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
 
 ```php
-remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 11);
-add_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 9999);
+remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
+add_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 9999);
 ```
 
 If you still encounter problems with other plugins or theme features, you may want to disable caching all together. See the subsection on how to disable caching under the "Extending Picturefill.WP" section.
@@ -107,10 +107,22 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 
 The following are examples of how Picturefill.WP can be extended from a theme's `functions.php` file.
 
+###Apply Picturefill_WP outside `the_content`
+
+To apply Picturefill_WP outside of `the_content`, call the `cache_picturefill_output` on the desired filter. See the following example.
+
+```php
+add_filter('filter', 'theme_function_to_apply_picturefill_wp_to_filter');
+
+function theme_function_to_apply_picturefill_wp_to_filter($content){
+  return Picturefill_WP::get_instance()->cache_picturefill_output($content, 'name_of_the_filter');
+}
+```
+
 ####To disable caching
 
 ```php
-remove_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 11);
+remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
 add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), 11);
 ```
 
@@ -248,5 +260,41 @@ function theme_picturefill_post_thumbnail_sizes($default_image_sizes, $image_att
 
 function theme_picturefill_post_thumbnail_breakpoint($breakpoint, $image_size, $width){
   return 'post-thumbnail' === $image_size ? 1 : $breakpoint;
+}
+```
+
+###Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
+
+If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, apply Picturefill.WP to the `acf/format_value_for_api` filter.
+
+```php
+add_filter('acf/format_value_for_api', 'theme_function_picturefill_for_acf', 11, 3);
+
+function theme_function_picturefill_for_acf($content, $post_id, $field){
+  if(in_array($field['type'], array('textarea', 'wysiwyg', text))){
+    return Picturefill_WP::get_instance()->cache_picturefill_output($content, $field['name']);
+  }else{
+    return $content;
+  }
+}
+```
+
+For image fields, you will need to wrap the image output in a custom filter.
+
+In your theme file:
+```php
+<?php
+$image_object = get_field('image');
+$image_output = '<img src="' . $image_object['sizes']['medium'] . '" title="' . $image_object['title'] . '" alt="' . $image_object['alt'] . '" />';
+echo apply_filters('theme_acf_image', $image_output, 'name_of_the_image_field');
+?>
+```
+
+In functions.php:
+```php
+add_filter('theme_acf_image', 'theme_function_for_acf_image', 10, 2);
+
+function theme_function_for_acf_image($content, $name_of_the_image_field){
+  return Picturefill_WP::get_instance()->cache_picturefill_output($content, $name_of_the_image_field);
 }
 ```
