@@ -98,7 +98,7 @@ See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.
 
 = Can I use this plugin with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)? =
 
-Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, see the subsection of the GitHub documentation [using Picturefill.WP with Advaned Custom Fields]().
+Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, see the subsection of the GitHub documentation [using Picturefill.WP with Advaned Custom Fields](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-with-the-advanced-custom-fields-plugin).
 
 == Screenshots ==
 
