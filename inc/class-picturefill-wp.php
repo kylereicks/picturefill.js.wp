@@ -52,6 +52,9 @@ if(!class_exists('Picturefill_WP')){
 
     public function cache_picturefill_output($html, $content_type){
       global $wp_scripts;
+      if(!isset($content_type)){
+        return $html;
+      }
       $post_id = get_the_ID();
       $cache_duration = apply_filters('picturefill_wp_cache_duration', 86400);
       $cached_output = get_transient('picturefill_wp_' . $content_type . '_output_' . $post_id);
