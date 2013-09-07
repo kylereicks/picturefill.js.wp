@@ -59,6 +59,7 @@ if(!class_exists('Model_Picturefill_WP')){
         'title' => $DOMDocument_image->getAttribute('title'),
         'class' => $DOMDocument_image->getAttribute('class'),
         'id' => $DOMDocument_image->getAttribute('id'),
+        'style' => $DOMDocument_image->getAttribute('style'),
         'width' => $DOMDocument_image->getAttribute('width'),
         'height' => $DOMDocument_image->getAttribute('height')
       );
