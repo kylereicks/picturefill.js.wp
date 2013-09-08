@@ -4,7 +4,7 @@ Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
 Tested up to: 3.6.0
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,6 +106,9 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 
 == Changelog ==
 
+= 1.2.2 =
+* Account for post pagination
+
 = 1.2.1 =
 * Update handling image sizes
 * Make the `$content_type` attribute required in the `cache_picturefill_output_method`
@@ -120,13 +123,13 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 = 1.1.3 =
 * Correct encoding bug
 
-= 1.1.2
+= 1.1.2 =
 * Reorganized code and file structure
 
-= 1.1.1
+= 1.1.1 =
 * Bug-fix to allow special characters in `title` and `alt` attributes.
 
-= 1.1
+= 1.1 =
 * Allow for responsive images for non-standard sizes
 * Add a `min-size` class to limit the resposiveness of an image.
 
@@ -135,5 +138,5 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 
 == Upgrade Notice ==
 
-= 1.2.1 =
+= 1.2.2 =
 A bug fix update. See [the commits on github](https://github.com/kylereicks/picturefill.js.wp/commits/master) for details.
