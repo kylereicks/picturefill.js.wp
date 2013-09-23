@@ -97,7 +97,7 @@ if(!class_exists('View_Picturefill_WP')){
       $template_path = apply_filters('picturefill_wp_template_path', PICTUREFILL_WP_PATH . 'inc/templates/');
       $template_file_path = apply_filters('picturefill_wp_' . $template . '_template_file_path', $template_path . $template . '-template.php', $template, $template_path);
       $view_picturefill_wp = $this;
-      $template_data = apply_filters('picturefill_wp_' . $template . 'template_data', $template_data);
+      $template_data = apply_filters('picturefill_wp_' . $template . '_template_data', $template_data);
       if(!empty($template_data)){
         extract($template_data);
       }
