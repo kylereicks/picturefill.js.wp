@@ -42,7 +42,7 @@ if(!class_exists('View_Picturefill_WP')){
       $output_string = '';
 
       foreach($image_attributes as $attribute => $value){
-        $output_string .= !empty($value) && !is_array($value) ? ' data-' . $attribute . '="' . html_entity_decode($value, ENT_COMPAT, 'UTF-8') . '"' : '';
+        $output_string .= !empty($value) && !is_array($value) && !in_array($attribute, array('src', 'attachment_id', 'width', 'height')) ? ' data-' . $attribute . '="' . html_entity_decode($value, ENT_COMPAT, 'UTF-8') . '"' : '';
       }
 
       return apply_filters('picturefill_wp_picture_attribute_string', $output_string);
