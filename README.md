@@ -309,3 +309,31 @@ function theme_function_for_acf_image($content, $name_of_the_image_field){
   return Picturefill_WP::get_instance()->cache_picturefill_output($content, $name_of_the_image_field);
 }
 ```
+
+####Minimize output
+```php
+add_filter('picturefill_wp_picture_template_file_path', 'theme_picturefill_min_template', 10, 3);
+add_filter('picturefill_wp_source_template_file_path', 'theme_picturefill_min_template', 10, 3);
+add_filter('picturefill_wp_picture_template', 'theme_picturefill_remove_line_breaks');
+add_filter('picturefill_wp_image_sizes', 'theme_picturefill_retina_only', 10, 2);
+add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_remove_breakpoints');
+
+function theme_picturefill_min_template($template_file_path, $template, $template_path){
+      return $template_path . 'min/' . $template . '-template.php';
+}
+
+function theme_picturefill_remove_line_breaks($output){
+  return str_replace("\n", '', $output);
+}
+
+function theme_picturefill_retina_only($default_image_sizes, $image_attributes){
+  return array(
+    $image_attributes['size'][1],
+    $image_attributes['size'][1] . '@2x'
+  );
+}
+
+function theme_picturefill_remove_breakpoints($breakpoint){
+  return 1;
+}
+```
