@@ -75,7 +75,7 @@ if(!class_exists('Model_Picturefill_WP')){
     private function set_unadjusted_image_size(){
       if(false !== $this->image_attributes['attachment_id']){
         if(empty($this->image_attributes['size'])){
-          $this->image_attributes['size'] = $this->get_unadjusted_size($this->image_attachment_data, $this->image_attributes['src']);
+          $this->image_attributes['size'] = $this->get_unadjusted_size($this->image_attachment_data, $this->image_attributes);
         }
       }
     }
@@ -83,13 +83,13 @@ if(!class_exists('Model_Picturefill_WP')){
     private function set_image_attachment_data($attachment_id){
       if(false !== $attachment_id){
         $image_attachment_data = array(
-          'full' => wp_get_attachment_image_src($attachment_id, 'full'),
           'thumbnail' => wp_get_attachment_image_src($attachment_id, 'thumbnail'),
           'thumbnail@2x' => wp_get_attachment_image_src($attachment_id, 'thumbnail@2x'),
           'medium' => wp_get_attachment_image_src($attachment_id, 'medium'),
           'medium@2x' => wp_get_attachment_image_src($attachment_id, 'medium@2x'),
           'large' => wp_get_attachment_image_src($attachment_id, 'large'),
-          'large@2x' => wp_get_attachment_image_src($attachment_id, 'large@2x')
+          'large@2x' => wp_get_attachment_image_src($attachment_id, 'large@2x'),
+          'full' => wp_get_attachment_image_src($attachment_id, 'full')
         );
 
         $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id);
@@ -160,9 +160,26 @@ if(!class_exists('Model_Picturefill_WP')){
       return true;
     }
 
-    private function get_unadjusted_size($image_attachment_data, $src){
+    private function get_unadjusted_size($image_attachment_data, $image_attributes){
       foreach($image_attachment_data as $attachment_size => $attachment_data){
-        if($attachment_data[0] === $src){
+        if($attachment_data[0] === $image_attributes['src']){
+          return array('adjusted', $attachment_size);
+        }
+        if(ini_get('allow_url_fopen')){
+          $image_size = getimagesize($attachment_data[0]);
+
+          if(!empty($image_size)){
+            $attachment_data[1] = $image_size[0];
+            $attachment_data[2] = $image_size[1];
+          }
+        }else{
+          preg_match('/^(?:.+?)(?:-(\d+)x(\d+))\.(?:jpg|jpeg|png|gif)(?:(?:\?|#).+)?$/i', $attachment_data[0], $image_width_height);
+          if(!empty($image_width_height)){
+            $attachment_data[1] = $image_width_height[1];
+            $attachment_data[2] = $image_width_height[2];
+          }
+        }
+        if($attachment_data[1] >= $image_attributes['width'] && false === strstr($attachment_size, '@2x')){
           return array('adjusted', $attachment_size);
         }
       }
@@ -187,11 +204,26 @@ if(!class_exists('Model_Picturefill_WP')){
       );
 
       if(!empty($image_attributes['size'])){
-        foreach($image_sizes as $size){
-          if($image_attributes['size'][1] === $size || $image_attributes['size'][1] . '@2x' === $size){
-            break;
-          }
+        if('full' === $image_attributes['size'][1]){
+          $image_attachment_data = $this->image_attachment_data;
           array_shift($image_sizes);
+          foreach($image_sizes as $size){
+            if($image_attachment_data['full'][1] > $image_attachment_data[$size][1]){
+              break;
+            }
+            if(false === strstr($size, '@2x')){
+              array_shift($image_sizes);
+              array_shift($image_sizes);
+            }
+          }
+          array_unshift($image_sizes, 'full');
+        }else{
+          foreach($image_sizes as $size){
+            if($image_attributes['size'][1] === $size || $image_attributes['size'][1] . '@2x' === $size){
+              break;
+            }
+            array_shift($image_sizes);
+          }
         }
 
         $image_sizes = array_reverse($image_sizes);
