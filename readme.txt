@@ -14,8 +14,6 @@ A Wordpress plugin to use picturefill.js to load responsive/retina images, mimic
 
 This plugin uses and adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) that adds additional attributes such as `id`, `class`, and `title`.
 
-##Details
-
 Picturefill.wp looks through `the_content` to find `<img>` elements like this:
 
     <img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg" width="770" height="577" />
@@ -74,7 +72,7 @@ This error indicates improperly formed HTML. In this case, the `Unexpected end t
 
 Additionally, the PHP DOM parser `DOMDocument` often has trouble with HTML5 elements and may throw an error if your post includes a `<canvas>` element, or a `<section>` element, for example. All the more reason to implement an error handling system on production sites.
 
-##Extending Picturefill.WP
+###Extending Picturefill.WP
 
 See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp#extending-picturefillwp) subsection of the GitHub repository for a list of plugin hooks and examples.
 
@@ -102,9 +100,12 @@ See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.
 
 Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, see the subsection of the GitHub documentation [using Picturefill.WP with Advaned Custom Fields](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-with-the-advanced-custom-fields-plugin).
 
-== Screenshots ==
-
 == Changelog ==
+
+= 1.2.3 =
+* Fix error in template hooks
+* Add minified templates
+* Add example to minify HTML ouput
 
 = 1.2.2 =
 * Account for post pagination
@@ -138,5 +139,5 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 
 == Upgrade Notice ==
 
-= 1.2.2 =
+= 1.2.3 =
 A bug fix update. See [the commits on github](https://github.com/kylereicks/picturefill.js.wp/commits/master) for details.
