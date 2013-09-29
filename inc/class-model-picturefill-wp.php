@@ -119,20 +119,7 @@ if(!class_exists('Model_Picturefill_WP')){
         return false;
       }
       
-      if(ini_get('allow_url_fopen')){
-        $image_size = getimagesize($attachment_data[0]);
-
-        if(!empty($image_size)){
-          $attachment_data[1] = $image_size[0];
-          $attachment_data[2] = $image_size[1];
-        }
-      }else{
-        preg_match('/^(?:.+?)(?:-(\d+)x(\d+))\.(?:jpg|jpeg|png|gif)(?:(?:\?|#).+)?$/i', $attachment_data[0], $image_width_height);
-        if(!empty($image_width_height)){
-          $attachment_data[1] = $image_width_height[1];
-          $attachment_data[2] = $image_width_height[2];
-        }
-      }
+      $attachment_data = $this->get_image_width_height($attachment_data);
 
       if(array_key_exists($attachment_size, $_wp_additional_image_sizes)){
         if(($_wp_additional_image_sizes[$attachment_size]['width'] == $attachment_data[1] && $_wp_additional_image_sizes[$attachment_size]['height'] >= $attachment_data[2]) || ($_wp_additional_image_sizes[$attachment_size]['height'] == $attachment_data[2] && $_wp_additional_image_sizes[$attachment_size]['width'] >= $attachment_data[1])){
@@ -165,25 +152,33 @@ if(!class_exists('Model_Picturefill_WP')){
         if($attachment_data[0] === $image_attributes['src']){
           return array('adjusted', $attachment_size);
         }
-        if(ini_get('allow_url_fopen')){
-          $image_size = getimagesize($attachment_data[0]);
 
-          if(!empty($image_size)){
-            $attachment_data[1] = $image_size[0];
-            $attachment_data[2] = $image_size[1];
-          }
-        }else{
-          preg_match('/^(?:.+?)(?:-(\d+)x(\d+))\.(?:jpg|jpeg|png|gif)(?:(?:\?|#).+)?$/i', $attachment_data[0], $image_width_height);
-          if(!empty($image_width_height)){
-            $attachment_data[1] = $image_width_height[1];
-            $attachment_data[2] = $image_width_height[2];
-          }
-        }
+        $attachment_data = $this->get_image_width_height($attachment_data);
+
         if($attachment_data[1] >= $image_attributes['width'] && false === strstr($attachment_size, '@2x')){
           return array('adjusted', $attachment_size);
         }
       }
       return false;
+    }
+
+    private function get_image_width_height($attachment_data){
+      if(ini_get('allow_url_fopen')){
+        $image_size = getimagesize($attachment_data[0]);
+
+        if(!empty($image_size)){
+          $attachment_data[1] = $image_size[0];
+          $attachment_data[2] = $image_size[1];
+        }
+      }else{
+        preg_match('/^(?:.+?)(?:-(\d+)x(\d+))\.(?:jpg|jpeg|png|gif)(?:(?:\?|#).+)?$/i', $attachment_data[0], $image_width_height);
+        if(!empty($image_width_height)){
+          $attachment_data[1] = $image_width_height[1];
+          $attachment_data[2] = $image_width_height[2];
+        }
+      }
+
+      return $attachment_data;
     }
 
     private function set_image_sizes(){
