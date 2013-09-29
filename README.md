@@ -100,10 +100,13 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_media_query_breakpoint`
 * `picturefill_wp_media_query_resolution_query`
 * `picturefill_wp_template_path`
+* `picturefill_wp_template_path`
+* `picturefill_wp_{$template}_template_file_path`
 * `picturefill_wp_{$template}_template_data`
 * `picturefill_wp_{$template}_template`
 * `picturefill_wp_the_content_output`
 * `picturefill_wp_cache_duration`
+
 
 ###Examples
 
@@ -274,6 +277,35 @@ function theme_picturefill_post_thumbnail_breakpoint($breakpoint, $image_size, $
 }
 ```
 
+####Minimize output
+
+```php
+add_filter('picturefill_wp_picture_template_file_path', 'theme_picturefill_min_template', 10, 3);
+add_filter('picturefill_wp_source_template_file_path', 'theme_picturefill_min_template', 10, 3);
+add_filter('picturefill_wp_picture_template', 'theme_picturefill_remove_line_breaks');
+add_filter('picturefill_wp_image_sizes', 'theme_picturefill_retina_only', 10, 2);
+add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_remove_breakpoints');
+
+function theme_picturefill_min_template($template_file_path, $template, $template_path){
+      return $template_path . 'min/' . $template . '-template.php';
+}
+
+function theme_picturefill_remove_line_breaks($output){
+  return str_replace("\n", '', $output);
+}
+
+function theme_picturefill_retina_only($default_image_sizes, $image_attributes){
+  return array(
+    $image_attributes['size'][1],
+    $image_attributes['size'][1] . '@2x'
+  );
+}
+
+function theme_picturefill_remove_breakpoints($breakpoint){
+  return 1;
+}
+```
+
 ####Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
 
 If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, apply Picturefill.WP to the `acf/format_value_for_api` filter.
@@ -307,33 +339,5 @@ add_filter('theme_acf_image', 'theme_function_for_acf_image', 10, 2);
 
 function theme_function_for_acf_image($content, $name_of_the_image_field){
   return Picturefill_WP::get_instance()->cache_picturefill_output($content, $name_of_the_image_field);
-}
-```
-
-####Minimize output
-```php
-add_filter('picturefill_wp_picture_template_file_path', 'theme_picturefill_min_template', 10, 3);
-add_filter('picturefill_wp_source_template_file_path', 'theme_picturefill_min_template', 10, 3);
-add_filter('picturefill_wp_picture_template', 'theme_picturefill_remove_line_breaks');
-add_filter('picturefill_wp_image_sizes', 'theme_picturefill_retina_only', 10, 2);
-add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_remove_breakpoints');
-
-function theme_picturefill_min_template($template_file_path, $template, $template_path){
-      return $template_path . 'min/' . $template . '-template.php';
-}
-
-function theme_picturefill_remove_line_breaks($output){
-  return str_replace("\n", '', $output);
-}
-
-function theme_picturefill_retina_only($default_image_sizes, $image_attributes){
-  return array(
-    $image_attributes['size'][1],
-    $image_attributes['size'][1] . '@2x'
-  );
-}
-
-function theme_picturefill_remove_breakpoints($breakpoint){
-  return 1;
 }
 ```
