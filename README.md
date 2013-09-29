@@ -119,6 +119,7 @@ The following are examples of how Picturefill.WP can be extended from a theme's 
 * [Respond to custom image sizes](https://github.com/kylereicks/picturefill.js.wp#respond-to-custom-image-sizes)
 * [Remove the 20px buffer from the media query breakpoints](https://github.com/kylereicks/picturefill.js.wp#remove-the-20px-buffer-from-the-media-query-breakpoints)
 * [Using Picturefill.WP to load post-thumbnails in a theme](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-to-load-post-thumbnails-in-a-theme)
+* [Minimize output](https://github.com/kylereicks/picturefill.js.wp#minimize-output)
 * [Using Picturefill.WP with the Advanced Custom Fields Plugin](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-with-the-advanced-custom-fields-plugin)
 
 ####Apply Picturefill.WP outside `the_content`
