@@ -148,8 +148,16 @@ if(!class_exists('Model_Picturefill_WP')){
     }
 
     private function get_unadjusted_size($image_attachment_data, $image_attributes){
+      if(empty($image_attributes['width'])){
+        $image_attributes_url_width_height = array($image_attributes['src'], $image_attributes['width'], $image_attributes['height']);
+        $image_attributes_url_width_height = $this->get_image_width_height($image_attributes_url_width_height);
+        $image_attributes['width'] = $image_attributes_url_width_height[1];
+        $image_attributes['height'] = $image_attributes_url_width_height[2];
+
+        $this->image_attributes = $image_attributes;
+      }
       foreach($image_attachment_data as $attachment_size => $attachment_data){
-        if($attachment_data[0] === $image_attributes['src']){
+        if($attachment_data[0] === $image_attributes['src'] && false === strstr($attachment_size, '@2x')){
           return array('adjusted', $attachment_size);
         }
 
