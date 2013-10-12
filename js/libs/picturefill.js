@@ -31,18 +31,10 @@
           var matchedEl = matches.pop();
           if( !picImg ){
             picImg = w.document.createElement( "img" );
-            picImg.id = ps[ i ].getAttribute( "data-id" );
-            picImg.className = ps[ i ].getAttribute( "data-class" );
-            picImg.alt = ps[ i ].getAttribute( "data-alt" );
-            picImg.title = ps[ i ].getAttribute( "data-title" );
-            if(ps[i].getAttribute("data-style")){
-              picImg.style.cssText = ps[ i ].getAttribute( "data-style" );
-            }
-            if(ps[i].getAttribute("data-width")){
-              picImg.width = ps[ i ].getAttribute( "data-width" );
-            }
-            if(ps[i].getAttribute("data-height")){
-              picImg.height = ps[ i ].getAttribute( "data-height" );
+            for(var ia = 0, atts = ps[i].attributes.length; ia < atts; ia++){
+              if('data-picture' !== ps[i].attributes[ia].name){
+                picImg.setAttribute(ps[i].attributes[ia].name.substring('data-'.length), ps[i].attributes[ia].nodeValue);
+              }
             }
           }
 

@@ -54,15 +54,19 @@ if(!class_exists('Model_Picturefill_WP')){
       $DOMDocument_image = $this->image;
 
       $attributes = array(
-        'src' => $DOMDocument_image->getAttribute('src'),
-        'alt' => $DOMDocument_image->getAttribute('alt'),
-        'title' => $DOMDocument_image->getAttribute('title'),
-        'class' => $DOMDocument_image->getAttribute('class'),
-        'id' => $DOMDocument_image->getAttribute('id'),
-        'style' => $DOMDocument_image->getAttribute('style'),
-        'width' => $DOMDocument_image->getAttribute('width'),
-        'height' => $DOMDocument_image->getAttribute('height')
+        'src' => null,
+        'alt' => null,
+        'title' => null,
+        'class' => null,
+        'id' => null,
+        'style' => null,
+        'width' => null,
+        'height' => null
       );
+
+      foreach($DOMDocument_image->attributes as $attr => $node){
+        $attributes[$attr] = $node->nodeValue;
+      }
 
       $attributes['attachment_id'] = self::url_to_attachment_id($attributes['src']);
 
