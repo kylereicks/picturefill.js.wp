@@ -4,7 +4,7 @@ Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
 Tested up to: 3.6.1
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,9 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 
 == Changelog ==
 
+= 1.2.5 =
+* Update minified version picturefill.js
+
 = 1.2.4 =
 * Fix error to allow for images with an attachment id but no declared width
 * Loop through image attributes on the server and in the browser so that all the attributes in the original image are included in the generated image
@@ -143,5 +146,5 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 
 == Upgrade Notice ==
 
-= 1.2.4 =
-A bug fix update. See [the commits on github](https://github.com/kylereicks/picturefill.js.wp/commits/master) for details.
+= 1.2.5 =
+This version update only updates the minified version of the picturefil.js script, which was missed whenn updating versionn 1.2.4 a few hours ago.
