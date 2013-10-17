@@ -4,7 +4,7 @@ Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
 Tested up to: 3.6.1
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,9 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 
 == Changelog ==
 
+= 1.2.6 =
+* Fix bug to output the correct width for @2x images.
+
 = 1.2.5 =
 * Update minified version picturefill.js
 
@@ -146,5 +149,5 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 
 == Upgrade Notice ==
 
-= 1.2.5 =
-This version update only updates the minified version of the picturefil.js script, which was missed whenn updating versionn 1.2.4 a few hours ago.
+= 1.2.6 =
+This version update fixes a bug which was preventing @2x images from responding as expected.
