@@ -103,7 +103,7 @@ if(!class_exists('View_Picturefill_WP')){
       }
       $breakpoint = 'thumbnail' === $image_size || 'thumbnail@2x' === $image_size ? 1 : $width + 20;
       $resolution_query = '@2x' === substr($image_size, -3) ? ' and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)' : '';
-      return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width) . 'px)' . apply_filters('picturefill_wp_media_query_resolution_query', $resolution_query);
+      return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width, $this->image_attributes, $this->image_attachment_data) . 'px)' . apply_filters('picturefill_wp_media_query_resolution_query', $resolution_query, $image_size);
     }
 
     // Render templates
