@@ -96,7 +96,11 @@ if(!class_exists('View_Picturefill_WP')){
     }
 
     public function get_media_query($image_size){
-      $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
+      if('@2x' === substr($image_size, -3)){
+        $width = substr($image_size, 0, -3) === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[substr($image_size, 0, -3)][1];
+      }else{
+        $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
+      }
       $breakpoint = 'thumbnail' === $image_size || 'thumbnail@2x' === $image_size ? 1 : $width + 20;
       $resolution_query = '@2x' === substr($image_size, -3) ? ' and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)' : '';
       return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width) . 'px)' . apply_filters('picturefill_wp_media_query_resolution_query', $resolution_query);
