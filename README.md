@@ -222,10 +222,10 @@ function theme_picturefill_new_small_size_breakpoint($breakpoint, $image_size, $
 ####Remove the 20px buffer from the media query breakpoints
 
 ```php
-add_filter('picturefill_wp_media_query_breakpoint', 'remove_picturefill_wp_breakpoint_buffer', 10, 3);
+add_filter('picturefill_wp_media_query_breakpoint', 'remove_picturefill_wp_breakpoint_buffer', 10, 5);
 
-function remove_picturefill_wp_breakpoint_buffer($breakpoint, $image_size, $width){
-  if('thumbnail' !== $image_size){
+function remove_picturefill_wp_breakpoint_buffer($breakpoint, $image_size, $width, $image_attributes, $image_attachment_data){
+  if('thumbnail' !== $image_size && 'thumbnail@2x' !== $image_size){
     return $width;
   }else{
     return $breakpoint;
