@@ -16,4 +16,4 @@ require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 
 register_deactivation_hook(__FILE__, array('Picturefill_WP', 'deactivate'));
 
-Picturefill_WP::get_instance();
+add_action('plugins_loaded', array('Picturefill_WP', 'get_instance'));
