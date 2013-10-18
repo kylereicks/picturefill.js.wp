@@ -100,8 +100,8 @@ if(!class_exists('Picturefill_WP')){
     public function add_update_hook(){
       if(get_option('picturefill_wp_version') !== PICTUREFILL_WP_VERSION){
         update_option('picturefill_wp_update_timestamp', time());
-        update_option('picturefill_wp_version', PICTUREFILL_WP_VERSION);
         do_action('picturefill_wp_updated');
+        update_option('picturefill_wp_version', PICTUREFILL_WP_VERSION);
       }
     }
   }
