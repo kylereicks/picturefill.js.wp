@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') OR exit;
 /*
 Plugin Name: Picturefill.WP
 Plugin URI: http://github.com/kylereicks/picturefill.js.wp

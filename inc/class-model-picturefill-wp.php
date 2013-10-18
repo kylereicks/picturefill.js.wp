@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') OR exit;
 if(!class_exists('Model_Picturefill_WP')){
   class Model_Picturefill_WP{
 
