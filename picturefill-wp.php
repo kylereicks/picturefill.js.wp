@@ -15,6 +15,8 @@ define('PICTUREFILL_WP_VERSION', '1.2.6');
 
 require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 
+require_once(PICTUREFILL_WP_PATH . 'inc/functions-picturefill-wp.php');
+
 register_deactivation_hook(__FILE__, array('Picturefill_WP', 'deactivate'));
 
 add_action('plugins_loaded', array('Picturefill_WP', 'get_instance'));
