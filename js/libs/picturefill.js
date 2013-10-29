@@ -6,6 +6,8 @@
   "use strict";
 
   w.picturefill = function() {
+    w.picturefill.init = true;
+
     var ps = w.document.getElementsByTagName( "span" );
 
     // Loop the pictures
@@ -66,6 +68,9 @@
   }
   else if( w.attachEvent ){
     w.attachEvent( "onload", w.picturefill );
+  }
+  if('complete' === document.readyState && !w.picturefill.init){
+    w.picturefill();
   }
 
 }( this ));
