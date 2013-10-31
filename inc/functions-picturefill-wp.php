@@ -24,3 +24,7 @@ function set_picturefill_wp_cache_duration($cache_duration_in_seconds){
   $picturefill_wp_helper->set_cache_duration($cache_duration_in_seconds);
 }
 
+function picturefill_wp_retina_only(){
+  add_filter('picturefill_wp_image_sizes', array('Picturefill_WP_Function_Helper', 'retina_only'), 10, 2);
+  add_filter('picturefill_wp_media_query_breakpoint', array('Picturefill_WP_Function_Helper', 'remove_breakpoints'));
+}

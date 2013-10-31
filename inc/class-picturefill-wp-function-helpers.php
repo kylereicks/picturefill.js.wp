@@ -5,6 +5,21 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
     private $filter = '';
     private $cache_duration = 86400;
 
+    public static function retina_only($default_image_sizes, $image_attributes){
+      if('full' === $image_attributes['size'][1]){
+        return array($image_attributes['size'][1]);
+      }else{
+        return array(
+          $image_attributes['size'][1],
+          $image_attributes['size'][1] . '@2x'
+        );
+      }
+    }
+
+    public static function remove_breakpoints($breakpoint){
+      return 1;
+    }
+
     public function apply_to_filter($filter){
       $this->filter = $filter;
       add_filter($filter, array($this, '_apply_picturefill_wp_to_filter'));
