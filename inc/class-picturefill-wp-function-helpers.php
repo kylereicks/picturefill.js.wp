@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') OR exit;
 if(!class_exists('Picturefill_WP_Function_Helpers')){
   class Picturefill_WP_Function_Helpers{
 
@@ -54,6 +55,31 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       add_filter('picturefill_wp_image_attachment_data', array($this, '_add_size_attachment_data'), 10, 2);
 
       add_filter('picturefill_wp_image_sizes', '_add_size_to_responsive_image_list', 11, 2);
+    }
+
+    public function apply_to_post_thumbnail(){
+      $this->image_size_to_add = 'post-thumbnail';
+      add_action('init', array($this, '_add_retina_post_thumbnail'));
+      add_filter('post_thumbnail_html', array($this, '_add_size_to_post_thumbnail_class'), 9, 5);
+      add_filter('picturefill_wp_image_attachment_data', array($this, '_add_size_attachment_data'), 10, 2);
+      add_filter('picturefill_wp_image_sizes', array($this, '_post_thumbnail_sizes'), 10, 2);
+      $this->apply_to_filter('post_thumbnail_html');
+    }
+
+    public function _post_thumbnail_sizes($default_image_sizes, $image_attributes){
+      return 'post-thumbnail' === $image_attributes['size'][1] ? array(
+        'post-thumbnail',
+        'post-thumbnail@2x'
+      ) : $default_image_sizes;
+    }
+
+    public function _add_retina_post_thumbnail(){
+      global $_wp_additional_image_sizes;
+      add_image_size('post-thumbnail@2x', $_wp_additional_image_sizes['post-thumbnail']['width'] * 2, $_wp_additional_image_sizes['post-thumbnail']['height'] * 2, $_wp_additional_image_sizes['post-thumbnail']['crop']);
+    }
+
+    public function _add_size_to_post_thumbnail_class($html, $post_id, $post_thumbnail_id, $size, $attr){
+      return preg_replace('/class="([^"]+)"/', 'class="$1 size-' . $size . '"', $html);
     }
 
     public function _add_size_to_responsive_image_list($image_sizes, $image_attributes){

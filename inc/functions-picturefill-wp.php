@@ -44,3 +44,8 @@ function picturefill_wp_add_image_size($name, $width = 0, $height = 0, $crop = f
   $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
   $picturefill_wp_helpers->add_image_to_responsive_queue($image_size, $insert_before);
 }
+
+function apply_picturefill_wp_to_post_thumbnail(){
+  $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
+  $picturefill_wp_helpers->apply_to_post_thumbnail();
+}
