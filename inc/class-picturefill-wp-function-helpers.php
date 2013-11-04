@@ -20,10 +20,6 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       }
     }
 
-    public static function remove_breakpoints($breakpoint){
-      return 1;
-    }
-
     public function apply_to_filter($filter){
       $this->filter = $filter;
       add_filter($filter, array($this, '_apply_picturefill_wp_to_filter'));

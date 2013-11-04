@@ -26,7 +26,6 @@ function set_picturefill_wp_cache_duration($cache_duration_in_seconds){
 
 function picturefill_wp_retina_only(){
   add_filter('picturefill_wp_image_sizes', array('Picturefill_WP_Function_Helpers', 'retina_only'), 10, 2);
-  add_filter('picturefill_wp_media_query_breakpoint', array('Picturefill_WP_Function_Helpers', 'remove_breakpoints'));
 }
 
 function picturefill_wp_remove_image_from_responsive_list($image_size){
