@@ -48,3 +48,10 @@ function apply_picturefill_wp_to_post_thumbnail(){
   $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
   $picturefill_wp_helpers->apply_to_post_thumbnail();
 }
+
+function minimize_picturefill_wp_output(){
+  add_filter('picturefill_wp_picture_template_file_path', array('Picturefill_WP_Function_Helpers', 'min_template'), 10, 3);
+  add_filter('picturefill_wp_source_template_file_path', array('Picturefill_WP_Function_Helpers', 'min_template'), 10, 3);
+  add_filter('picturefill_wp_picture_template', array('Picturefill_WP_Function_Helpers', 'remove_line_breaks'), 10, 2);
+  add_filter('picturefill_wp_image_sizes', array('Picturefill_WP_Function_Helpers', 'retina_only'), 10, 2);
+}

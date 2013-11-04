@@ -20,6 +20,14 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       }
     }
 
+    public static function remove_line_breaks($output){
+      return str_replace("\n", '', $output);
+    }
+
+    public static function min_template($template_file_path, $template, $template_path){
+      return $template_path . 'min/' . $template . '-template.php';
+    }
+
     public function apply_to_filter($filter){
       $this->filter = $filter;
       add_filter($filter, array($this, '_apply_picturefill_wp_to_filter'));
