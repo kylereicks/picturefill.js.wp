@@ -11,7 +11,7 @@ if(!class_exists('View_Picturefill_WP')){
 
     // Static methods
     static function standardize_img_tags($html){
-      return preg_replace('/(<img[^<]*?)(?:>|\/>|\s\/>)/', '$1 />', $html);
+      return apply_filters('picturefill_wp_content_html', preg_replace('/(<img[^<]*?)(?:>|\/>|\s\/>)/', '$1 />', $html));
     }
 
     // Constructor, get data from model object
