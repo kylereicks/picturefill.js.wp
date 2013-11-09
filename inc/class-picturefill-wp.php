@@ -90,10 +90,12 @@ if(!class_exists('Picturefill_WP')){
         wp_enqueue_script('picturefill');
         $html = View_Picturefill_WP::standardize_img_tags($html);
         foreach($images as $image){
-          $model_picturefill_wp = new Model_Picturefill_WP($DOMDocument, $image);
-          $view_picturefill_wp = new View_Picturefill_WP($model_picturefill_wp);
+          if('noscript' !== $image->parentNode->tagName && !$image->hasAttribute('data-picturefill-wp-ignore')){
+            $model_picturefill_wp = new Model_Picturefill_WP($DOMDocument, $image);
+            $view_picturefill_wp = new View_Picturefill_WP($model_picturefill_wp);
 
-          $html = str_replace($view_picturefill_wp->get_original_image(), $view_picturefill_wp->render_template('picture'), $html);
+            $html = str_replace($view_picturefill_wp->get_original_image(), $view_picturefill_wp->render_template('picture'), $html);
+          }
         }
       }
       do_action('picturefill_wp_after_replace_images');
