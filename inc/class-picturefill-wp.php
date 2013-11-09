@@ -47,7 +47,7 @@ if(!class_exists('Picturefill_WP')){
       add_action('init', array($this, 'add_image_sizes'));
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
-      add_filter('the_content', array($this, 'apply_picturefill_wp_to_the_content'), 11);
+      add_filter('the_content', array($this, 'apply_picturefill_wp_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
       add_action('picturefill_wp_updated', array('Picturefill_WP', 'clear_picturefill_wp_transients'));
     }
 

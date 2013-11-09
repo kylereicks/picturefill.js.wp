@@ -5,18 +5,18 @@
 require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp-function-helpers.php');
 
-function apply_picturefill_wp($filter, $cache = true){
+function apply_picturefill_wp($filter, $cache = true, $priority = 11){
   if(true === $cache){
     $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
     $picturefill_wp_helpers->apply_to_filter($filter);
   }else{
-    add_filter($filter, array(Picturefill_WP::get_instance(), 'replace_images'), 11);
+    add_filter($filter, array(Picturefill_WP::get_instance(), 'replace_images'), $priority);
   }
 }
 
-function disable_picturefill_wp_cache(){
-  remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
-  add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), 11);
+function disable_picturefill_wp_cache($priority = 11){
+  remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
+  add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), $priority);
 }
 
 function set_picturefill_wp_cache_duration($cache_duration_in_seconds){
