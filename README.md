@@ -110,206 +110,26 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_cache_duration`
 
 
-###Examples
+###Helper Functions
 
-The following are examples of how Picturefill.WP can be extended from a theme's `functions.php` file.
+####apply_picturefill_wp($filter, [$cache, $priority])
 
-* [Apply Picturefill.WP outside `the_content`](https://github.com/kylereicks/picturefill.js.wp#apply-picturefill_wp-outside-the_content)
-* [To disable caching](https://github.com/kylereicks/picturefill.js.wp#to-disable-caching)
-* [To cache for 100 years (give or take a day or so, depending on when those 100 years land)](https://github.com/kylereicks/picturefill.js.wp#to-cache-for-100-years-give-or-take-a-day-or-so-depending-on-when-those-100-years-land)
-* [Retina only: Disable browser width responsiveness](https://github.com/kylereicks/picturefill.js.wp#retina-only-disable-browser-width-responsiveness)
-* [Respond to custom image sizes](https://github.com/kylereicks/picturefill.js.wp#respond-to-custom-image-sizes)
-* [Remove the 20px buffer from the media query breakpoints](https://github.com/kylereicks/picturefill.js.wp#remove-the-20px-buffer-from-the-media-query-breakpoints)
-* [Using Picturefill.WP to load post-thumbnails in a theme](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-to-load-post-thumbnails-in-a-theme)
-* [Minimize output](https://github.com/kylereicks/picturefill.js.wp#minimize-output)
-* [Using Picturefill.WP with the Advanced Custom Fields Plugin](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-with-the-advanced-custom-fields-plugin)
+####disable_picturefill_wp_cache([$priority])
 
-####Apply Picturefill.WP outside `the_content`
+####set_picturefill_wp_cache_duration($cache_duration_in_seconds)
 
-To apply Picturefill.WP outside of `the_content`, call the `cache_picturefill_output` on the desired filter. See the following example.
+####picturefill_wp_retina_only()
 
-```php
-add_filter('filter', 'theme_function_to_apply_picturefill_wp_to_filter');
+####picturefill_wp_remove_image_from_responsive_list($image_size)
 
-function theme_function_to_apply_picturefill_wp_to_filter($content){
-  return Picturefill_WP::get_instance()->cache_picturefill_output($content, 'name_of_the_filter');
-}
-```
+####picturefill_wp_add_image_size($name, $width, $height, $crop, $insert_before)
 
-####To disable caching
+####apply_picturefill_wp_to_post_thumbnail()
 
-```php
-remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
-add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), 11);
-```
+####minimize_picturefill_wp_output()
 
-####To cache for 100 years (give or take a day or so, depending on when those 100 years land)
 
-```php
-add_filter('picturefill_wp_cache_duration', 'cache_for_one_hundred_years');
-
-function cache_for_one_hundred_years($cache_duration){
-  return (100 * 365 + 24) * 24 * 60 * 60;
-}
-```
-
-####Retina only: Disable browser width responsiveness
-
-```php
-add_filter('picturefill_wp_image_sizes', 'theme_picturefill_retina_only', 10, 2);
-add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_remove_breakpoints');
-
-function theme_picturefill_retina_only($default_image_sizes, $image_attributes){
-  return array(
-    $image_attributes['size'][1],
-    $image_attributes['size'][1] . '@2x'
-  );
-}
-
-function theme_picturefill_remove_breakpoints($breakpoint){
-  return 1;
-}
-```
-
-####Respond to custom image sizes
-
-As an example, let's say that your theme uses a very small thumbnail image size (maybe 16px by 16px) for a custom image gallery. This gallery probably looks great, but 16px may be too small for the images in your posts resond down to on a mobile device. The following example replaces the thumbnail with a new image size when responding to browser width.
-
-```php
-// Remove thumbnail from responsive image list
-add_filter('picturefill_wp_image_sizes', 'theme_remove_thumbnail_from_responsive_image_list', 11, 2);
-
-function theme_remove_thumbnail_from_responsive_image_list($image_sizes, $image_attributes){
-  return array_diff($image_sizes, array('thumbnail', 'thumbnail@2x'));
-}
-
-// Add a new small image size for an image to respnd to, in the place of the thmbnail
-add_action('init', 'theme_add_new_small_image_size');
-
-function theme_add_new_small_image_size(){
-  add_image_size('new_small_size', 320, 480);
-  add_image_size('new_small_size@2x', 640, 960);
-}
-
-// Make sure Picturefill.WP has the attachment data for the new image size
-add_filter('picturefill_wp_image_attachment_data', 'theme_picturefill_new_small_size_attachment_data', 10, 2);
-
-function theme_picturefill_new_small_size_attachment_data($attachment_data, $attachment_id){
- $new_small_size_data = array(
-   'new_small_size' => wp_get_attachment_image_src($attachment_id, 'new_small_size'),
-   'new_small_size@2x' => wp_get_attachment_image_src($attachment_id, 'new_small_size@2x')
- );
- return array_merge($attachment_data, $new_small_size_data);
-}
-
-// Add the new image size to the responsive queue
-add_filter('picturefill_wp_image_sizes', 'theme_add_new_small_size_to_responsive_image_list', 11, 2);
-
-function theme_add_new_small_size_to_responsive_image_list($image_sizes, $image_attributes){
-  if(!in_array($image_attributes['min_size'], array('medium', 'large', 'full'))){
-    return array_merge(array('new_small_size', 'new_small_size@2x'), $image_sizes);
-  }else{
-    return $image_sizes;
-  }
-}
-
-// Set the breakpoint for the new image as the new smallest size
-add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_new_small_size_breakpoint', 10, 3);
-
-function theme_picturefill_new_small_size_breakpoint($breakpoint, $image_size, $width){
-  return in_array($image_size, array('new_small_size', 'new_small_size@2x')) ? 1 : $breakpoint;
-}
-```
-
-####Remove the 20px buffer from the media query breakpoints
-
-```php
-add_filter('picturefill_wp_media_query_breakpoint', 'remove_picturefill_wp_breakpoint_buffer', 10, 5);
-
-function remove_picturefill_wp_breakpoint_buffer($breakpoint, $image_size, $width, $image_attributes, $image_attachment_data){
-  if('thumbnail' !== $image_size && 'thumbnail@2x' !== $image_size){
-    return $width;
-  }else{
-    return $breakpoint;
-  }
-}
-```
-
-####Using Picturefill.WP to load post-thumbnails in a theme
-
-The following assumes that both `add_theme_support('post-thumbnails')` and `set_post_thumbnail_size()` have been added and set.
-
-```php
-add_action('init', 'add_retina_post_thumbnail');
-add_filter('post_thumbnail_html', 'theme_picturefill_post_thumbnail', 10, 5);
-add_filter('post_thumbnail_html', 'add_size_to_post_thumbnail_class', 9, 5);
-
-function add_size_to_post_thumbnail_class($html, $post_id, $post_thumbnail_id, $size, $attr){
-  return preg_replace('/class="([^"]+)"/', 'class="$1 size-' . $size . '"', $html);
-}
-
-function add_retina_post_thumbnail(){
-  global $_wp_additional_image_sizes;
-  add_image_size('post-thumbnail@2x', $_wp_additional_image_sizes['post-thumbnail']['width'] * 2, $_wp_additional_image_sizes['post-thumbnail']['height'] * 2, $_wp_additional_image_sizes['post-thumbnail']['crop']);
-}
-
-function theme_picturefill_post_thumbnail($html, $post_id, $post_thumbnail_id, $size, $attr){
-  add_filter('picturefill_wp_image_attachment_data', 'theme_picturefill_post_thumbnail_attachment_data', 10, 2);
-  add_filter('picturefill_wp_image_sizes', 'theme_picturefill_post_thumbnail_sizes', 10, 2);
-  add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_post_thumbnail_breakpoint', 10, 3);
-  return Picturefill_WP::get_instance()->cache_picturefill_output($html, 'post_thumbnail');
-}
-
-function theme_picturefill_post_thumbnail_attachment_data($initial_array, $attachment_id){
-  $post_thumbnail_data = array(
-    'post-thumbnail' => wp_get_attachment_image_src($attachment_id, 'post-thumbnail'),
-    'post-thumbnail@2x' => wp_get_attachment_image_src($attachment_id, 'post-thumbnail@2x')
-  );
-  return array_merge($initial_array, $post_thumbnail_data);
-}
-
-function theme_picturefill_post_thumbnail_sizes($default_image_sizes, $image_attributes){
-  return 'post-thumbnail' === $image_attributes['size'][1] ? array(
-    'post-thumbnail',
-    'post-thumbnail@2x'
-  ) : $default_image_sizes;
-}
-
-function theme_picturefill_post_thumbnail_breakpoint($breakpoint, $image_size, $width){
-  return 'post-thumbnail' === $image_size ? 1 : $breakpoint;
-}
-```
-
-####Minimize output
-
-```php
-add_filter('picturefill_wp_picture_template_file_path', 'theme_picturefill_min_template', 10, 3);
-add_filter('picturefill_wp_source_template_file_path', 'theme_picturefill_min_template', 10, 3);
-add_filter('picturefill_wp_picture_template', 'theme_picturefill_remove_line_breaks');
-add_filter('picturefill_wp_image_sizes', 'theme_picturefill_retina_only', 10, 2);
-add_filter('picturefill_wp_media_query_breakpoint', 'theme_picturefill_remove_breakpoints');
-
-function theme_picturefill_min_template($template_file_path, $template, $template_path){
-      return $template_path . 'min/' . $template . '-template.php';
-}
-
-function theme_picturefill_remove_line_breaks($output){
-  return str_replace("\n", '', $output);
-}
-
-function theme_picturefill_retina_only($default_image_sizes, $image_attributes){
-  return array(
-    $image_attributes['size'][1],
-    $image_attributes['size'][1] . '@2x'
-  );
-}
-
-function theme_picturefill_remove_breakpoints($breakpoint){
-  return 1;
-}
-```
-
-####Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
+###Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
 
 If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, apply Picturefill.WP to the `acf/format_value_for_api` filter.
 
