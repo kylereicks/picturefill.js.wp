@@ -92,6 +92,8 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 
 ###Filters
 
+* `picturefill_wp_the_content_filter_priority`
+* `picturefill_wp_content_html`
 * `picturefill_wp_image_attributes`
 * `picturefill_wp_image_attachment_data`
 * `picturefill_wp_image_sizes`
