@@ -12,7 +12,49 @@ A Wordpress plugin to use picturefill.js to load responsive/retina images, mimic
 
 == Description ==
 
-This plugin uses and adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) that adds additional attributes such as `id`, `class`, and `title`.
+Picturefill.WP is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
+
+This plugin parses post and page content replacing images with a special syntax similar to the proposed syntax for the `picture` element, then uses an adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) to load the appropriate image to the browser.
+
+###Considerations before installing
+
+####Image Sizes
+
+By default, Wordpress creates as many as 3 images of different sizes for each uploaded image ("large", "medium", and "thumbnail"), in addition to the "full" image size.
+
+This plugin adds responsive breakpoints based on the width of the image. The largest available image will display unless the browser width is less than the image width + 20px, in which case the next size down is displayed.
+
+To use this plugin most effectively, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
+
+####Errors and Warnings
+
+When using Picturefill.WP with your website, you may occasionally notice a warning very much like the following:
+
+    [Mon Jan 01 12:00:00 2000] [error] [client 999.999.99.99] PHP Warning: DOMDocument::loadHTML() [domdocument.loadhtml]: Unexpected end tag : a in Entity, line: 17 in /server/www/wp-content/plugins/picturefill/inc/class-model-picturefill-wp.php on line 20
+
+This error indicates improperly formed HTML. In this case, the `Unexpected end tag : a` comes from nested links. If you are seeing errors like this on your WordPress site, you may want to consider implementing an [error logging](http://codex.wordpress.org/Editing_wp-config.php#Configure_Error_Logging) system, or alternatively suppressing errors by adding `error_reporting(0);` and `@ini_set('display_errors', 0);` to `wp-config.php`.
+
+Additionally, the PHP DOM parser `DOMDocument` often has trouble with HTML5 elements and may throw an error if your post includes a `<canvas>` element, or a `<section>` element, for example. All the more reason to implement an error handling system on production sites.
+
+####Theme CSS
+
+As described in the Details section, the picturefill.js syntax uses nested `span` elements. If a theme's CSS applies styles to un-classed `span` elements, you may notice some of these `span`s showing up unexpectedly on the page after activating Picturefill.WP. If possible, it is best to remove the offending code from your theme files, but adding the flowing to the bottom of your theme's CSS file should also work to reset these styles.
+
+    span[data-picture]{display:inline;margin:0;padding:0;border:0;}
+    span[data-picture] span{display:inline;margin:0;padding:0;border:0;}
+
+####Caching
+
+To improve performance, especially in image heavy posts, Picturefill.WP uses transient caching. The cache will be refreshed automatically every time a post is updated or Picturefill.WP is updated. The cache can be manually refreshed by deactivating and reactivating Picturefill.WP from the plugins menu.
+
+If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
+
+    remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
+    add_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 9999);
+
+If you still encounter problems with other plugins or theme features, you may want to disable caching all together. See the subsection on how to disable caching under the "Extending Picturefill.WP" section of the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp).
+
+== Details ==
 
 Picturefill.wp looks through `the_content` to find `<img>` elements like this:
 
@@ -34,43 +76,6 @@ then replaces them with something like this:
     </span>
 
 The adapted version of picturefill.js then looks for the last `data-src` listed where the associated `data-media` matches the device and browser, and loads the appropriate image inside the matched `<span>` element.
-
-###Heights and Widths and Breakpoints
-
-One of the goals of this plugin is to be completely "plug and play" i.e. no setup and no options. Just turn it on and it works. To do this, the plugin relies on several Wordpress defaults and conventions.
-
-####Wordpress Image Sizes
-
-By default, Wordpress creates as many as 3 images of different sizes for each uploaded image ("large", "medium", and "thumbnail"), in addition to the "full" image size.
-
-This plugin adds responsive breakpoints based on the width of the image. The largest available image will display unless the browser width is less than the image width + 20px, in which case the next size down is displayed.
-
-To use this plugin most effectively, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
-
-####Wordpress Image Classes
-
-The responsiveness of an image can be limited by adding the class `min-size-{image size}`. For example, an image with the class `min-size-medium` will not load an image smaller than size `medium`.
-
-###Caching
-
-To improve performance, especially in image heavy posts, the output of Picturefill.WP is cached after it is generated. The cache will be refreshed automatically every time a post is updated or Picturefill.WP is updated. The cache can be manually refreshed by deactivating and reactivating Picturefill.WP from the plugins menu.
-
-If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
-
-    remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
-    add_filter('the_content', array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), 9999);
-
-If you still encounter problems with other plugins or theme features, you may want to disable caching all together. See the subsection on how to disable caching under the "Extending Picturefill.WP" section of the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp).
-
-###Errors and Warnings
-
-When using Picturefill.WP with your website, you may occasionally notice a warning very much like the following:
-
-    [Mon Jan 01 12:00:00 2000] [error] [client 999.999.99.99] PHP Warning: DOMDocument::loadHTML() [domdocument.loadhtml]: Unexpected end tag : a in Entity, line: 17 in /server/www/wp-content/plugins/picturefill/inc/class-model-picturefill-wp.php on line 20
-
-This error indicates improperly formed HTML. In this case, the `Unexpected end tag : a` comes from nested links. If you are seeing errors like this on your WordPress site, you may want to consider implementing an [error logging](http://codex.wordpress.org/Editing_wp-config.php#Configure_Error_Logging) system, or alternatively suppressing errors by adding `error_reporting(0);` and `@ini_set('display_errors', 0);` to `wp-config.php`.
-
-Additionally, the PHP DOM parser `DOMDocument` often has trouble with HTML5 elements and may throw an error if your post includes a `<canvas>` element, or a `<section>` element, for example. All the more reason to implement an error handling system on production sites.
 
 ###Extending Picturefill.WP
 
@@ -103,6 +108,18 @@ Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfie
 = Why does this plugin use an "adapted" version of picturefill.js =
 
 The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly diferent goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax. 
+
+== Advanced Use ==
+
+###Markup Tricks
+
+####Limit Responsiveness
+
+The responsiveness of an image can be limited by adding the class `min-size-{image size}`. For example, an image with the class `min-size-medium` will not load an image smaller than size `medium`.
+
+####Skip Images
+
+To skip images and load them normally add the attribute `data-picturefill-wp-ignore` to the `<img>` tag.
 
 == Changelog ==
 
