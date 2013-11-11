@@ -79,18 +79,89 @@ This error indicates improperly formed HTML. In this case, the `Unexpected end t
 
 Additionally, the PHP DOM parser `DOMDocument` often has trouble with HTML5 elements and may throw an error if your post includes a `<canvas>` element, or a `<section>` element, for example. All the more reason to implement an error handling system on production sites.
 
-Extending Picturefill.WP
+Extending and Customizing Picturefill.WP
 ------------------------
+
+###Helper Functions
+
+Picturefill.WP, as of version 1.3.0, includes a number of helper functions to simplify common customizations.
+
+####apply_picturefill_wp($filter, [$cache = ture, $priority = 11])
+
+Applies Picturefill.WP to additional content blocks with via filters.
+
+#####Example
+
+Applies Picturefill.WP to the output text of the WordPress Text widget.
+
+```php
+apply_picturefill_ep('widget_text');
+```
+
+####disable_picturefill_wp_cache([$priority = 11])
+
+Disables the transient cache.
+
+####set_picturefill_wp_cache_duration($cache_duration_in_seconds)
+
+Set the duration for the transient cache.
+
+#####Example
+
+Set the transient cache duration to one year (365 days). The default is 30 days.
+
+```php
+set_picturefill_wp_cache_duration(31536000);
+```
+
+####picturefill_wp_retina_only()
+
+Removes browser-width resposiveness.
+
+####picturefill_wp_remove_image_from_responsive_list($image_size)
+
+Remove an image size from the list of those served.
+
+#####Example
+
+Only respond down to image size "medium" by removing the "thumbnail" size from the list of images served.
+
+```php
+picturefill_wp_remove_image_from_responsive_list('thumbnail');
+```
+
+####picturefill_wp_add_image_size($name, [$width = 0, $height = 0, $crop = false, $insert_before 'thumbnail'])
+
+Create a new image size and add it to the list of responsive images.
+
+#####Example
+
+Add a new responsive image size in-between the "medium" and "large" image sizes.
+
+```php
+picturefill_wp_add_image_size('new_size', 550, 999, false, 'large');
+```
+
+####apply_picturefill_wp_to_post_thumbnail()
+
+Apply Picturefill.WP to the `post_thumbnail_html` filter and use the `post_thumbnail` image size.
+
+####minimize_picturefill_wp_output()
+
+Reduce the html output of the `span` elements.
+
+
+###Hooks
 
 Like many WordPress themes and plugins, Picturefill.WP can be altered and extended with action and and filter hooks.
 
-###Actions
+####Actions
 
 * `picturefill_wp_updated`
 * `picturefill_wp_before_replace_images`
 * `picturefill_wp_after_replace_images`
 
-###Filters
+####Filters
 
 * `picturefill_wp_the_content_filter_priority`
 * `picturefill_wp_content_html`
@@ -110,24 +181,8 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_cache_duration`
 
 
-###Helper Functions
-
-####apply_picturefill_wp($filter, [$cache, $priority])
-
-####disable_picturefill_wp_cache([$priority])
-
-####set_picturefill_wp_cache_duration($cache_duration_in_seconds)
-
-####picturefill_wp_retina_only()
-
-####picturefill_wp_remove_image_from_responsive_list($image_size)
-
-####picturefill_wp_add_image_size($name, $width, $height, $crop, $insert_before)
-
-####apply_picturefill_wp_to_post_thumbnail()
-
-####minimize_picturefill_wp_output()
-
+Use With Other Plugins
+----------------------
 
 ###Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
 
