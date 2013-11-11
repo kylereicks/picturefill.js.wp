@@ -101,9 +101,9 @@ Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
 
 See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp#extending-picturefillwp) subsection of the GitHub repository for a list of plugin hooks and examples.
 
-= Can I use this plugin with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)? =
+= Can I use this plugin with another plugin that I always use? =
 
-Yes. If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, see the subsection of the GitHub documentation [using Picturefill.WP with Advaned Custom Fields](https://github.com/kylereicks/picturefill.js.wp#using-picturefillwp-with-the-advanced-custom-fields-plugin).
+Probably. See the [using Picturefill.WP with other plugins](https://github.com/kylereicks/picturefill.js.wp#use-with-other-plugins) section of the documentation on GitHub for a few of the plugins that have been discovered may need special consideration.
 
 = Why does this plugin use an "adapted" version of picturefill.js =
 
@@ -120,6 +120,10 @@ The responsiveness of an image can be limited by adding the class `min-size-{ima
 ####Skip Images
 
 To skip images and load them normally add the attribute `data-picturefill-wp-ignore` to the `<img>` tag.
+
+###Helper Functions
+
+See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helper-functions) section of the documentatin on GitHub.
 
 == Changelog ==
 
