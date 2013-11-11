@@ -3,8 +3,8 @@ Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
-Tested up to: 3.6.1
-Stable tag: 1.2.6
+Tested up to: 3.7.1
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,10 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Changelog ==
 
+= 1.3.0 =
+* Add a number of helper functions to simplify common customizations
+* Run picturefill.js even when deferred until after the page is loaded
+
 = 1.2.6 =
 * Fix bug to output the correct width for @2x images.
 
@@ -174,5 +178,5 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Upgrade Notice ==
 
-= 1.2.6 =
-This version update fixes a bug which was preventing @2x images from responding as expected.
+= 1.3.0 =
+This version adds a number of helper functions to simplify common customizations. Check the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp/commits) for other details.
