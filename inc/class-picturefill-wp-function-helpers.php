@@ -8,6 +8,11 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
     private $image_sizes_to_remove = array();
     private $image_size_to_add = '';
     private $insert_before = '';
+    public $post_type_to_exclude = '';
+    public $post_id_to_exclude = '';
+    public $post_slug_to_exclude = '';
+    public $post_tag_to_exclude = '';
+    public $post_category_to_exclude = '';
 
     public static function retina_only($default_image_sizes, $image_attributes){
       if('full' === $image_attributes['size'][1]){
@@ -68,6 +73,38 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       add_filter('picturefill_wp_image_attachment_data', array($this, '_add_size_attachment_data'), 10, 2);
       add_filter('picturefill_wp_image_sizes', array($this, '_post_thumbnail_sizes'), 10, 2);
       $this->apply_to_filter('post_thumbnail_html');
+    }
+
+    public function exclude_post_type($post){
+      if($this->post_type_to_exclude === $post->post_type){
+        remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
+      }
+    }
+
+    public function exclude_post_id($post){
+      if($this->post_id_to_exclude === $post->ID){
+        remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
+      }
+    }
+
+    public function exclude_post_slug($post){
+      if($this->post_slug_to_exclude === $post->post_name){
+        remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
+      }
+    }
+
+    public function exclude_post_tag($post){
+      $post_tags = wp_get_post_tags($post->ID, array('fields' => 'names'));
+      if(in_array($this->post_tag_to_exclude, $post_tags){
+        remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
+      }
+    }
+
+    public function exclude_post_category($post){
+      $post_tags = wp_get_post_categories($post->ID, array('fields' => 'names'));
+      if(in_array($this->post_category_to_exclude, $post_tags){
+        remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
+      }
     }
 
     public function _post_thumbnail_sizes($default_image_sizes, $image_attributes){

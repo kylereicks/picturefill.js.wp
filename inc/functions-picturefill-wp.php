@@ -55,3 +55,38 @@ function minimize_picturefill_wp_output(){
   add_filter('picturefill_wp_picture_template', array('Picturefill_WP_Function_Helpers', 'remove_line_breaks'), 10, 2);
   add_filter('picturefill_wp_image_sizes', array('Picturefill_WP_Function_Helpers', 'retina_only'), 10, 2);
 }
+
+function picturefill_wp_exclude_post_type($post_type){
+  $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
+  $picturefill_wp_helpers->post_type_to_exclude = $post_type;
+
+  add_action('the_post', array($picturefill_wp_helpers, 'exclude_post_type'));
+}
+
+function picturefill_wp_exclude_post_id($post_id){
+  $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
+  $picturefill_wp_helpers->post_id_to_exclude = $post_id;
+
+  add_action('the_post', array($picturefill_wp_helpers, 'exclude_post_id'));
+}
+
+function picturefill_wp_exclude_post_slug($post_slug){
+  $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
+  $picturefill_wp_helpers->post_slug_to_exclude = $post_slug;
+
+  add_action('the_post', array($picturefill_wp_helpers, 'exclude_post_slug'));
+}
+
+function picturefill_wp_exclude_post_tag($post_tag){
+  $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
+  $picturefill_wp_helpers->post_tag_to_exclude = $post_tag;
+
+  add_action('the_post', array($picturefill_wp_helpers, 'exclude_post_tag'));
+}
+
+function picturefill_wp_exclude_post_category($post_category){
+  $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
+  $picturefill_wp_helpers->post_category_to_exclude = $post_category;
+
+  add_action('the_post', array($picturefill_wp_helpers, 'exclude_post_category'));
+}
