@@ -86,6 +86,14 @@ Extending and Customizing Picturefill.WP
 
 Picturefill.WP, as of version 1.3.0, includes a number of helper functions to simplify common customizations.
 
+For extra safety, it's a good idea to wrap your code that targets Picturefill.WP in a conditional statement so it will only run if the plugin is active.
+
+```php
+if(defined(PICTUREFILL_WP_VERSION)){
+  // Add Picturefill.WP specific code here.
+}
+```
+
 ####apply_picturefill_wp($filter, [$cache = ture, $priority = 11])
 
 Applies Picturefill.WP to additional content blocks with via filters.
@@ -95,7 +103,7 @@ Applies Picturefill.WP to additional content blocks with via filters.
 Applies Picturefill.WP to the output text of the WordPress Text widget.
 
 ```php
-apply_picturefill_ep('widget_text');
+apply_picturefill_wp('widget_text');
 ```
 
 ####disable_picturefill_wp_cache([$priority = 11])
@@ -172,7 +180,6 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_picture_attribute_string`
 * `picturefill_wp_media_query_breakpoint`
 * `picturefill_wp_media_query_resolution_query`
-* `picturefill_wp_template_path`
 * `picturefill_wp_template_path`
 * `picturefill_wp_{$template}_template_file_path`
 * `picturefill_wp_{$template}_template_data`
