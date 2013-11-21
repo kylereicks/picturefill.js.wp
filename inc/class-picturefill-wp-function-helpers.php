@@ -95,14 +95,14 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
 
     public function exclude_post_tag($post){
       $post_tags = wp_get_post_tags($post->ID, array('fields' => 'names'));
-      if(in_array($this->post_tag_to_exclude, $post_tags){
+      if(in_array($this->post_tag_to_exclude, $post_tags)){
         remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
       }
     }
 
     public function exclude_post_category($post){
       $post_tags = wp_get_post_categories($post->ID, array('fields' => 'names'));
-      if(in_array($this->post_category_to_exclude, $post_tags){
+      if(in_array($this->post_category_to_exclude, $post_tags)){
         remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
       }
     }
