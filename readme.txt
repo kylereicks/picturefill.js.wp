@@ -14,7 +14,7 @@ A Wordpress plugin to use picturefill.js to load responsive/retina images, mimic
 
 Picturefill.WP is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
 
-This plugin parses post and page content replacing images with a special syntax similar to the proposed syntax for the `picture` element, then uses an adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) to load the appropriate image to the browser.
+This plugin parses post and page content replacing images with a special syntax similar to the proposed syntax for the HTML5 `picture` element, then uses an adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) to load the appropriate image to the browser.
 
 ###Considerations before installing
 
@@ -56,11 +56,11 @@ If you still encounter problems with other plugins or theme features, you may wa
 
 == Details ==
 
-Picturefill.wp looks through `the_content` to find `<img>` elements like this:
+Picturefill.WP looks through `the_content` to find `<img>` elements like this:
 
     <img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg" width="770" height="577" />
 
-then replaces them with something like this:
+then replaces them with something like this (visit the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp#details) for a breakdown of the syntax):
 
     <span data-picture data-class="alignnone size-large wp-image-123" dat-alt="Accessible alternate text for the image" data-title="A title that displays on hover" data-width="770" data-height="577">
       <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg"></span>
