@@ -107,7 +107,11 @@ Probably. See the [using Picturefill.WP with other plugins](https://github.com/k
 
 = Why does this plugin use an "adapted" version of picturefill.js =
 
-The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly diferent goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax. 
+The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly diferent goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax.
+
+= Is the `<picture>` element really the direction responsive images are heading? =
+
+The debate over what to do about responsive images is still in flux, but at the moment general consensus has moved away from the `<picture>` element. Right now, `src-n` seems to be the favorite candidate, but we will all have to wait and see what ends up being implemented by browsers. Picturefill.WP was never intended to be a permanent solution for responsive images. One day (fingers crossed) a better solution for responsive images will be built into the browser and/or server. In the mean time, Picturefill.WP provides a serviceable solution that can be turned off at any time. Once deactivated, all images return to normal, as though the plugin had never been used.
 
 == Advanced Use ==
 
