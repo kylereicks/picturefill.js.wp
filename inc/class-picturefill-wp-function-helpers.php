@@ -8,6 +8,7 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
     private $image_sizes_to_remove = array();
     private $image_size_to_add = '';
     private $insert_before = '';
+    private $image_size_array = '';
     public $post_type_to_exclude = '';
     public $post_id_to_exclude = '';
     public $post_slug_to_exclude = '';
@@ -66,6 +67,12 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       add_filter('picturefill_wp_image_sizes', array($this, '_add_size_to_responsive_image_list'), 11, 2);
     }
 
+    public function set_responsive_image_sizes($image_size_array){
+      $this->image_size_array = $image_size_array;
+      $existing_image_sizes = get_intermediate_image_sizes();
+      add_filter('picturefill_wp_image_sizes', array($this, '_set_responsive_image_sizes'), 11, 2);
+    }
+
     public function apply_to_post_thumbnail(){
       $this->image_size_to_add = 'post-thumbnail';
       add_action('init', array($this, '_add_retina_post_thumbnail'));
@@ -105,6 +112,30 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       if(in_array($this->post_category_to_exclude, $post_tags)){
         remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
       }
+    }
+
+    public function _set_responsive_image_sizes($image_queue, $image_attributes){
+      global $_wp_additional_image_sizes;
+      $existing_image_sizes = get_intermediate_image_sizes();
+      $new_image_queue = array();
+      $minimum_reached = isset($image_attributes['min-size'][1]) ? false : true;
+      foreach($this->image_size_array as $image_name){
+        if('@2x' === substr($image_name, -3) || !in_array($image_name, $existing_image_sizes)){
+          return $image_queue;
+        }
+        if(!in_array($image_name . '@2x', $existing_image_sizes)){
+          add_image_size($image_name . '@2x', $_wp_additional_image_sizes[$image_name]['width'] * 2, $_wp_additional_image_sizes[$image_name]['height'] * 2, $_wp_additional_image_sizes[$image_name]['crop']);
+        }
+        if($minimum_reached || $image_attributes['min-size'][1] === $image_size){
+          $minimum_reached = true;
+          $new_image_queue[] = $image_name;
+          $new_image_queue[] = $image_name . '@2x';
+        }
+        if($image_name === $image_attributes['size'][1]){
+          return $new_image_queue;
+        }
+      }
+      return !empty($new_image_queue) && in_array($image_attributes['size'][1], $new_image_queue) ? $new_image_queue : $image_queue;
     }
 
     public function _post_thumbnail_sizes($default_image_sizes, $image_attributes){

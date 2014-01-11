@@ -171,6 +171,23 @@ Add a new responsive image size in-between the "medium" and "large" image sizes.
 picturefill_wp_add_image_size('new_size', 550, 999, false, 'large');
 ```
 
+####picturefill_wp_set_responsive_image_sizes($image_size_array)
+
+Set the list of responsive images with an array.
+
+#####Example
+
+```php
+$image_size_array = array('custom_small_size', 'thumbnail', 'extra-large');
+/* All image sizes included in the $image_size_array
+   must allready exist, either by default (thumbnail,
+   medium, and large) or by the add_image_size function.
+   Image sizes should be listed from smallest to largest
+   and should not include '@2x' sizes, these will be
+   added automatically. */
+picturefill_wp_set_responsive_image_sizes($image_size_array);
+```
+
 ####apply_picturefill_wp_to_post_thumbnail()
 
 Apply Picturefill.WP to the `post_thumbnail_html` filter and use the `post_thumbnail` image size.
