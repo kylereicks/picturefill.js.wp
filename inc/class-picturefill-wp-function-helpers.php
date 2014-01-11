@@ -63,7 +63,7 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
 
       add_filter('picturefill_wp_image_attachment_data', array($this, '_add_size_attachment_data'), 10, 2);
 
-      add_filter('picturefill_wp_image_sizes', '_add_size_to_responsive_image_list', 11, 2);
+      add_filter('picturefill_wp_image_sizes', array($this, '_add_size_to_responsive_image_list'), 11, 2);
     }
 
     public function apply_to_post_thumbnail(){
