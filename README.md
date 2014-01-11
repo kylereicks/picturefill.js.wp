@@ -110,7 +110,7 @@ Picturefill.WP, as of version 1.3.0, includes a number of helper functions to si
 For extra safety, it's a good idea to wrap your code that targets Picturefill.WP in a conditional statement so it will only run if the plugin is active.
 
 ```php
-if(defined(PICTUREFILL_WP_VERSION)){
+if(defined('PICTUREFILL_WP_VERSION')){
   // Add Picturefill.WP specific code here.
 }
 ```
