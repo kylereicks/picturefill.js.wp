@@ -264,3 +264,9 @@ function theme_function_for_acf_image($content, $name_of_the_image_field){
   return Picturefill_WP::get_instance()->cache_picturefill_output($content, $name_of_the_image_field);
 }
 ```
+
+###Using Picturefill.WP with the [Infinite Scroll Plugin](http://wordpress.org/plugins/infinite-scroll/)
+
+Picturefill.WP will replace any images that run through `the_content` filters with the picturefill HTML syntax, but picturefill.js is only run on page load and when the browser window is resized. It will not be run on any additional content added to the page after the page is loaded.
+
+To work with an infinate scroll plugin, `window.picturefill();` will need to be added as a callback function, to be called anytime new content has loaded. In the case of the [infinite scroll plugin](http://wordpress.org/plugins/infinite-scroll/) linked at the top, there is a callback field in the plugin options where `window.picturefill();` can be added.
