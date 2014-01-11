@@ -94,6 +94,12 @@ This error indicates improperly formed HTML. In this case, the `Unexpected end t
 
 Additionally, the PHP DOM parser `DOMDocument` often has trouble with HTML5 elements and may throw an error if your post includes a `<canvas>` element, or a `<section>` element, for example. All the more reason to implement an error handling system on production sites.
 
+####Slow Loading on Activation
+
+The first time a page or post is loaded after activating Picturefill.WP, new `@2x` size images will need to be created for the images in the post or page content. This can take several seconds and will take longer on image heavy posts. Once these images are created, posts should load at least as fast or faster than they do without the plugin.
+
+If you are installing Picturefill.WP on a large and image heavy site, you may want to consider using another plugin like [Regenerate Thumbnails](http://wordpress.org/plugins/regenerate-thumbnails/) to create the new image sizes for existing posts and pages.
+
 Extending and Customizing Picturefill.WP
 ------------------------
 
