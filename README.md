@@ -115,7 +115,7 @@ if(defined(PICTUREFILL_WP_VERSION)){
 }
 ```
 
-####apply_picturefill_wp($filter, [$cache = ture, $priority = 11])
+####apply_picturefill_wp($filter [, $cache = ture, $priority = 11])
 
 Applies Picturefill.WP to additional content blocks with via filters.
 
@@ -159,7 +159,7 @@ Only respond down to image size "medium" by removing the "thumbnail" size from t
 picturefill_wp_remove_image_from_responsive_list('thumbnail');
 ```
 
-####picturefill_wp_add_image_size($name, [$width = 0, $height = 0, $crop = false, $insert_before 'thumbnail'])
+####picturefill_wp_add_image_size($name [, $width = 0, $height = 0, $crop = false, $insert_before 'thumbnail'])
 
 Create a new image size and add it to the list of responsive images.
 
