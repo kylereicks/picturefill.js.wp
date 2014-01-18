@@ -3,7 +3,7 @@ Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
-Tested up to: 3.7.1
+Tested up to: 3.8
 Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -189,4 +189,4 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 == Upgrade Notice ==
 
 = 1.3.0 =
-This version adds a number of helper functions to simplify common customizations. Check the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp/commits) for other details.
+This version adds a number of helper functions to simplify common customizations. Check the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp/commits) for other details. I don't think there are any breaking changes in this update, but there are several new features that deal with customizing the functionality of the plugin. If you are using any custom functions to customize Picturefill.WP, please test version 1.3.0 on a development server before deploying live.
