@@ -3,8 +3,8 @@ Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
-Tested up to: 3.8
-Stable tag: 1.3.0
+Tested up to: 3.8.1
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,9 +115,13 @@ Probably. See the [using Picturefill.WP with other plugins](https://github.com/k
 
 The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly diferent goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax.
 
-= Is the `<picture>` element really the direction responsive images are heading? =
+= Is the <picture> element really the direction responsive images are heading? =
 
 The debate over what to do about responsive images is still in flux, but at the moment general consensus has moved away from the `<picture>` element. Right now, `src-n` seems to be the favorite candidate, but we will all have to wait and see what ends up being implemented by browsers. Picturefill.WP was never intended to be a permanent solution for responsive images. One day (fingers crossed) a better solution for responsive images will be built into the browser and/or server. In the mean time, Picturefill.WP provides a serviceable solution that can be turned off at any time. Once deactivated, all images return to normal, as though the plugin had never been used.
+
+**Update**
+
+[The picture element may be back in favor](http://filamentgroup.com/lab/ricg_update/).
 
 == Advanced Use ==
 
@@ -136,6 +140,9 @@ To skip images and load them normally add the attribute `data-picturefill-wp-ign
 See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helper-functions) section of the documentatin on GitHub.
 
 == Changelog ==
+
+= 1.3.1 =
+* Hotfix to correct an error in the `picturefill_wp_set_responsive_image_sizes` helper function.
 
 = 1.3.0 =
 * Add a number of helper functions to simplify common customizations
@@ -188,5 +195,5 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Upgrade Notice ==
 
-= 1.3.0 =
-This version adds a number of helper functions to simplify common customizations. Check the [GitHub repository](https://github.com/kylereicks/picturefill.js.wp/commits) for other details. I don't think there are any breaking changes in this update, but there are several new features that deal with customizing the functionality of the plugin. If you are using any custom functions to customize Picturefill.WP, please test version 1.3.0 on a development server before deploying live.
+= 1.3.1 =
+Hotfix to correct an error in the `picturefill_wp_set_responsive_image_sizes` helper function.
