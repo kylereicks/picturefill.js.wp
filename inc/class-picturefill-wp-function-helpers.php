@@ -8,7 +8,8 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
     private $image_sizes_to_remove = array();
     private $image_size_to_add = '';
     private $insert_before = '';
-    private $image_size_array = '';
+    private $image_size_array = array();
+    private $new_image_size_queue = array();
     public $post_type_to_exclude = '';
     public $post_id_to_exclude = '';
     public $post_slug_to_exclude = '';
@@ -69,8 +70,9 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
 
     public function set_responsive_image_sizes($image_size_array){
       $this->image_size_array = $image_size_array;
-      $existing_image_sizes = get_intermediate_image_sizes();
-      add_filter('picturefill_wp_image_sizes', array($this, '_set_responsive_image_sizes'), 11, 2);
+      $this->new_image_size_queue = $this->setup_responsive_image_sizes($image_size_array);
+      add_filter('picturefill_wp_image_sizes', array($this, '_set_responsive_image_sizes'), 10, 2);
+      add_filter('picturefill_wp_image_attachment_data', array($this, '_set_new_responsive_image_attachment_data'), 10, 2);
     }
 
     public function apply_to_post_thumbnail(){
@@ -115,27 +117,29 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
     }
 
     public function _set_responsive_image_sizes($image_queue, $image_attributes){
-      global $_wp_additional_image_sizes;
-      $existing_image_sizes = get_intermediate_image_sizes();
       $new_image_queue = array();
-      $minimum_reached = isset($image_attributes['min-size'][1]) ? false : true;
-      foreach($this->image_size_array as $image_name){
-        if('@2x' === substr($image_name, -3) || !in_array($image_name, $existing_image_sizes)){
-          return $image_queue;
-        }
-        if(!in_array($image_name . '@2x', $existing_image_sizes)){
-          add_image_size($image_name . '@2x', $_wp_additional_image_sizes[$image_name]['width'] * 2, $_wp_additional_image_sizes[$image_name]['height'] * 2, $_wp_additional_image_sizes[$image_name]['crop']);
-        }
-        if($minimum_reached || $image_attributes['min-size'][1] === $image_size){
+      $minimum_reached = empty($image_attributes['min-size'][1]) ? true : false;
+      foreach($this->new_image_size_queue as $image_name){
+        if($minimum_reached || $image_attributes['min-size'][1] === $image_name){
           $minimum_reached = true;
           $new_image_queue[] = $image_name;
           $new_image_queue[] = $image_name . '@2x';
         }
-        if($image_name === $image_attributes['size'][1]){
+        if($image_attributes['size'][1] === $image_name){
           return $new_image_queue;
         }
       }
-      return !empty($new_image_queue) && in_array($image_attributes['size'][1], $new_image_queue) ? $new_image_queue : $image_queue;
+      return !empty($new_image_queue) ? $new_image_queue : $image_queue;
+    }
+
+    public function _set_new_responsive_image_attachment_data($attachment_data, $id){
+      $new_attachment_data = array();
+
+      foreach($this->new_image_size_queue as $size){
+        $new_attachment_data[$size] = wp_get_attachment_image_src($id, $size);
+      }
+
+      return !empty($new_attachment_data) ? $new_attachment_data : $attachment_data;
     }
 
     public function _post_thumbnail_sizes($default_image_sizes, $image_attributes){
@@ -190,6 +194,23 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
 
     public function _remove_image_from_responsive_list($image_sizes, $image_attributes){
       return array_diff($image_sizes, $this->image_sizes_to_remove);
+    }
+
+    private function setup_responsive_image_sizes($image_size_array){
+      global $_wp_additional_image_sizes;
+      $existing_image_sizes = get_intermediate_image_sizes();
+      $new_image_queue = array();
+      foreach($image_size_array as $image_name){
+        if('@2x' === substr($image_name, -3) || !in_array($image_name, $existing_image_sizes)){
+          return $image_queue;
+        }
+        if(!in_array($image_name . '@2x', $existing_image_sizes)){
+          add_image_size($image_name . '@2x', $_wp_additional_image_sizes[$image_name]['width'] * 2, $_wp_additional_image_sizes[$image_name]['height'] * 2, $_wp_additional_image_sizes[$image_name]['crop']);
+        }
+        $new_image_queue[] = $image_name;
+//        $new_image_queue[] = $image_name . '@2x';
+      }
+      return $new_image_queue;
     }
   }
 }
