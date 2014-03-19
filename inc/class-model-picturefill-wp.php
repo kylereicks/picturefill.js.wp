@@ -17,6 +17,20 @@ if(!class_exists('Model_Picturefill_WP')){
       return new DOMDocument();
     }
 
+    static function syntax_present($DOMDocument, $html){
+      $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
+      $spans = $DOMDocument->getElementsByTagName('span');
+      if(0 === $spans->length){
+        return false;
+      }
+      foreach($spans as $span){
+        if($span->hasAttribute('data-picture')){
+          return true;
+        }
+      }
+      return false;
+    }
+
     static function get_images($DOMDocument, $html){
       $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
       return $DOMDocument->getElementsByTagName('img');

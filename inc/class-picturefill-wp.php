@@ -97,6 +97,8 @@ if(!class_exists('Picturefill_WP')){
             $html = str_replace($view_picturefill_wp->get_original_image(), $view_picturefill_wp->render_template('picture'), $html);
           }
         }
+      }elseif(true === Model_Picturefill_WP::syntax_present($DOMDocument, $html)){
+        wp_enqueue_script('picturefill');
       }
       do_action('picturefill_wp_after_replace_images');
       return apply_filters('picturefill_wp_replace_images_output', $html);
