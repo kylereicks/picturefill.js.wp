@@ -34,7 +34,7 @@
           if( !picImg ){
             picImg = w.document.createElement( "img" );
             for(var ia = 0, atts = ps[i].attributes.length; ia < atts; ia++){
-              if(ps[i].attributes[ia].name && 'data-picture' !== ps[i].attributes[ia].name){
+              if(ps[i].attributes[ia].name && ps[i].attributes[ia].nodeValue && 'data-picture' !== ps[i].attributes[ia].name){
                 picImg.setAttribute(ps[i].attributes[ia].name.substring('data-'.length), ps[i].attributes[ia].nodeValue);
               }
             }
