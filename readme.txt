@@ -3,8 +3,8 @@ Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
-Tested up to: 3.8.1
-Stable tag: 1.3.1
+Tested up to: 3.9
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,7 +44,7 @@ Additionally, the PHP DOM parser `DOMDocument` often has trouble with HTML5 elem
 
 ####Theme CSS
 
-As described in the Details section, the picturefill.js syntax uses nested `span` elements. If a theme's CSS applies styles to un-classed `span` elements, you may notice some of these `span`s showing up unexpectedly on the page after activating Picturefill.WP. If possible, it is best to remove the offending code from your theme files, but adding the flowing to the bottom of your theme's CSS file should also work to reset these styles.
+As described in the [Details section](https://wordpress.org/plugins/picturefillwp/other_notes/), the picturefill.js syntax uses nested `span` elements. If a theme's CSS applies styles to un-classed `span` elements, you may notice some of these `span`s showing up unexpectedly on the page after activating Picturefill.WP. If possible, it is best to remove the offending code from your theme files, but adding the flowing to the bottom of your theme's CSS file should also work to reset these styles.
 
     span[data-picture]{display:inline;margin:0;padding:0;border:0;}
     span[data-picture] span{display:inline;margin:0;padding:0;border:0;}
@@ -115,13 +115,9 @@ Probably. See the [using Picturefill.WP with other plugins](https://github.com/k
 
 The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly diferent goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax.
 
-= Is the <picture> element really the direction responsive images are heading? =
+= Is the picture element really the direction responsive images are heading? =
 
-The debate over what to do about responsive images is still in flux, but at the moment general consensus has moved away from the `<picture>` element. Right now, `src-n` seems to be the favorite candidate, but we will all have to wait and see what ends up being implemented by browsers. Picturefill.WP was never intended to be a permanent solution for responsive images. One day (fingers crossed) a better solution for responsive images will be built into the browser and/or server. In the mean time, Picturefill.WP provides a serviceable solution that can be turned off at any time. Once deactivated, all images return to normal, as though the plugin had never been used.
-
-**Update**
-
-[The picture element may be back in favor](http://filamentgroup.com/lab/ricg_update/).
+The debate over what to do about responsive images has been long and vigorous, but the `picture` element is happening. The major browsers have anounced that they will be adding support in the very near future. The future of this plugin will depend on what that support looks like, both in the browser and in the WordPress core. Picturefill.WP was never intended to be a permanent solution for responsive images. One day soon, it may be completely unnecessary. In the mean time, Picturefill.WP provides a serviceable solution that can be turned off at any time. Once deactivated, all images return to normal, as though the plugin had never been used.
 
 == Advanced Use ==
 
@@ -140,6 +136,10 @@ To skip images and load them normally add the attribute `data-picturefill-wp-ign
 See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helper-functions) section of the documentatin on GitHub.
 
 == Changelog ==
+
+= 1.3.1 =
+* Correct an IE7 JavaScript issue.
+* Check the filtered content for the picturefill syntax instead of images only.
 
 = 1.3.1 =
 * Hotfix to correct an error in the `picturefill_wp_set_responsive_image_sizes` helper function.
@@ -195,5 +195,5 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Upgrade Notice ==
 
-= 1.3.1 =
-Hotfix to correct an error in the `picturefill_wp_set_responsive_image_sizes` helper function.
+= 1.3.2 =
+Corrects an issue with IE7 and below, and enqueues picturefill.js when manual picturefill syntax is present.
