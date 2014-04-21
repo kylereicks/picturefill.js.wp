@@ -87,7 +87,7 @@ if(!class_exists('Picturefill_WP')){
         wp_enqueue_script('picturefill');
         $html = View_Picturefill_WP::standardize_img_tags($html);
         foreach($images as $image){
-          if('noscript' !== $image->parentNode->tagName && !$image->hasAttribute('data-picturefill-wp-ignore')){
+          if('picture' !== $image->parentNode->tagName && !$image->hasAttribute('data-picturefill-wp-ignore')){
             $model_picturefill_wp = new Model_Picturefill_WP($DOMDocument, $image);
             $view_picturefill_wp = new View_Picturefill_WP($model_picturefill_wp);
 
