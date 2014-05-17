@@ -220,11 +220,11 @@ if(!class_exists('Model_Picturefill_WP')){
 
       $image_sizes = array(
         'full',
-        'large@2x',
+//        'large@2x',
         'large',
-        'medium@2x',
+//        'medium@2x',
         'medium',
-        'thumbnail@2x',
+//        'thumbnail@2x',
         'thumbnail'
       );
 
