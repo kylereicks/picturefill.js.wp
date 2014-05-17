@@ -53,7 +53,7 @@ if(!class_exists('View_Picturefill_WP')){
       }
 
       foreach($image_attributes as $attribute => $value){
-        $output_string .= !empty($value) && !is_array($value) && !in_array($attribute, $ignore_attributes) ? ' data-' . $attribute . '="' . html_entity_decode($value, ENT_COMPAT, 'UTF-8') . '"' : '';
+        $output_string .= !empty($value) && !is_array($value) && !in_array($attribute, $ignore_attributes) ? ' ' . $attribute . '="' . html_entity_decode($value, ENT_COMPAT, 'UTF-8') . '"' : '';
       }
 
       return apply_filters('picturefill_wp_picture_attribute_string', $output_string);
@@ -69,6 +69,15 @@ if(!class_exists('View_Picturefill_WP')){
 
     public function get_image_src($image_size){
       return $this->image_attachment_data[$image_size][0];
+    }
+
+    public function get_image_srcset($image_size){
+      $srcset_string = '';
+      $srcset_string .= $this->image_attachment_data[$image_size][0];
+      if(!empty($this->image_attachment_data[$image_size . '@2x'])){
+        $srcset_string .= ', ' . $this->image_attachment_data[$image_size . '@2x'][0] . ' 2x';
+      }
+      return $srcset_string;
     }
 
     public function get_image_width($image_size){
@@ -102,10 +111,11 @@ if(!class_exists('View_Picturefill_WP')){
         $breakpoint = 0 === array_search(substr($image_size, 0, -3), $this->image_sizes) ? 1 : $width + 20;
       }else{
         $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
-        $breakpoint = 0 === array_search($image_size, $this->image_sizes) ? 1 : $width + 20;
+//        $breakpoint = 0 === array_search($image_size, $this->image_sizes) ? 1 : $width + 20;
+        $breakpoint = $width + 20;
       }
       $resolution_query = '@2x' === substr($image_size, -3) ? ' and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)' : '';
-      return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width, $this->image_attributes, $this->image_attachment_data, $this->image_sizes) . 'px)' . apply_filters('picturefill_wp_media_query_resolution_query', $resolution_query, $image_size);
+      return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width, $this->image_attributes, $this->image_attachment_data, $this->image_sizes) . 'px)';
     }
 
     // Render templates
