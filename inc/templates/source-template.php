@@ -1,1 +1,1 @@
-<source srcset="<?php echo $view_picturefill_wp->get_image_src($image_size); ?>" data-width="<?php echo $view_picturefill_wp->get_image_width($image_size); ?>" data-height="<?php echo $view_picturefill_wp->get_image_height($image_size); ?>" media="<?php echo $view_picturefill_wp->get_media_query($image_size); ?>" class="<?php echo $view_picturefill_wp->get_source_class($image_size); ?>">
+<source srcset="<?php echo $view_picturefill_wp->get_image_srcset($image_size); ?>" media="<?php echo $view_picturefill_wp->get_media_query($image_size); ?>">
