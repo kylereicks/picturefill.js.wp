@@ -18,7 +18,11 @@ if(!class_exists('Model_Picturefill_WP')){
     }
 
     static function syntax_present($DOMDocument, $html){
+      $libxml_previous_error_state = libxml_use_internal_errors(true);
       $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
+      apply_filters('picturefill_wp_syntax_present_libxml_errors', libxml_get_errors(), $html, $DOMDocument);
+      libxml_clear_errors();
+      libxml_use_internal_errors($libxml_previous_error_state);
       $spans = $DOMDocument->getElementsByTagName('span');
       if(0 === $spans->length){
         return false;
@@ -32,7 +36,11 @@ if(!class_exists('Model_Picturefill_WP')){
     }
 
     static function get_images($DOMDocument, $html){
+      $libxml_previous_error_state = libxml_use_internal_errors(true);
       $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
+      apply_filters('picturefill_wp_get_images_libxml_errors', libxml_get_errors(), $html, $DOMDocument);
+      libxml_clear_errors();
+      libxml_use_internal_errors($libxml_previous_error_state);
       return $DOMDocument->getElementsByTagName('img');
     }
 
