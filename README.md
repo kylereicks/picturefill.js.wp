@@ -84,15 +84,17 @@ If you still encounter problems with other plugins or theme features, you may wa
 
 ###Errors and Warnings
 
-When using Picturefill.WP with your website, you may occasionally notice a warning very much like the following:
+As of version 1.3.3 Picturefill.WP suppresses errors and warnings in parsing the DOM. Errors and warnings can now be collected via the `picturefill_wp_syntax_present_libxml_errors` and `picturefill_wp_get_images_libxml_errors` filters.
 
 ```php
-[Mon Jan 01 12:00:00 2000] [error] [client 999.999.99.99] PHP Warning: DOMDocument::loadHTML() [domdocument.loadhtml]: Unexpected end tag : a in Entity, line: 17 in /server/www/wp-content/plugins/picturefill/inc/class-model-picturefill-wp.php on line 20
+add_filter('picturefill_wp_get_images_libxml_errors', 'handle_errors');
+
+function handle_errors($errors){
+  foreach($errors as $error){
+    // Handle errors here.
+  }
+}
 ```
-
-This error indicates improperly formed HTML. In this case, the `Unexpected end tag : a` comes from nested links. If you are seeing errors like this on your WordPress site, you may want to consider implementing an [error logging](http://codex.wordpress.org/Editing_wp-config.php#Configure_Error_Logging) system, or alternatively suppressing errors by adding `error_reporting(0);` and `@ini_set('display_errors', 0);` to `wp-config.php`.
-
-Additionally, the PHP DOM parser `DOMDocument` often has trouble with HTML5 elements and may throw an error if your post includes a `<canvas>` element, or a `<section>` element, for example. All the more reason to implement an error handling system on production sites.
 
 ####Slow Loading on Activation
 
@@ -224,6 +226,8 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_{$template}_template`
 * `picturefill_wp_the_content_output`
 * `picturefill_wp_cache_duration`
+* `picturefill_wp_syntax_present_libxml_errors`
+* `picturefill_wp_get_images_libxml_errors`
 
 
 Use With Other Plugins
