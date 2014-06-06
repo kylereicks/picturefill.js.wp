@@ -102,6 +102,10 @@ The first time a page or post is loaded after activating Picturefill.WP, new `@2
 
 If you are installing Picturefill.WP on a large and image heavy site, you may want to consider using another plugin like [Regenerate Thumbnails](http://wordpress.org/plugins/regenerate-thumbnails/) to create the new image sizes for existing posts and pages.
 
+####500 or 504 server errors
+
+These errors are related to the slow loading listed above. If the server reaches its timeout limit before it is finished processing new images, it will return a 500 or 504 error. Refreshing the page usually gives the server the time it needs to finish processing the images. On some image-heavy posts, it may take more than one refresh.
+
 Extending and Customizing Picturefill.WP
 ------------------------
 
