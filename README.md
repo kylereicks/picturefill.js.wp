@@ -282,3 +282,41 @@ To work with an infinate scroll plugin, `window.picturefill();` will need to be 
 ###Using Picturefill.WP with the [NextGen Gallery](http://wordpress.org/plugins/nextgen-gallery/)
 
 NextGen Image Gallery uses custom database tables and custom folders for images, both of which cause trouble with Picturefill.WP. There are a few [ways to make things work with NextGen Gallery < 2.0](http://wordpress.org/support/topic/nextgen-2x-images), but no solution for version 2.0 or greater has come forward.
+
+###Using Picturefill.WP with the [Woocommerce Shopping Cart](http://wordpress.org/plugins/woocommerce/)
+
+The transient caching in Picturefill.WP causes a conflict with the way Woocommerce loads their shopping cart. [See the issue here](http://wordpress.org/support/topic/crashes-woocommerce-shopping-cart). Possible solutions include:
+
+Disabling transient caching altogether.
+
+In functions.php:
+```php
+if(defined('PICTUREFILL_WP_VERSION')){
+  disable_picturefill_wp_cache();
+}
+```
+
+Disabling transient caching on the cart shortcode.
+
+In functions.php:
+```php
+if(defined('PICTUREFILL_WP_VERSION')){
+  add_filter('the_content', 'do_not_cache_woocommerce_cart');
+}
+
+function do_not_cache_woocommerce_cart($content){
+  if(has_shortcode($content, 'woocommerce_cart')){
+    disable_picturefill_wp_cache();
+  }
+  return $content;
+}
+```
+
+Telling Picturefill.WP to ignore the shopping cart.
+
+In functions.php:
+```php
+if(defined('PICTUREFILL_WP_VERSION')){
+  picturefill_wp_exclude_post_slug('cart');
+}
+```
