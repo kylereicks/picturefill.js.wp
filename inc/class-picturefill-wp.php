@@ -64,14 +64,14 @@ if(!class_exists('Picturefill_WP')){
       global $wp_scripts;
       $html_hash = md5($html);
       $cache_duration = apply_filters('picturefill_wp_cache_duration', 86400);
-      $cached_output = get_transient('picturefill_wp_' . $html_hash . '_output');
+      $cached_output = get_transient('picturefill_wp_output_' . $html_hash);
       if(!empty($cached_output)){
         wp_enqueue_script('picturefill');
         return $cached_output;
       }else{
         $output = $this->replace_images($html);
         if($output !== $html){
-          set_transient('picturefill_wp_' . $html_hash . '_output', $output, $cache_duration);
+          set_transient('picturefill_wp _output_' . $html_hash, $output, $cache_duration);
         }
         return $output;
       }
