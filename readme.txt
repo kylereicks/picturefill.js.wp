@@ -121,9 +121,10 @@ Probably. See the [using Picturefill.WP with other plugins](https://github.com/k
 
 The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly diferent goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax.
 
-= Is the picture element really the direction responsive images are heading? =
+= Are there any plans to update this plugin to Picturefill 2.0 =
 
-The debate over what to do about responsive images has been long and vigorous, but the `picture` element is happening. The major browsers have anounced that they will be adding support in the very near future. The future of this plugin will depend on what that support looks like, both in the browser and in the WordPress core. Picturefill.WP was never intended to be a permanent solution for responsive images. One day soon, it may be completely unnecessary. In the mean time, Picturefill.WP provides a serviceable solution that can be turned off at any time. Once deactivated, all images return to normal, as though the plugin had never been used.
+A new version of Picturefill.WP using Picturefill 2.x is in the works. Because of significant diferences between Picturefill 1.x and Picturefill 2.x, the new Picturefill.WP 2 will be maintained alongside the original Picteufill.WP 1.3.x. I will update this plugin with more details as they become available.
+
 
 == Advanced Use ==
 
