@@ -3,8 +3,8 @@ Contributors: kylereicks
 Donate link: http://shakopee.dollarsforscholars.org/
 Tags: images, retina, retina images, responsive images, picturefill, picturefillJS, picturefill.js, HDPI, High DPI
 Requires at least: 3.2
-Tested up to: 3.9
-Stable tag: 1.3.2
+Tested up to: 3.9.1
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -143,6 +143,10 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Changelog ==
 
+= 1.3.3 =
+* [Suppress warnings](https://github.com/kylereicks/picturefill.js.wp/issues/29) from DOM parsing
+* [Update transient caching](https://github.com/kylereicks/picturefill.js.wp/issues/31) to use a hash as an identifier. 
+
 = 1.3.1 =
 * Correct an IE7 JavaScript issue.
 * Check the filtered content for the picturefill syntax instead of images only.
@@ -201,5 +205,5 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Upgrade Notice ==
 
-= 1.3.2 =
-Corrects an issue with IE7 and below, and enqueues picturefill.js when manual picturefill syntax is present.
+= 1.3.3 =
+[Suppress warnings](https://github.com/kylereicks/picturefill.js.wp/issues/29) from DOM parsing and [update transient caching](https://github.com/kylereicks/picturefill.js.wp/issues/31) to use a hash as an identifier. 
