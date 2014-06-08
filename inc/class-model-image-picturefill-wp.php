@@ -51,7 +51,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       $this->set_image_attachment_data($this->image_attributes['attachment_id']);
       $this->set_unadjusted_image_size();
       $this->set_image_sizes();
-      print_r($this->parent_model);
+//      print_r($this->parent_model);
     }
 
     // Methods to retrieve object data
