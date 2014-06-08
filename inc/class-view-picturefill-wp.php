@@ -68,14 +68,14 @@ if(!class_exists('View_Picturefill_WP')){
     }
 
     public function get_image_src($image_size){
-      return $this->image_attachment_data[$image_size][0];
+      return $this->image_attachment_data[$image_size]['url'];
     }
 
     public function get_image_srcset($image_size){
       $srcset_string = '';
-      $srcset_string .= $this->image_attachment_data[$image_size][0];
+      $srcset_string .= $this->image_attachment_data[$image_size]['url'];
       if(!empty($this->image_attachment_data[$image_size . '@2x'])){
-        $srcset_string .= ', ' . $this->image_attachment_data[$image_size . '@2x'][0] . ' 2x';
+        $srcset_string .= ', ' . $this->image_attachment_data[$image_size . '@2x']['url'] . ' 2x';
       }
       return $srcset_string;
     }
@@ -84,14 +84,14 @@ if(!class_exists('View_Picturefill_WP')){
       if('@2x' === substr($image_size, -3)){
         $image_size = substr($image_size, 0, -3);
       }
-      return $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
+      return $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size]['width'];
     }
 
     public function get_image_height($image_size){
       if('@2x' === substr($image_size, -3)){
         $image_size = substr($image_size, 0, -3);
       }
-      return $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['height'] : $this->image_attachment_data[$image_size][2];
+      return $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['height'] : $this->image_attachment_data[$image_size]['height'];
     }
 
     public function get_source_class($image_size){
@@ -107,10 +107,10 @@ if(!class_exists('View_Picturefill_WP')){
 
     public function get_media_query($image_size){
       if('@2x' === substr($image_size, -3)){
-        $width = substr($image_size, 0, -3) === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[substr($image_size, 0, -3)][1];
+        $width = substr($image_size, 0, -3) === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[substr($image_size, 0, -3)]['width'];
         $breakpoint = 0 === array_search(substr($image_size, 0, -3), $this->image_sizes) ? 1 : $width + 20;
       }else{
-        $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size][1];
+        $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size]['width'];
 //        $breakpoint = 0 === array_search($image_size, $this->image_sizes) ? 1 : $width + 20;
         $breakpoint = $width + 20;
       }
