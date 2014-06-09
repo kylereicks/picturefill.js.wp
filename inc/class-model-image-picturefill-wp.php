@@ -358,7 +358,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
           foreach($source_sets as $set){
             $single_source_set[0][] = $set[0];
           }
-          $this->srcset_array = apply_filters('picturefill_wp_image_sizes', array_reverse($single_source_set), $image_attributes);
+          $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $single_source_set, $image_attributes);
         }else{
           $this->srcset_array = apply_filters('picturefill_wp_image_sizes', array_reverse($source_sets), $image_attributes);
         }
