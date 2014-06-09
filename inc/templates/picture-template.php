@@ -1,6 +1,12 @@
 <picture>
-  <?php /* echo $view_picturefill_wp->render_template('fallback-source');*/ ?>
-  <?php echo $view_picturefill_wp->generate_source_list(); ?>
-  <?php /* echo $view_picturefill_wp->render_template('noscript');*/ ?>
-  <?php echo preg_replace('/\s(?:width|height)="[^"]+"/', '', str_replace(' src="', ' srcset="', $view_picturefill_wp->get_original_image())); ?>
+<?php
+$number_of_srcsets = count($this->model->get_srcset_array()) - 1;
+foreach($this->model->get_srcset_array() as $index => $source_array){
+  if($index < $number_of_srcsets){
+    echo $view->render_template('source', $source_array);
+  }else{
+    echo $view->render_template('image', $source_array);
+  }
+}
+?>
 </picture>
