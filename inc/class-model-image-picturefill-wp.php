@@ -4,15 +4,14 @@ if(!class_exists('Model_Image_Picturefill_WP')){
   class Model_Image_Picturefill_WP{
 
     // Input variables
+    private $parent_model;
     private $DOMDocument;
     private $image;
 
     // Object variables
-    private $parent_model;
     private $options = array();
     private $image_attributes = array();
     private $image_attachment_data = array();
-    private $image_sizes = array();
     private $srcset_array = array();
     private $upload_subdir = '';
 
@@ -63,10 +62,6 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
     public function get_image_attachment_data(){
       return $this->image_attachment_data;
-    }
-
-    public function get_image_sizes(){
-      return $this->image_sizes;
     }
 
     public function get_image_xml(){
