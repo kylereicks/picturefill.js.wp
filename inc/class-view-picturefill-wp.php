@@ -44,9 +44,12 @@ if(!class_exists('View_Picturefill_WP')){
       $output_string = '';
 
       $ignore_attributes = array(
-        'src',
         'attachment_id'
       );
+
+      if(!$this->model->get_option('output_src')){
+        $ignore_attributes[] = 'src';
+      }
 
       if(!$this->model->get_option('explicit_width')){
         $ignore_attributes[] = 'width';
@@ -72,12 +75,6 @@ if(!class_exists('View_Picturefill_WP')){
       return $this->image_attachment_data[$image_size]['url'];
     }
 
-    public function get_src_attribute(){
-      if($this->model->get_option('output_src')){
-        return ' src="' . $this->image_attributes['src'] . '"';
-      }
-    }
-
     public function format_srcset($sizes){
       $srcset_components = array();
 
@@ -87,17 +84,6 @@ if(!class_exists('View_Picturefill_WP')){
       }
 
       return implode(', ', $srcset_components);
-    }
-
-    public function get_source_class($image_size){
-      $class = 'picturefill-wp-source';
-      if('@2x' === substr($image_size, -3)){
-        $class .= ' retina';
-        $class .= ' ' . substr($image_size, 0, strlen($image_size) - 3);
-      }else{
-        $class .= ' ' . $image_size;
-      }
-      return $class;
     }
 
     public function get_media_query($srcset_array){
