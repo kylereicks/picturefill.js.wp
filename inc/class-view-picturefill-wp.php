@@ -46,6 +46,7 @@ if(!class_exists('View_Picturefill_WP')){
       return apply_filters('picturefill_wp_source_list', $output);
     }
 
+    /*
     public function get_picture_attribute_string(){
       $image_attributes = $this->image_attributes;
 
@@ -67,6 +68,7 @@ if(!class_exists('View_Picturefill_WP')){
 
       return apply_filters('picturefill_wp_picture_attribute_string', $output_string);
     }
+     */
 
     public function get_image_attribute_string(){
       $image_attributes = $this->image_attributes;
@@ -100,6 +102,12 @@ if(!class_exists('View_Picturefill_WP')){
 
     public function get_image_src($image_size){
       return $this->image_attachment_data[$image_size]['url'];
+    }
+
+    public function get_src_attribute(){
+      if($this->model->get_option('output_src')){
+        return ' src="' . $this->image_attributes['src'] . '"';
+      }
     }
 
     /*

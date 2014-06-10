@@ -16,6 +16,7 @@ if(!class_exists('Model_Picturefill_WP')){
 
       $this->options = array(
         'use_sizes' => false,
+        'output_src' => false,
         'explicit_width' => false,
         'create_missing_images' => false
       );
