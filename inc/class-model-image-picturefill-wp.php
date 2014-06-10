@@ -53,10 +53,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       $this->set_image_attributes();
       $this->set_image_attachment_data($this->image_attributes['attachment_id']);
       $this->set_unadjusted_image_size();
-//      $this->set_image_sizes();
       $this->set_srcset_array();
-//      print_r($this->parent_model);
-//      print_r($this);
     }
 
     // Methods to retrieve object data
@@ -264,63 +261,6 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
       return $attachment_data;
     }
-
-    /*
-    private function set_image_sizes(){
-      $image_attributes = $this->image_attributes;
-
-      if(false === $image_attributes['attachment_id']){
-        return false;
-      }
-
-      $image_sizes = array(
-        'full',
-//        'large@2x',
-        'large',
-//        'medium@2x',
-        'medium',
-//        'thumbnail@2x',
-        'thumbnail'
-      );
-
-      if(!empty($image_attributes['size'])){
-        if('full' === $image_attributes['size'][1]){
-          $image_attachment_data = $this->image_attachment_data;
-          array_shift($image_sizes);
-          foreach($image_sizes as $size){
-            if(!empty($image_attachment_data[$size]) && $image_attachment_data['full']['width'] > $image_attachment_data[$size]['width']){
-              break;
-            }
-            if(false === strstr($size, '@2x')){
-              array_shift($image_sizes);
-              array_shift($image_sizes);
-            }
-          }
-          array_unshift($image_sizes, 'full');
-        }else{
-          foreach($image_sizes as $size){
-            if($image_attributes['size'][1] === $size || $image_attributes['size'][1] . '@2x' === $size){
-              break;
-            }
-            array_shift($image_sizes);
-          }
-        }
-
-        $image_sizes = array_reverse($image_sizes);
-
-        if(!empty($image_attributes['min_size'])){
-          foreach($image_sizes as $size){
-            if($image_attributes['min_size'][1] === $size){
-              break;
-            }
-            array_shift($image_sizes);
-          }
-        }
-
-        $this->image_sizes = apply_filters('picturefill_wp_image_sizes', array_reverse($image_sizes), $image_attributes);
-      }
-    }
-     */
 
     private function set_srcset_array(){
       $image_attributes = $this->image_attributes;
