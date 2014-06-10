@@ -161,6 +161,12 @@ if(!class_exists('View_Picturefill_WP')){
       return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width, $this->image_attributes, $this->image_attachment_data, $this->image_sizes) . 'px)';
     }
 
+    public function get_sizes(){
+      if($this->model->get_option('use_sizes')){
+        return !empty($this->model->get_sizes_string()) ? ' sizes="' . $this->model->get_sizes_string() . '"' : ' sizes="100vw"';
+      }
+    }
+
     // Render templates
     public function render_template($template, $template_data = array()){
 //      print_r(count($this->model->get_srcset_array()));

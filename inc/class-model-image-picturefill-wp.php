@@ -96,6 +96,16 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       return '';
     }
 
+    public function get_sizes_string($image_size = null){
+      if(!empty($this->image_attributes['sizes'])){
+        return $this->image_attributes['sizes'];
+      }
+      if(empty($image_size)){
+        $image_size = $this->image_attributes['size'][1];
+      }
+      return $this->parent_model->get_sizes_string($image_size);
+    }
+
     public function get_option($option_name){
       return $this->options[$option_name];
     }

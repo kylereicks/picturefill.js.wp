@@ -55,6 +55,10 @@ if(!class_exists('Model_Picturefill_WP')){
       }
     }
 
+    public function get_sizes_string($image_size){
+      return $this->source_sets[$image_size]['sizes']['sizes_string'];
+    }
+
     private function set_source_sets(){
       $source_sets = array();
 
