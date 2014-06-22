@@ -311,15 +311,14 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     }
 
     public static function url_to_attachment_id($image_url){
-      global $wpdb;
       $original_image_url = $image_url;
       $image_url = preg_replace('/^(.+?)(-\d+x\d+)?\.(jpg|jpeg|png|gif)((?:\?|#).+)?$/i', '$1.$3', $image_url);
-      $prefix = $wpdb->prefix;
-      $attachment_id = $wpdb->get_col($wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $image_url ));
+      $prefix = Picturefill_WP::$wpdb->prefix;
+      $attachment_id = Picturefill_WP::$wpdb->get_col(Picturefill_WP::$wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $image_url ));
       if(!empty($attachment_id)){
         return $attachment_id[0];
       }else{
-        $attachment_id = $wpdb->get_col($wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $original_image_url ));
+        $attachment_id = Picturefill_WP::$wpdb->get_col(Picturefill_WP::$wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $original_image_url ));
       }
       return !empty($attachment_id) ? $attachment_id[0] : false;
     }

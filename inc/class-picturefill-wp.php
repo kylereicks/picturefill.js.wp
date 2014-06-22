@@ -3,7 +3,7 @@ defined('ABSPATH') OR exit;
 if(!class_exists('Picturefill_WP')){
   class Picturefill_WP{
 
-    private static $wpdb;
+    public static $wpdb;
     private $model;
 
     // Setup singleton pattern
@@ -35,14 +35,14 @@ if(!class_exists('Picturefill_WP')){
     }
 
     public static function clear_picturefill_wp_options(){
-      $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'%picturefill_wp%\'');
+      $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . self::$wpdb->options . ' WHERE option_name LIKE \'%picturefill_wp%\'');
       foreach($picturefill_wp_transients as $transient){
         delete_option($transient);
       }
     }
 
     public static function clear_picturefill_wp_transients(){
-      $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'%_picturefill_wp%\'');
+      $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . self::$wpdb->options . ' WHERE option_name LIKE \'%_picturefill_wp%\'');
       foreach($picturefill_wp_transients as $transient){
         delete_option($transient);
       }
@@ -50,7 +50,7 @@ if(!class_exists('Picturefill_WP')){
 
     // Constructor, add actions and filters
     private function __construct(){
-      add_action('muplugins_loaded', array('Picturefill_WP', 'set_wpdb'));
+      add_action('init', array('Picturefill_WP', 'set_wpdb'));
       add_action('init', array($this, 'add_image_sizes'));
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_loaded', array($this, 'set_parent_model'));
