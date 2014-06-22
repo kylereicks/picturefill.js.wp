@@ -4,7 +4,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
   class Model_Image_Picturefill_WP{
 
     // Input variables
-    private $parent_model;
+    private $application_model;
     private $DOMDocument;
     private $image;
 
@@ -43,9 +43,9 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     }
 
     // Constructor, set the object variables
-    public function __construct($parent_model, $DOMDocument, $image){
+    public function __construct($application_model, $DOMDocument, $image){
       require_once(ABSPATH . 'wp-admin/includes/image.php');
-      $this->parent_model = $parent_model;
+      $this->application_model = $application_model;
       $this->DOMDocument = $DOMDocument;
       $this->image = $image;
       $this->set_default_options();
@@ -95,7 +95,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       if(empty($image_size)){
         $image_size = $this->image_attributes['size'][1];
       }
-      return $this->parent_model->get_sizes_string($image_size);
+      return $this->application_model->get_sizes_string($image_size);
     }
 
     public function get_option($option_name){
@@ -104,7 +104,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
     // Methods to set object data
     private function set_default_options(){
-      $this->options = apply_filters('picturefill_wp_image_default_options', $this->parent_model->get_options());
+      $this->options = apply_filters('picturefill_wp_image_default_options', $this->application_model->get_options());
     }
 
     private function set_image_attributes(){
@@ -155,7 +155,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
         );
 
         foreach($image_attachment_data as $image_size => $image_data){
-          $image_attachment_data[$image_size]['url'] = $this->parent_model->get_upload_base_url() . $this->upload_subdir . '/' . $image_data['file'];
+          $image_attachment_data[$image_size]['url'] = $this->application_model->get_upload_base_url() . $this->upload_subdir . '/' . $image_data['file'];
         }
 
         $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id);
@@ -270,7 +270,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
       if(!empty($image_attributes['size'])){
 
-        $source_sets = $this->parent_model->get_source_set($this->image_attributes['size'][1], $this->image_attributes['srcset_method']);
+        $source_sets = $this->application_model->get_source_set($this->image_attributes['size'][1], $this->image_attributes['srcset_method']);
 
         foreach($source_sets as $index => $set){
           foreach($set as $i => $size){
