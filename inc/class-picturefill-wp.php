@@ -3,6 +3,7 @@ defined('ABSPATH') OR exit;
 if(!class_exists('Picturefill_WP')){
   class Picturefill_WP{
 
+    private static $wpdb;
     private $model;
 
     // Setup singleton pattern
@@ -24,21 +25,24 @@ if(!class_exists('Picturefill_WP')){
       return null;
     }
 
+    public static function set_wpdb(){
+      global $wpdb;
+      self::$wpdb = $wpdb;
+    }
+
     public static function deactivate(){
       self::clear_picturefill_wp_options();
     }
 
     public static function clear_picturefill_wp_options(){
-      global $wpdb;
-      $picturefill_wp_transients = $wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'%picturefill_wp%\'');
+      $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'%picturefill_wp%\'');
       foreach($picturefill_wp_transients as $transient){
         delete_option($transient);
       }
     }
 
     public static function clear_picturefill_wp_transients(){
-      global $wpdb;
-      $picturefill_wp_transients = $wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'%_picturefill_wp%\'');
+      $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'%_picturefill_wp%\'');
       foreach($picturefill_wp_transients as $transient){
         delete_option($transient);
       }
@@ -46,6 +50,7 @@ if(!class_exists('Picturefill_WP')){
 
     // Constructor, add actions and filters
     private function __construct(){
+      add_action('muplugins_loaded', array('Picturefill_WP', 'set_wpdb'));
       add_action('init', array($this, 'add_image_sizes'));
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_loaded', array($this, 'set_parent_model'));
@@ -56,8 +61,8 @@ if(!class_exists('Picturefill_WP')){
 
     // Filter and action methods
     public function set_parent_model(){
-      require_once(PICTUREFILL_WP_PATH . 'inc/class-model-picturefill-wp.php');
-      $this->model = new Model_Picturefill_WP();
+      require_once(PICTUREFILL_WP_PATH . 'inc/class-model-application-picturefill-wp.php');
+      $this->model = new Model_Application_Picturefill_WP();
     }
 
     public function register_picturefill_scripts(){
