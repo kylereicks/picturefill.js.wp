@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') OR exit;
-if(!class_exists('Model_Picturefill_WP')){
-  class Model_Picturefill_WP{
+if(!class_exists('Model_Application_Picturefill_WP')){
+  class Model_Application_Picturefill_WP{
 
     private $options;
     private $upload_base_dir;
