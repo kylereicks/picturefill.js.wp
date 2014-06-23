@@ -17,12 +17,12 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
     public $post_category_to_exclude = '';
 
     public static function retina_only($default_image_sizes, $image_attributes){
-      if('full' === $image_attributes['size'][1]){
-        return array($image_attributes['size'][1]);
+      if('full' === $image_attributes['size']){
+        return array($image_attributes['size']);
       }else{
         return array(
-          $image_attributes['size'][1],
-          $image_attributes['size'][1] . '@2x'
+          $image_attributes['size'],
+          $image_attributes['size'] . '@2x'
         );
       }
     }
