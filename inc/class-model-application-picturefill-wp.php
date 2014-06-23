@@ -15,10 +15,10 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       $upload_dir_data = wp_upload_dir();
 
       $this->options = array(
-        'use_sizes' => false,
-        'output_src' => false,
-        'explicit_width' => false,
-        'create_missing_images' => false
+        'use_sizes' => apply_filters('picturefill_wp_use_sizes', false),
+        'output_src' => apply_filters('picturefill_wp_output_src', false),
+        'use_explicit_width' => apply_filters('picturefill_wp_use_explicit_width', false),
+        'create_missing_images' => apply_filters('picturefill_wp_create_missing_images', false)
       );
 
       $this->upload_base_dir = $upload_dir_data['basedir'];
@@ -66,14 +66,14 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       foreach($this->choosable_image_sizes as $size){
         $source_sets[$size] = array(
           'media' => array(
-            'media_string' => '',
+            'media_string' => apply_filters('picturefill_wp_default_media_string_' . $size, ''),
             'srcset' => array(
               $size,
               $size . '@2x'
             )
           ),
           'sizes' => array(
-            'sizes_string' => '',
+            'sizes_string' => apply_filters('picturefill_wp_default_sizes_string_' . $size, ''),
             'srcset' => self::set_default_source_set_sizes($size)
           )
         );
