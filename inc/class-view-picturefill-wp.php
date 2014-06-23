@@ -30,6 +30,7 @@ if(!class_exists('View_Picturefill_WP')){
       $output_string = '';
 
       $ignore_attributes = array(
+        'size',
         'attachment_id'
       );
 
