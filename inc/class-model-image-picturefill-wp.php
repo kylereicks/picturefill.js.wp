@@ -93,7 +93,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
         return $this->image_attributes['sizes'];
       }
       if(empty($image_size)){
-        $image_size = $this->image_attributes['size'][1];
+        $image_size = $this->image_attributes['size'];
       }
       return $this->application_model->get_sizes_string($image_size);
     }
@@ -129,8 +129,12 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
       $attributes['attachment_id'] = self::url_to_attachment_id($attributes['src']);
 
-      preg_match('/(?:(?:^|\s)size-)([\w|-]+)/', $attributes['class'], $attributes['size']);
-      preg_match('/(?:(?:^|\s)min-size-)([\w|-]+)/', $attributes['class'], $attributes['min_size']);
+      if(preg_match('/(?:(?:^|\s)size-)([\w|-]+)/', $attributes['class'], $size_match)){
+        $attributes['size'] = $size_match[1];
+      }
+      if(preg_match('/(?:(?:^|\s)min-size-)([\w|-]+)/', $attributes['class'], $min_size_match)){
+        $attributes['min_size'] = $min_size_match[1];
+      }
 
       $this->image_attributes = $attributes;
     }
@@ -270,34 +274,52 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
       if(!empty($image_attributes['size'])){
 
-        $source_sets = $this->application_model->get_source_set($this->image_attributes['size'][1], $this->image_attributes['srcset_method']);
+        $source_sets = $this->application_model->get_source_set($this->image_attributes['size'], $this->image_attributes['srcset_method']);
 
         foreach($source_sets as $index => $set){
-          foreach($set as $i => $size){
-            if(!array_key_exists($size, $this->image_attachment_data)){
-              unset($source_sets[$index][$i]);
+          if(is_array($set)){
+            foreach($set as $i => $size){
+              if(!array_key_exists($size, $this->image_attachment_data)){
+                unset($source_sets[$index][$i]);
+              }
             }
-          }
-          if(empty($source_sets[$index])){
-            unset($source_sets[$index]);
+            if(empty($source_sets[$index])){
+              unset($source_sets[$index]);
+            }else{
+              $set_length = count($source_sets[$index]);
+              if($longest_source_set < $set_length){
+                $longest_source_set = $set_length;
+              }
+            }
           }else{
-            $set_length = count($source_sets[$index]);
-            if($longest_source_set < $set_length){
-              $longest_source_set = $set_length;
+            if(!array_key_exists($set, $this->image_attachment_data)){
+              unset($source_sets[$index]);
             }
           }
         }
 
         if(!empty($image_attributes['min_size'])){
           foreach($source_sets as $set){
-            if($image_attributes['min_size'][1] === $set[0]){
-              break;
+            if(is_array($set)){
+              if($image_attributes['min_size'][1] === $set[0]){
+                break;
+              }
+            }else{
+              if($image_attributes['min_size'][1] === $set){
+                break;
+              }
             }
             array_shift($source_sets);
           }
         }
 
-        if(1 === $longest_source_set){
+        if(0 === $longest_source_set){
+          $single_source_set = array();
+          foreach($source_sets as $set){
+            $single_source_set[0][] = $set;
+          }
+          $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $single_source_set, $image_attributes);
+        }elseif(1 === $longest_source_set){
           $this->options['use_sizes'] = true;
           $single_source_set = array();
           foreach($source_sets as $set){
