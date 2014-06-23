@@ -37,7 +37,7 @@ if(!class_exists('View_Picturefill_WP')){
         $ignore_attributes[] = 'src';
       }
 
-      if(!$this->model->get_option('explicit_width')){
+      if(!$this->model->get_option('use_explicit_width')){
         $ignore_attributes[] = 'width';
         $ignore_attributes[] = 'height';
       }
@@ -75,7 +75,7 @@ if(!class_exists('View_Picturefill_WP')){
     public function get_media_query($srcset_array){
       foreach($srcset_array as $image_size){
         if('@2x' !== substr($image_size, -3)){
-          $width = $image_size === $this->image_attributes['size'][1] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size]['width'];
+          $width = $image_size === $this->image_attributes['size'] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size]['width'];
           $breakpoint = $width + 20;
         }
       }
@@ -84,7 +84,7 @@ if(!class_exists('View_Picturefill_WP')){
 
     public function get_sizes(){
       if($this->model->get_option('use_sizes')){
-        return !empty($this->model->get_sizes_string()) ? ' sizes="' . $this->model->get_sizes_string() . '"' : ' sizes="100vw"';
+        return !empty($this->model->get_sizes_string()) ? ' sizes="' . apply_filters('picturefill_wp_sizes_string' . $this->image_attributes['size'], $this->model->get_sizes_string(), $this->image_attributes, $this->image_attachment_data) . '"' : ' sizes="' . apply_filters('picturefill_wp_sizes_string' . $this->image_attributes['size'], '100vw', $this->image_attributes, $this->image_attachment_data) . '"';
       }
     }
 
