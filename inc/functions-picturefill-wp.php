@@ -5,20 +5,31 @@
 require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp-function-helpers.php');
 
-function apply_picturefill_wp($filter, $cache = true, $priority = 11){
+function picturefill_wp_disable_cache($priority = 11){
+  remove_filter('the_content', array(Picturefill_WP::get_instance(), 'picturefill_wp_apply_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
+  add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), $priority);
+}
+
+function picturefill_wp_apply_to_filter($filter, $cache = true, $priority = 11){
   if(true === $cache){
-    $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
-    $picturefill_wp_helpers->apply_to_filter($filter);
+    add_filter($filter, array(Picturefill_WP::get_instance(), 'cache_picturefill_output'), $priority);
   }else{
     add_filter($filter, array(Picturefill_WP::get_instance(), 'replace_images'), $priority);
   }
 }
 
-function disable_picturefill_wp_cache($priority = 11){
-  remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
-  add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), $priority);
+function picturefill_wp_apply_to_html($html, $cache = true){
+  if(true === $cache){
+    return Picturefill_WP::get_instance()->cache_picturefill_output($html);
+  }else{
+    return Picturefill_WP::get_instance()->replace_images($html);
+  }
 }
 
+function register_srcset($handle, $srcset_array, $attach_to){
+}
+
+/*
 function set_picturefill_wp_cache_duration($cache_duration_in_seconds){
   $picturefill_wp_helpers = new Picturefill_WP_Function_Helpers();
   $picturefill_wp_helpers->set_cache_duration($cache_duration_in_seconds);
@@ -96,3 +107,4 @@ function picturefill_wp_exclude_post_category($post_category){
 
   add_action('the_post', array($picturefill_wp_helpers, 'exclude_post_category'));
 }
+ */

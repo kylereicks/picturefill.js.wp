@@ -3,6 +3,7 @@ defined('ABSPATH') OR exit;
 if(!class_exists('Picturefill_WP_Function_Helpers')){
   class Picturefill_WP_Function_Helpers{
 
+    /*
     private $filter = '';
     private $cache_duration = 86400;
     private $image_sizes_to_remove = array();
@@ -212,5 +213,6 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       }
       return $new_image_queue;
     }
+     */
   }
 }

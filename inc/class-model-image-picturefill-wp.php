@@ -53,6 +53,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       $this->set_image_attachment_data($this->image_attributes['attachment_id']);
       $this->set_unadjusted_image_size();
       $this->set_srcset_array();
+//      print_r($this);
     }
 
     // Methods to retrieve object data
@@ -89,13 +90,17 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     }
 
     public function get_sizes_string($image_size = null){
-      if(!empty($this->image_attributes['sizes'])){
-        return $this->image_attributes['sizes'];
+      if(!empty($this->image_attributes['sizes']) || empty($this->image_attributes['attachment_id'])){
+        return false;
       }
       if(empty($image_size)){
         $image_size = $this->image_attributes['size'];
       }
-      return $this->application_model->get_sizes_string($image_size);
+      if(!empty($this->application_model->image_attachments[$image_size])){
+        return $this->application_model->registered_sizes[$image_sizes]['sizes_string'];
+      }
+
+      return '(max-width: ' . $this->image_attributes['width'] . 'px) 100vw, ' . $this->image_attributes['width'] . 'px';
     }
 
     public function get_option($option_name){
@@ -164,6 +169,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
         $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id);
 
+        /*
         if($this->options['create_missing_images']){
           foreach($image_attachment_data as $attachment_size => $attachment_data){
             if($this->image_needs_to_be_created($image_attachment_data, $attachment_size, $attachment_data)){
@@ -173,6 +179,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
             }
           }
         }
+         */
 
         $this->image_attachment_data = $image_attachment_data;
       }else{
@@ -180,6 +187,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       }
     }
 
+    /*
     private function image_needs_to_be_created($image_attachment_data, $attachment_size, $attachment_data){
       global $_wp_additional_image_sizes;
 
@@ -218,6 +226,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
       return true;
     }
+     */
 
     private function get_unadjusted_size($image_attachment_data, $image_attributes){
       if(empty($image_attributes['width'])){
@@ -276,6 +285,8 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
         $source_sets = $this->application_model->get_source_set($this->image_attributes['size'], $this->image_attributes['srcset_method']);
 
+        uasort($source_sets, array($this, 'compare_image_widths'));
+
         foreach($source_sets as $index => $set){
           if(is_array($set)){
             foreach($set as $i => $size){
@@ -320,15 +331,27 @@ if(!class_exists('Model_Image_Picturefill_WP')){
           }
           $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $single_source_set, $image_attributes);
         }elseif(1 === $longest_source_set){
-          $this->options['use_sizes'] = true;
           $single_source_set = array();
           foreach($source_sets as $set){
             $single_source_set[0][] = $set[0];
           }
           $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $single_source_set, $image_attributes);
         }else{
+          $this->options['use_sizes'] = false;
           $this->srcset_array = apply_filters('picturefill_wp_image_sizes', array_reverse($source_sets), $image_attributes);
         }
+      }
+//        print_r($source_sets);
+
+    }
+
+    private function compare_image_widths($image_size_a, $image_size_b){
+      if(empty($this->image_attachment_data[$image_size_a])){
+        return 1;
+      }elseif(empty($this->image_attachment_data[$image_size_b])){
+        return -1;
+      }else{
+        return $this->image_attachment_data[$image_size_a]['width'] - $this->image_attachment_data[$image_size_b]['width'];
       }
     }
 

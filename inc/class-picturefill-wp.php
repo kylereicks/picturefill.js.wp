@@ -51,11 +51,11 @@ if(!class_exists('Picturefill_WP')){
     // Constructor, add actions and filters
     private function __construct(){
       add_action('init', array('Picturefill_WP', 'set_wpdb'));
-      add_action('init', array($this, 'add_image_sizes'));
+//      add_action('init', array($this, 'add_image_sizes'));
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_loaded', array($this, 'set_parent_model'));
       add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
-      add_filter('the_content', array($this, 'apply_picturefill_wp_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
+      add_filter('the_content', array($this, 'picturefill_wp_apply_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
       add_action('picturefill_wp_updated', array('Picturefill_WP', 'clear_picturefill_wp_transients'));
     }
 
@@ -77,8 +77,7 @@ if(!class_exists('Picturefill_WP')){
       return $this->cache_picturefill_output($html, 'the_content');
     }
 
-    public function cache_picturefill_output($html, $content_type = 'depreciated'){
-      global $wp_scripts;
+    public function cache_picturefill_output($html){
       $html_hash = md5($html);
       $cache_duration = apply_filters('picturefill_wp_cache_duration', 86400);
       $cached_output = get_transient('picturefill_wp_output_' . $html_hash);
@@ -120,13 +119,15 @@ if(!class_exists('Picturefill_WP')){
       return apply_filters('picturefill_wp_replace_images_output', $html);
     }
 
+    /*
     public function add_image_sizes(){
-      if(apply_filters('picturefill_wp_add_@2x_images', true)){
+      if(apply_filters('picturefill_wp_add_@2x_images', false)){
         add_image_size('thumbnail@2x', get_option('thumbnail_size_w') * 2, get_option('thumbnail_size_h') * 2, get_option('thumbnail_crop'));
         add_image_size('medium@2x', get_option('medium_size_w') * 2, get_option('medium_size_h') * 2, get_option('medium_crop'));
         add_image_size('large@2x', get_option('large_size_w') * 2, get_option('large_size_h') * 2, get_option('large_crop'));
       }
     }
+     */
 
     public function add_update_hook(){
       if(get_option('picturefill_wp_version') !== PICTUREFILL_WP_VERSION){

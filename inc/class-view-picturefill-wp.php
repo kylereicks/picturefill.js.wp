@@ -20,7 +20,6 @@ if(!class_exists('View_Picturefill_WP')){
       $this->original_image = html_entity_decode(self::standardize_img_tags($this->model->get_image_xml()), ENT_COMPAT, 'UTF-8');
       $this->image_attributes = apply_filters('picturefill_wp_image_attributes', $this->model->get_image_attributes());
       $this->image_attachment_data = $this->model->get_image_attachment_data();
-
     }
 
     // Methods to render data in the templates
@@ -34,11 +33,11 @@ if(!class_exists('View_Picturefill_WP')){
         'attachment_id'
       );
 
-      if(!$this->model->get_option('output_src')){
+      if(!$this->model->get_option('output_src') && false !== $this->model->get_image_attributes()['attachment_id']){
         $ignore_attributes[] = 'src';
       }
 
-      if(!$this->model->get_option('use_explicit_width')){
+      if(!$this->model->get_option('use_explicit_width') && false !== $this->model->get_image_attributes()['attachment_id']){
         $ignore_attributes[] = 'width';
         $ignore_attributes[] = 'height';
       }
@@ -85,7 +84,7 @@ if(!class_exists('View_Picturefill_WP')){
 
     public function get_sizes(){
       if($this->model->get_option('use_sizes')){
-        return !empty($this->model->get_sizes_string()) ? ' sizes="' . apply_filters('picturefill_wp_sizes_string' . $this->image_attributes['size'], $this->model->get_sizes_string(), $this->image_attributes, $this->image_attachment_data) . '"' : ' sizes="' . apply_filters('picturefill_wp_sizes_string' . $this->image_attributes['size'], '100vw', $this->image_attributes, $this->image_attachment_data) . '"';
+        return ' sizes="' . apply_filters('picturefill_wp_sizes_string' . $this->image_attributes['size'], $this->model->get_sizes_string(), $this->image_attributes, $this->image_attachment_data) . '"';
       }
     }
 
