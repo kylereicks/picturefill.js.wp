@@ -1,9 +1,9 @@
-Picturefill.wp
-==============
+Picturefill.wp 2
+================
 
-Picturefill.WP is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
+Picturefill.WP 2 is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
 
-This plugin parses post and page content replacing images with a special syntax similar to the proposed syntax for the HTML5 `picture` element, then uses an adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) to load the appropriate image to the browser.
+This plugin parses post and page content replacing images with the syntax for the HTML5 `picture` element, then uses [picturefill.js](https://github.com/scottjehl/picturefill) to pollyfill the functionality on unsuported browsers.
 
 Download
 --------
@@ -22,36 +22,18 @@ Picturefill.wp looks through `the_content` to find `<img>` elements like this:
 then replaces them with something like this:
 
 ```html
-<!-- The first span lets picturefill.js know that it should pay attention, and it holds all the static attributes (the attributes that will not change at any image size) -->
-<span data-picture data-class="alignnone size-large wp-image-123" dat-alt="Accessible alternate text for the image" data-title="A title that displays on hover" data-width="770" data-height="577">
-
-<!-- This span is the fallback. Picturefill.js looks for the last span element where the data-media attribute matches the browser's state. Because this span lacks a data-media attribute, it will match for any browser that does not support media queries. It returns the originally included image. -->
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg"></span>
-
-<!-- This span is for the Thumbnail image size, and is the smallest that an image will respond down to. You will notice in the data-media attribute that min-width is set to 1px. This is so that a browser which supports media queries will not respond to the fallback when the browser window is less than the width of the Thumbnail image. -->
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-150x150.jpg" data-width="150" data-height="150" data-media="(min-width: 1px)" class="picturefill-wp-source thumbnail"></span>
-
-<!-- Here we have the newly created image size Thumbnail@2x. It is twice the size of the Thumbnail size (300px instead of 150px), but the data-width attribute is the same as the thumbnail image. When a browser matches the resolution requirements set in data-media, the 300px image will be displayed in the same amount of space as the 150px image. This takes advantage of the extra pixel density and displays a sharper image. The HDPI browser also matches the regular Thumbnail's data-media attribute above, but picturefill.js always outputs the last match that it finds. -->
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-300x300.jpg" data-width="150" data-height="150" data-media="(min-width: 1px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)" class="picturefill-wp-source retina thumbnail"></span>
-
-<!-- This span has the information for the Medium image size. While a browser that matches this data-media will also match the Thumbnail data-media, the Thumbnail is disregarded because it comes before this span. -->
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-400x300.jpg" data-width="400" data-height="300" data-media="(min-width: 420px)" class="picturefill-wp-source medium"></span>
-
-<!-- The Medium@2x image responds in the same way Thumbnail@2x responds, taking the place of the Medium image on HDPI screens. -->
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-800x600.jpg" data-width="400" data-height="300" data-media="(min-width: 420px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)" class="picturefill-wp-source retina medium"></span>
-
-<!-- The Large and Large@2x images behave in the same way as the smaller images that preceded them. -->
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg" data-width="770" data-height="577" data-media="(min-width: 790px)" class="picturefill-wp-source large"></span>
-  <span data-src="http://sitename.com/wp-content/uploads/2013/4/image-1540x1155.jpg" data-width="770" data-height="577" data-media="(min-width: 790px) and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 144dpi),(min-resolution: 1.5dppx)" class="picturefill-wp-source retina large"></span>
-
-<!-- Finally, a <noscript> tag includes the original <img> tag, for instances when javascript is disabled. -->
-  <noscript>
-    <img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg" width="770" height="577" />
-  </noscript>
-</span>
+<picture>
+<source srcset="http://sitename.com/wp-content/uploads/2014/05/image-700x525.jpg, http://sitename.com/wp-content/uploads/2014/05/image-1400x1050.jpg 2x" media="(min-width: 720px)">
+<source srcset="http://sitename.com/wp-content/uploads/2014/05/image-300x225.jpg, http://sitename.com/wp-content/uploads/2014/05/image-600x450.jpg 2x" media="(min-width: 320px)">
+<img alt="Image alt" class="alignnone size-large wp-image-1715" srcset="http://sitename.com/wp-content/uploads/2014/05/image-150x150.jpg, http://sitename.com/wp-content/uploads/2014/05/image-300x300.jpg 2x" />
+</picture>
 ```
 
-The adapted version of picturefill.js then looks for the last `data-src` listed where the associated `data-media` matches the device and browser, and loads the appropriate image inside the matched `<span>` element.
+or something like this:
+
+```html
+<img alt="Image alt" class="alignnone size-large wp-image-1715" sizes="100vw" srcset="http://sitename.com/wp-content/uploads/2014/05/image-150x150.jpg 150w, http://sitename.com/wp-content/uploads/2014/05/image-300x225.jpg 300w, http://sitename.com/wp-content/uploads/2014/05/image-700x525.jpg 700w" />
+```
 
 ###Heights and Widths and Breakpoints
 
