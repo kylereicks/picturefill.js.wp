@@ -47,7 +47,6 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
     }
 
     public function remove_image_from_responsive_list($image_size){
-      $self = $this;
       if('string' === gettype($image_size)){
         $this->image_sizes_to_remove = array($image_size, $image_size . '@2x');
       }elseif('array' === gettype($image_size)){
@@ -57,17 +56,16 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
           $this->image_sizes_to_remove[] = $size . '@2x';
         }
       }
-      add_filter('picturefill_wp_image_sizes', array($self, '_remove_image_from_responsive_list'), 10, 2);
+      add_filter('picturefill_wp_image_sizes', array($this, '_remove_image_from_responsive_list'), 10, 2);
     }
 
     public function add_image_to_responsive_queue($image_size, $insert_before){
-      $self = $this;
       $this->image_size_to_add = $image_size;
       $this->insert_before = $insert_before;
 
-      add_filter('picturefill_wp_image_attachment_data', array($self, '_add_size_attachment_data'), 10, 2);
+      add_filter('picturefill_wp_image_attachment_data', array($this, '_add_size_attachment_data'), 10, 2);
 
-      add_filter('picturefill_wp_image_sizes', array($self, '_add_size_to_responsive_image_list'), 11, 2);
+      add_filter('picturefill_wp_image_sizes', array($this, '_add_size_to_responsive_image_list'), 11, 2);
     }
 
     public function set_responsive_image_sizes($image_size_array){
