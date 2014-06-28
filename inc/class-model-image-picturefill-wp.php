@@ -96,8 +96,8 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       if(empty($image_size)){
         $image_size = $this->image_attributes['size'];
       }
-      if(!empty($this->application_model->image_attachments[$image_size])){
-        return $this->application_model->registered_sizes[$image_sizes]['sizes_string'];
+      if(!empty($this->application_model->image_attachments[$image_size]['sizes'])){
+        return $this->application_model->registered_sizes[$this->application_model->image_attachments[$image_size]['sizes']]['sizes_string'];
       }
 
       return '(max-width: ' . $this->image_attributes['width'] . 'px) 100vw, ' . $this->image_attributes['width'] . 'px';
@@ -139,6 +139,10 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       }
       if(preg_match('/(?:(?:^|\s)min-size-)([\w|-]+)/', $attributes['class'], $min_size_match)){
         $attributes['min_size'] = $min_size_match[1];
+      }
+
+      if(!empty($attributes['size']) && !empty($this->application_model->image_attachments[$attributes['size']]['sizes'])){
+        $this->options['use_explicit_width'] = false;
       }
 
       $this->image_attributes = $attributes;

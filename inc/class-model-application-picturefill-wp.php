@@ -38,6 +38,7 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       $this->register_srcset('all', array_merge($this->registered_image_sizes, array('full')));
       $this->register_srcset('default', array('thumbnail', 'medium', 'large', 'full'));
 
+
 //      print_r($this);
     }
 
@@ -75,6 +76,8 @@ if(!class_exists('Model_Application_Picturefill_WP')){
           $this->image_attachments[$image_size]['srcset'] = $handle;
         }
       }
+
+      return true;
     }
 
     public function get_upload_base_url(){

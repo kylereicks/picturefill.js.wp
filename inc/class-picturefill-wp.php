@@ -63,6 +63,7 @@ if(!class_exists('Picturefill_WP')){
     public function set_parent_model(){
       require_once(PICTUREFILL_WP_PATH . 'inc/class-model-application-picturefill-wp.php');
       $this->model = new Model_Application_Picturefill_WP();
+      do_action('register_srcset');
     }
 
     public function register_picturefill_scripts(){
@@ -128,6 +129,14 @@ if(!class_exists('Picturefill_WP')){
       }
     }
      */
+
+    public function register_srcset($handle, $srcset_array, $attached = array()){
+      return $this->model->register_srcset($handle, $srcset_array, $attached);
+    }
+
+    public function register_sizes($handle, $sizes_string, $attached = array()){
+      return $this->model->register_sizes($handle, $sizes_string, $attached);
+    }
 
     public function add_update_hook(){
       if(get_option('picturefill_wp_version') !== PICTUREFILL_WP_VERSION){
