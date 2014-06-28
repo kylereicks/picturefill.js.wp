@@ -141,7 +141,7 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
         $new_attachment_data[$size] = wp_get_attachment_image_src($id, $size);
       }
 
-      return !empty($new_attachment_data) ? $new_attachment_data : $attachment_data;
+      return array_merge($attachment_data, $new_attachment_data);
     }
 
     public function _post_thumbnail_sizes($default_image_sizes, $image_attributes){
