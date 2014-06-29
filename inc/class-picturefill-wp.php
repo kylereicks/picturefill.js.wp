@@ -31,17 +31,17 @@ if(!class_exists('Picturefill_WP')){
     }
 
     public static function deactivate(){
-      self::clear_picturefill_wp_options();
+      self::picturefill_wp_clear_options();
     }
 
-    public static function clear_picturefill_wp_options(){
+    public static function picturefill_wp_clear_options(){
       $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . self::$wpdb->options . ' WHERE option_name LIKE \'%picturefill_wp%\'');
       foreach($picturefill_wp_transients as $transient){
         delete_option($transient);
       }
     }
 
-    public static function clear_picturefill_wp_transients(){
+    public static function picturefill_wp_clear_transients(){
       $picturefill_wp_transients = self::$wpdb->get_col('SELECT option_name FROM ' . self::$wpdb->options . ' WHERE option_name LIKE \'%_picturefill_wp%\'');
       foreach($picturefill_wp_transients as $transient){
         delete_option($transient);
@@ -55,7 +55,7 @@ if(!class_exists('Picturefill_WP')){
       add_action('wp_loaded', array($this, 'set_parent_model'));
       add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
       add_filter('the_content', array($this, 'picturefill_wp_apply_to_html'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
-      add_action('picturefill_wp_updated', array('Picturefill_WP', 'clear_picturefill_wp_transients'));
+      add_action('picturefill_wp_updated', array('Picturefill_WP', 'picturefill_wp_clear_transients'));
     }
 
     // Filter and action methods
