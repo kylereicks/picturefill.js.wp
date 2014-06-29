@@ -243,13 +243,13 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       }
       foreach($image_attachment_data as $attachment_size => $attachment_data){
         if($attachment_data['url'] === $image_attributes['src'] && false === strstr($attachment_size, '@2x')){
-          return array('adjusted', $attachment_size);
+          return $attachment_size;
         }
 
         $attachment_data = $this->get_image_width_height($attachment_data);
 
         if($attachment_data['width'] >= $image_attributes['width'] && false === strstr($attachment_size, '@2x')){
-          return array('adjusted', $attachment_size);
+          return $attachment_size;
         }
       }
       return false;
