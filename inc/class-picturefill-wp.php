@@ -55,7 +55,7 @@ if(!class_exists('Picturefill_WP')){
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_loaded', array($this, 'set_parent_model'));
       add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
-      add_filter('the_content', array($this, 'picturefill_wp_apply_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
+      add_filter('the_content', array($this, 'picturefill_wp_apply_to_html'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
       add_action('picturefill_wp_updated', array('Picturefill_WP', 'clear_picturefill_wp_transients'));
     }
 
@@ -74,8 +74,8 @@ if(!class_exists('Picturefill_WP')){
       }
     }
 
-    public function apply_picturefill_wp_to_the_content($html){
-      return $this->cache_picturefill_output($html, 'the_content');
+    public function picturefill_wp_apply_to_html($html){
+      return $this->cache_picturefill_output($html);
     }
 
     public function cache_picturefill_output($html){

@@ -6,7 +6,7 @@ require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 //require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp-function-helpers.php');
 
 function picturefill_wp_disable_cache($priority = 11){
-  remove_filter('the_content', array(Picturefill_WP::get_instance(), 'picturefill_wp_apply_to_the_content'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
+  remove_filter('the_content', array(Picturefill_WP::get_instance(), 'picturefill_wp_apply_to_html'), apply_filters('picturefill_wp_the_content_filter_priority', 11));
   add_filter('the_content', array(Picturefill_WP::get_instance(), 'replace_images'), $priority);
 }
 
