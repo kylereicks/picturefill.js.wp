@@ -49,12 +49,6 @@ if(!class_exists('View_Picturefill_WP')){
       return apply_filters('picturefill_wp_image_attribute_string', $output_string);
     }
 
-    /*
-    public function get_original_image_src(){
-      return $this->image_attributes['src'];
-    }
-     */
-
     public function get_original_image(){
       return $this->original_image;
     }
@@ -73,18 +67,6 @@ if(!class_exists('View_Picturefill_WP')){
 
       return implode(', ', $srcset_components);
     }
-
-    /*
-    public function get_media_query($srcset_array){
-      foreach($srcset_array as $image_size){
-        if('@2x' !== substr($image_size, -3)){
-          $width = $image_size === $this->image_attributes['size'] ? $this->image_attributes['width'] : $this->image_attachment_data[$image_size]['width'];
-          $breakpoint = $width + 20;
-        }
-      }
-      return '(min-width: ' . apply_filters('picturefill_wp_media_query_breakpoint', $breakpoint, $image_size, $width, $this->image_attributes, $this->image_attachment_data) . 'px)';
-    }
-     */
 
     public function get_sizes(){
       if($this->model->get_option('use_sizes')){

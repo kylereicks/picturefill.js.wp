@@ -8,7 +8,6 @@ if(!class_exists('Model_Application_Picturefill_WP')){
     private $upload_base_url;
     private $registered_image_sizes;
     private $choosable_image_sizes;
-//    private $source_sets;
 
     public $registered_sizes = array();
 
@@ -24,22 +23,17 @@ if(!class_exists('Model_Application_Picturefill_WP')){
         'use_sizes' => apply_filters('picturefill_wp_use_sizes', true),
         'output_src' => apply_filters('picturefill_wp_output_src', false),
         'use_explicit_width' => apply_filters('picturefill_wp_use_explicit_width', true)
-//        'create_missing_images' => apply_filters('picturefill_wp_create_missing_images', false)
       );
 
       $this->upload_base_dir = $upload_dir_data['basedir'];
       $this->upload_base_url = $upload_dir_data['baseurl'];
       $this->registered_image_sizes = get_intermediate_image_sizes();
       $this->choosable_image_sizes = self::set_choosable_image_sizes();
-//      $this->source_sets = $this->set_source_sets();
 
       $this->register_sizes('default', '100vw');
 
       $this->register_srcset('all', array_merge($this->registered_image_sizes, array('full')));
       $this->register_srcset('default', array('thumbnail', 'medium', 'large', 'full'));
-
-
-//      print_r($this);
     }
 
     public function register_sizes($handle, $sizes_string, $attached = array()){
@@ -100,101 +94,8 @@ if(!class_exists('Model_Application_Picturefill_WP')){
         return $this->registered_srcsets[$this->image_attachments[$size]['srcset']]['srcset_array'];
       }else{
         return $this->registered_srcsets['default']['srcset_array'];
-        /*
-        if(true === $options['use_sizes']){
-          return $this->registered_srcsets['all']['srcset_array'];
-        }else{
-          foreach($this->source_sets as $set_size => $source_set){
-            $sets[] = $source_set['media']['srcset'];
-            if($size === $set_size){
-              return $sets;
-            }
-          }
-        }
-         */
       }
     }
-
-    /*
-    public function get_sizes_string($image_size){
-      return $this->source_sets[$image_size]['sizes']['sizes_string'];
-    }
-     */
-
-    /*
-    private function set_source_sets(){
-      $source_sets = array();
-
-      foreach($this->choosable_image_sizes as $size){
-        $source_sets[$size] = array(
-          'media' => array(
-            'media_string' => apply_filters('picturefill_wp_default_media_string_' . $size, ''),
-            'srcset' => array(
-              $size,
-              $size . '@2x'
-            )
-          ),
-          'sizes' => array(
-            'sizes_string' => apply_filters('picturefill_wp_default_sizes_string_' . $size, ''),
-            'srcset' => self::set_default_source_set_sizes($size)
-          )
-        );
-      }
-
-      $source_sets['full']['media']['srcset'] = array('full');
-
-      return $source_sets;
-    }
-     */
-
-    /*
-    private static function set_default_source_set_sizes($size){
-      $sizes = null;
-
-      switch($size){
-        case 'full':
-          $sizes = array(
-            'thumbnail',
-            'thumbnail@2x',
-            'medium',
-            'medium@2x',
-            'large',
-            'large@2x',
-            'full'
-          );
-          break;
-        case 'large':
-          $sizes = array(
-            'thumbnail',
-            'thumbnail@2x',
-            'medium',
-            'medium@2x',
-            'large',
-            'large@2x',
-          );
-          break;
-        case 'medium':
-          $sizes = array(
-            'thumbnail',
-            'thumbnail@2x',
-            'medium',
-            'medium@2x',
-          );
-          break;
-        case 'thumbnail':
-          $sizes = array(
-            'thumbnail',
-            'thumbnail@2x'
-          );
-          break;
-        default:
-          $sizes = null;
-          break;
-      }
-
-      return apply_filters('picturefill_wp_' . $size . '_srcset_sizes', $sizes);
-    }
-     */
 
     private static function set_choosable_image_sizes(){
       $sizes = array();

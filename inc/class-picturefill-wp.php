@@ -51,7 +51,6 @@ if(!class_exists('Picturefill_WP')){
     // Constructor, add actions and filters
     private function __construct(){
       add_action('init', array('Picturefill_WP', 'set_wpdb'));
-//      add_action('init', array($this, 'add_image_sizes'));
       add_action('init', array($this, 'add_update_hook'));
       add_action('wp_loaded', array($this, 'set_parent_model'));
       add_action('wp_enqueue_scripts', array($this, 'register_picturefill_scripts'));
@@ -119,16 +118,6 @@ if(!class_exists('Picturefill_WP')){
       do_action('picturefill_wp_after_replace_images');
       return apply_filters('picturefill_wp_replace_images_output', $html);
     }
-
-    /*
-    public function add_image_sizes(){
-      if(apply_filters('picturefill_wp_add_@2x_images', false)){
-        add_image_size('thumbnail@2x', get_option('thumbnail_size_w') * 2, get_option('thumbnail_size_h') * 2, get_option('thumbnail_crop'));
-        add_image_size('medium@2x', get_option('medium_size_w') * 2, get_option('medium_size_h') * 2, get_option('medium_crop'));
-        add_image_size('large@2x', get_option('large_size_w') * 2, get_option('large_size_h') * 2, get_option('large_crop'));
-      }
-    }
-     */
 
     public function register_srcset($handle, $srcset_array, $attached = array()){
       return $this->model->register_srcset($handle, $srcset_array, $attached);
