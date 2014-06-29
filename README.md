@@ -16,23 +16,13 @@ Details
 Picturefill.wp looks through `the_content` to find `<img>` elements like this:
 
 ```html
-<img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg" width="770" height="577" />
+<img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-700x525.jpg" width="700" height="525" />
 ```
 
 then replaces them with something like this:
 
 ```html
-<picture>
-<source srcset="http://sitename.com/wp-content/uploads/2014/05/image-700x525.jpg, http://sitename.com/wp-content/uploads/2014/05/image-1400x1050.jpg 2x" media="(min-width: 720px)">
-<source srcset="http://sitename.com/wp-content/uploads/2014/05/image-300x225.jpg, http://sitename.com/wp-content/uploads/2014/05/image-600x450.jpg 2x" media="(min-width: 320px)">
-<img alt="Image alt" class="alignnone size-large wp-image-1715" srcset="http://sitename.com/wp-content/uploads/2014/05/image-150x150.jpg, http://sitename.com/wp-content/uploads/2014/05/image-300x300.jpg 2x" />
-</picture>
-```
-
-or something like this:
-
-```html
-<img alt="Image alt" class="alignnone size-large wp-image-1715" sizes="100vw" srcset="http://sitename.com/wp-content/uploads/2014/05/image-150x150.jpg 150w, http://sitename.com/wp-content/uploads/2014/05/image-300x225.jpg 300w, http://sitename.com/wp-content/uploads/2014/05/image-700x525.jpg 700w" />
+<img alt="Accessible alternate text for the image" title="A title that displays on hover" class="alignnone size-large wp-image-123" width="700" height="525" sizes="(max-width: 700px) 100vw, 700px" srcset="http://sitename.com/wp-content/uploads/2013/04/image-150x150.jpg 150w, http://sitename.com/wp-content/uploads/2013/04/image-300x225.jpg 300w, http://sitename.com/wp-content/uploads/2013/04/image-700x525.jpg 700w, http://sitename.com/wp-content/uploads/2013/04/image.jpg 2048w" />
 ```
 
 ###Heights and Widths and Breakpoints
@@ -43,7 +33,7 @@ One of the goals of this plugin is to be completely "plug and play" i.e. no setu
 
 By default, Wordpress creates as many as 3 images of different sizes for each uploaded image ("large", "medium", and "thumbnail"), in addition to the "full" image size.
 
-This plugin adds responsive breakpoints based on the width of the image. The largest available image will display unless the browser width is less than the image width + 20px, in which case the next size down is displayed.
+By default, the plugin lists all of these default sizes in the srcset and instructs the browser to serve up the apropreate image based on browser window width and screen resolution, not exceeding the original image width. 
 
 To use this plugin most effectively, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
 
@@ -53,20 +43,13 @@ The responsiveness of an image can be limited by adding the class `min-size-{ima
 
 ###Caching
 
-To improve performance, especially in image heavy posts, the output of Picturefill.WP is cached with WordPress transients after it is generated. The cache will be refreshed automatically every time a post is updated or Picturefill.WP is updated. The cache can be manually refreshed by deactivating and reactivating Picturefill.WP from the plugins menu.
+To improve performance, especially in image heavy posts, the output of Picturefill.WP 2 is cached with WordPress transients after it is generated. The cache will be refreshed automatically every time a post is updated or Picturefill.WP 2 is updated. The cache can be manually refreshed by deactivating and reactivating Picturefill.WP from the plugins menu.
 
-If you suspect that Picturefill.WP's caching is causing trouble with another plugin or theme feature, first try deactivating and reactivating Picturefill.WP. If problems persist, try lowering the priority for Picturefill.WP to be executed by adding the following to your functions.php file:
-
-```php
-remove_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 11);
-add_filter('the_content', array(Picturefill_WP::get_instance(), 'apply_picturefill_wp_to_the_content'), 9999);
-```
-
-If you still encounter problems with other plugins or theme features, you may want to disable caching all together. See the subsection on how to disable caching under the "Extending Picturefill.WP" section.
+Caching is disabled when `WP_DEBUG` is set to true, and can be disabled manually with the helper function `picturefill_wp_disable_cache`.
 
 ###Errors and Warnings
 
-As of version 1.3.3 Picturefill.WP suppresses errors and warnings in parsing the DOM. Errors and warnings can now be collected via the `picturefill_wp_syntax_present_libxml_errors` and `picturefill_wp_get_images_libxml_errors` filters.
+Picturefill.WP 2 suppresses errors and warnings in parsing the DOM. Errors and warnings can now be collected via the `picturefill_wp_syntax_present_libxml_errors` and `picturefill_wp_get_images_libxml_errors` filters.
 
 ```php
 add_filter('picturefill_wp_get_images_libxml_errors', 'handle_errors');
@@ -78,22 +61,12 @@ function handle_errors($errors){
 }
 ```
 
-####Slow Loading on Activation
-
-The first time a page or post is loaded after activating Picturefill.WP, new `@2x` size images will need to be created for the images in the post or page content. This can take several seconds and will take longer on image heavy posts. Once these images are created, posts should load at least as fast or faster than they do without the plugin.
-
-If you are installing Picturefill.WP on a large and image heavy site, you may want to consider using another plugin like [Regenerate Thumbnails](http://wordpress.org/plugins/regenerate-thumbnails/) to create the new image sizes for existing posts and pages.
-
-####500 or 504 server errors
-
-These errors are related to the slow loading listed above. If the server reaches its timeout limit before it is finished processing new images, it will return a 500 or 504 error. Refreshing the page usually gives the server the time it needs to finish processing the images. On some image-heavy posts, it may take more than one refresh.
-
 Extending and Customizing Picturefill.WP
 ------------------------
 
-###Helper Functions
+###Functions
 
-Picturefill.WP, as of version 1.3.0, includes a number of helper functions to simplify common customizations.
+Picturefill.WP 2 includes a number of functions to simplify common customizations.
 
 For extra safety, it's a good idea to wrap your code that targets Picturefill.WP in a conditional statement so it will only run if the plugin is active.
 
@@ -102,88 +75,6 @@ if(defined('PICTUREFILL_WP_VERSION')){
   // Add Picturefill.WP specific code here.
 }
 ```
-
-####apply_picturefill_wp($filter [, $cache = ture, $priority = 11])
-
-Applies Picturefill.WP to additional content blocks with via filters.
-
-#####Example
-
-Applies Picturefill.WP to the output text of the WordPress Text widget.
-
-```php
-apply_picturefill_wp('widget_text');
-```
-
-####disable_picturefill_wp_cache([$priority = 11])
-
-Disables the transient cache.
-
-####set_picturefill_wp_cache_duration($cache_duration_in_seconds)
-
-Set the duration for the transient cache.
-
-#####Example
-
-Set the transient cache duration to one year (365 days). The default is 30 days.
-
-```php
-set_picturefill_wp_cache_duration(31536000);
-```
-
-####picturefill_wp_retina_only()
-
-Removes browser-width resposiveness.
-
-####picturefill_wp_remove_image_from_responsive_list($image_size)
-
-Remove an image size from the list of those served.
-
-#####Example
-
-Only respond down to image size "medium" by removing the "thumbnail" size from the list of images served.
-
-```php
-picturefill_wp_remove_image_from_responsive_list('thumbnail');
-```
-
-####picturefill_wp_add_image_size($name [, $width = 0, $height = 0, $crop = false, $insert_before 'thumbnail'])
-
-Create a new image size and add it to the list of responsive images.
-
-#####Example
-
-Add a new responsive image size in-between the "medium" and "large" image sizes.
-
-```php
-picturefill_wp_add_image_size('new_size', 550, 999, false, 'large');
-```
-
-####picturefill_wp_set_responsive_image_sizes($image_size_array)
-
-Set the list of responsive images with an array.
-
-#####Example
-
-```php
-$image_size_array = array('custom_small_size', 'thumbnail', 'extra-large');
-/* All image sizes included in the $image_size_array
-   must allready exist, either by default (thumbnail,
-   medium, and large) or by the add_image_size function.
-   Image sizes should be listed from smallest to largest
-   and should not include '@2x' sizes, these will be
-   added automatically. */
-picturefill_wp_set_responsive_image_sizes($image_size_array);
-```
-
-####apply_picturefill_wp_to_post_thumbnail()
-
-Apply Picturefill.WP to the `post_thumbnail_html` filter and use the `post_thumbnail` image size.
-
-####minimize_picturefill_wp_output()
-
-Reduce the html output of the `span` elements.
-
 
 ###Hooks
 
@@ -228,21 +119,21 @@ add_filter('acf/format_value_for_api', 'theme_function_picturefill_for_acf', 11,
 
 function theme_function_picturefill_for_acf($content, $post_id, $field){
   if(in_array($field['type'], array('textarea', 'wysiwyg', text))){
-    return Picturefill_WP::get_instance()->cache_picturefill_output($content, $field['name']);
+    return picturefill_wp_apply_to_html($content);
   }else{
     return $content;
   }
 }
 ```
 
-For image fields, you will need to wrap the image output in a custom filter.
+For image fields.
 
 In your theme file:
 ```php
 <?php
 $image_object = get_field('image');
 $image_output = '<img src="' . $image_object['sizes']['medium'] . '" title="' . $image_object['title'] . '" alt="' . $image_object['alt'] . '" />';
-echo apply_filters('theme_acf_image', $image_output, 'name_of_the_image_field');
+echo picturefill_wp_apply_to_html($image_output);
 ?>
 ```
 
