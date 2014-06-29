@@ -73,8 +73,16 @@ if(!class_exists('Picturefill_WP')){
       }
     }
 
-    public function picturefill_wp_apply_to_html($html){
-      return $this->cache_picturefill_output($html);
+    public function picturefill_wp_apply_to_html($html, $cache = null){
+      if(!isset($cache)){
+        $cache = !WP_DEBUG;
+      }
+
+      if(apply_filters('picturefill_wp_cache', $cache)){
+        return $this->cache_picturefill_output($html);
+      }else{
+        return $this->replace_images($html);
+      }
     }
 
     public function cache_picturefill_output($html){
