@@ -71,7 +71,7 @@ if(!class_exists('Picturefill_WP')){
       }else{
         $output = $this->replace_images($html);
         if($output !== $html){
-          set_transient('picturefill_wp _output_' . $html_hash, $output, $cache_duration);
+          set_transient('picturefill_wp_output_' . $html_hash, $output, $cache_duration);
         }
         return $output;
       }
