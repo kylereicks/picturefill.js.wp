@@ -115,7 +115,7 @@ if(!class_exists('Picturefill_WP')){
             $model_image_picturefill_wp = new Model_Image_Picturefill_WP($this->model, $DOMDocument, $image);
             $view_picturefill_wp = new View_Picturefill_WP($model_image_picturefill_wp);
 
-            $html = str_replace($view_picturefill_wp->get_original_image(), $view_picturefill_wp->render_template('picture'), $html);
+            $html = str_replace($view_picturefill_wp->get_original_image(), $view_picturefill_wp->render_template('image'), $html);
           }elseif($image->hasAttribute('srcset')){
             wp_enqueue_script('picturefill');
           }

@@ -20,7 +20,6 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       $upload_dir_data = wp_upload_dir();
 
       $this->options = array(
-        'use_sizes' => apply_filters('picturefill_wp_use_sizes', true),
         'output_src' => apply_filters('picturefill_wp_output_src', false),
         'use_explicit_width' => apply_filters('picturefill_wp_use_explicit_width', true)
       );
@@ -86,10 +85,15 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       return $this->options;
     }
 
-    public function get_source_set($size, $options = null){
-      $options = !empty($options) ? $options : $this->options;
-      $sets = array();
+    public function get_srcset_by_handle($handle){
+      if(!empty($this->registered_srcsets[$handle]['srcset_array'])){
+        return $this->registered_srcsets[$handle]['srcset_array'];
+      }else{
+        return $this->get_srcset_by_size($handle);
+      }
+    }
 
+    public function get_srcset_by_size($size){
       if(!empty($this->image_attachments[$size]['srcset'])){
         return $this->registered_srcsets[$this->image_attachments[$size]['srcset']]['srcset_array'];
       }else{

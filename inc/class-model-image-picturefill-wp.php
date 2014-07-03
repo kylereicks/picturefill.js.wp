@@ -77,15 +77,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     }
 
     public function get_srcset_resolution($image_size){
-      $resolution_match = null;
-      if($this->options['use_sizes']){
-        return ' ' . $this->image_attachment_data[$image_size]['width'] . 'w';
-      }else{
-        if(preg_match('/@([\d\.]+)x$/', $image_size, $resolution_match)){
-          return ' ' . $resolution_match[1] . 'x';
-        }
-      }
-      return '';
+      return ' ' . $this->image_attachment_data[$image_size]['width'] . 'w';
     }
 
     public function get_sizes_string($image_size = null){
@@ -116,7 +108,6 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
       $attributes = array(
         'attachment_id' => null,
-        'srcset_method' => null,
         'src' => null,
         'alt' => null,
         'title' => null,
@@ -136,8 +127,13 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       if(preg_match('/(?:(?:^|\s)size-)([\w|-]+)/', $attributes['class'], $size_match)){
         $attributes['size'] = $size_match[1];
       }
-      if(preg_match('/(?:(?:^|\s)min-size-)([\w|-]+)/', $attributes['class'], $min_size_match)){
-        $attributes['min_size'] = $min_size_match[1];
+
+      if(preg_match('/(?:(?:^|\s)srcset-)([\w|-]+)/', $attributes['class'], $srcset_match)){
+        $attributes['scrset_name'] = $srcset_match[1];
+      }
+
+      if(preg_match('/(?:(?:^|\s)sizes-)([\w|-]+)/', $attributes['class'], $sizes_match)){
+        $attributes['sizes_name'] = $sizes_match[1];
       }
 
       if(!empty($attributes['size']) && !empty($this->application_model->image_attachments[$attributes['size']]['sizes'])){
@@ -221,75 +217,29 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     }
 
     private function set_srcset_array(){
-      $image_attributes = $this->image_attributes;
-      $source_sets = array();
-      $single_source_set = array();
-      $set_length = 0;
-      $longest_source_set = 0;
+      $srcset = array();
 
-      if(false === $image_attributes['attachment_id']){
+      if(false === $this->image_attributes['attachment_id']){
         return false;
       }
 
-      if(!empty($image_attributes['size'])){
+      if(!empty($this->image_attributes['size'])){
 
-        $source_sets = $this->application_model->get_source_set($this->image_attributes['size'], $this->image_attributes['srcset_method']);
-
-        uasort($source_sets, array($this, 'compare_image_widths'));
-
-        foreach($source_sets as $index => $set){
-          if(is_array($set)){
-            foreach($set as $i => $size){
-              if(!array_key_exists($size, $this->image_attachment_data)){
-                unset($source_sets[$index][$i]);
-              }
-            }
-            if(empty($source_sets[$index])){
-              unset($source_sets[$index]);
-            }else{
-              $set_length = count($source_sets[$index]);
-              if($longest_source_set < $set_length){
-                $longest_source_set = $set_length;
-              }
-            }
-          }else{
-            if(!array_key_exists($set, $this->image_attachment_data)){
-              unset($source_sets[$index]);
-            }
-          }
-        }
-
-        if(!empty($image_attributes['min_size'])){
-          foreach($source_sets as $set){
-            if(is_array($set)){
-              if($image_attributes['min_size'][1] === $set[0]){
-                break;
-              }
-            }else{
-              if($image_attributes['min_size'][1] === $set){
-                break;
-              }
-            }
-            array_shift($source_sets);
-          }
-        }
-
-        if(0 === $longest_source_set){
-          $single_source_set = array();
-          foreach($source_sets as $set){
-            $single_source_set[0][] = $set;
-          }
-          $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $single_source_set, $image_attributes);
-        }elseif(1 === $longest_source_set){
-          $single_source_set = array();
-          foreach($source_sets as $set){
-            $single_source_set[0][] = $set[0];
-          }
-          $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $single_source_set, $image_attributes);
+        if(!empty($this->image_attributes['srcset_name'])){
+          $srcset = $this->application_model->get_srcset_by_handle($this->image_attributes['srcset_name']);
         }else{
-          $this->options['use_sizes'] = false;
-          $this->srcset_array = apply_filters('picturefill_wp_image_sizes', array_reverse($source_sets), $image_attributes);
+          $srcset = $this->application_model->get_srcset_by_size($this->image_attributes['size']);
         }
+
+        uasort($srcset, array($this, 'compare_image_widths'));
+
+        foreach($srcset as $index => $image_size){
+          if(!array_key_exists($image_size, $this->image_attachment_data)){
+            unset($srcset[$index]);
+          }
+        }
+
+        $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $srcset, $this->image_attributes);
       }
     }
 

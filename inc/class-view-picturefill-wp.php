@@ -69,21 +69,12 @@ if(!class_exists('View_Picturefill_WP')){
     }
 
     public function get_sizes(){
-      if($this->model->get_option('use_sizes')){
-        return ' sizes="' . apply_filters('picturefill_wp_sizes_string' . $this->image_attributes['size'], $this->model->get_sizes_string(), $this->image_attributes, $this->image_attachment_data) . '"';
-      }
+      return ' sizes="' . apply_filters('picturefill_wp_sizes_string_' . $this->image_attributes['size'], $this->model->get_sizes_string(), $this->image_attributes, $this->image_attachment_data) . '"';
     }
 
     // Render templates
     public function render_template($template, $template_data = array()){
-      if(1 === count($this->model->get_srcset_array()) || $this->model->get_option('use_sizes')){
-        $template = 'image';
-        if(1 === count($this->model->get_srcset_array())){
-          $template_data = $this->model->get_srcset_array()[0];
-        }else{
-          $template_data = $this->model->get_srcset_array();
-        }
-      }
+      $template_data = $this->model->get_srcset_array();
       $template_path = apply_filters('picturefill_wp_template_path', PICTUREFILL_WP_PATH . 'inc/templates/');
       $template_file_path = apply_filters('picturefill_wp_' . $template . '_template_file_path', $template_path . $template . '-template.php', $template, $template_path);
       $view = $this;
