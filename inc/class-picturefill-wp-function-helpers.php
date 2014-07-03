@@ -203,7 +203,7 @@ if(!class_exists('Picturefill_WP_Function_Helpers')){
       $new_image_queue = array();
       foreach($image_size_array as $image_name){
         if('@2x' === substr($image_name, -3) || !in_array($image_name, $existing_image_sizes)){
-          return $image_queue;
+          return $new_image_queue;
         }
         if(!in_array($image_name . '@2x', $existing_image_sizes)){
           add_image_size($image_name . '@2x', $_wp_additional_image_sizes[$image_name]['width'] * 2, $_wp_additional_image_sizes[$image_name]['height'] * 2, $_wp_additional_image_sizes[$image_name]['crop']);
