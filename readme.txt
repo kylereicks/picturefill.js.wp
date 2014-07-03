@@ -144,6 +144,9 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Changelog ==
 
+= 1.3.5 =
+* Bug fixes. Typos in variable names.
+
 = 1.3.4 =
 * Bug fixes in helper functions GitHub issues [#32](https://github.com/kylereicks/picturefill.js.wp/issues/32) and [#33](https://github.com/kylereicks/picturefill.js.wp/issues/33).
 
@@ -209,5 +212,5 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 == Upgrade Notice ==
 
-= 1.3.4 =
-Bug fixes in helper functions GitHub issues [#32](https://github.com/kylereicks/picturefill.js.wp/issues/32) and [#33](https://github.com/kylereicks/picturefill.js.wp/issues/33).
+= 1.3.5 =
+Bug fixes. Typos in variable names.
