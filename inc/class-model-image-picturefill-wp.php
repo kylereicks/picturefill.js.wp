@@ -9,7 +9,6 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     private $image;
 
     // Object variables
-    private $options = array();
     private $image_attributes = array();
     private $image_attachment_data = array();
     private $srcset_array = array();
@@ -48,7 +47,6 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       $this->application_model = $application_model;
       $this->DOMDocument = $DOMDocument;
       $this->image = $image;
-      $this->set_default_options();
       $this->set_image_attributes();
       $this->set_image_attachment_data($this->image_attributes['attachment_id']);
       $this->set_unadjusted_image_size();
@@ -87,22 +85,19 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       if(empty($image_size)){
         $image_size = $this->image_attributes['size'];
       }
-      if(!empty($this->application_model->image_attachments[$image_size]['sizes'])){
+      if(!empty($this->image_attributes['sizes_name'])
+      && !empty($this->application_model->registered_sizes[$this->image_attributes['sizes_name']]['sizes_string'])){
+        return $this->application_model->registered_sizes[$this->image_attributes['sizes_name']]['sizes_string'];
+      }
+      if(!empty($this->application_model->image_attachments[$image_size]['sizes'])
+      && !empty($this->application_model->registered_sizes[$this->application_model->image_attachments[$image_size]['sizes']]['sizes_string'])){
         return $this->application_model->registered_sizes[$this->application_model->image_attachments[$image_size]['sizes']]['sizes_string'];
       }
 
       return '(max-width: ' . $this->image_attributes['width'] . 'px) 100vw, ' . $this->image_attributes['width'] . 'px';
     }
 
-    public function get_option($option_name){
-      return $this->options[$option_name];
-    }
-
     // Methods to set object data
-    private function set_default_options(){
-      $this->options = apply_filters('picturefill_wp_image_default_options', $this->application_model->get_options());
-    }
-
     private function set_image_attributes(){
       $DOMDocument_image = $this->image;
 
@@ -134,10 +129,6 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
       if(preg_match('/(?:(?:^|\s)sizes-)([\w|-]+)/', $attributes['class'], $sizes_match)){
         $attributes['sizes_name'] = $sizes_match[1];
-      }
-
-      if(!empty($attributes['size']) && !empty($this->application_model->image_attachments[$attributes['size']]['sizes'])){
-        $this->options['use_explicit_width'] = false;
       }
 
       $this->image_attributes = $attributes;

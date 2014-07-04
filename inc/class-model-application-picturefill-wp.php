@@ -3,7 +3,6 @@ defined('ABSPATH') OR exit;
 if(!class_exists('Model_Application_Picturefill_WP')){
   class Model_Application_Picturefill_WP{
 
-    private $options;
     private $upload_base_dir;
     private $upload_base_url;
     private $registered_image_sizes;
@@ -18,11 +17,6 @@ if(!class_exists('Model_Application_Picturefill_WP')){
     // Constructor, set the object variables
     public function __construct(){
       $upload_dir_data = wp_upload_dir();
-
-      $this->options = array(
-        'output_src' => apply_filters('picturefill_wp_output_src', false),
-        'use_explicit_width' => apply_filters('picturefill_wp_use_explicit_width', true)
-      );
 
       $this->upload_base_dir = $upload_dir_data['basedir'];
       $this->upload_base_url = $upload_dir_data['baseurl'];
@@ -79,10 +73,6 @@ if(!class_exists('Model_Application_Picturefill_WP')){
 
     public function get_upload_base_dir(){
       return $this->upload_base_dir;
-    }
-
-    public function get_options(){
-      return $this->options;
     }
 
     public function get_srcset_by_handle($handle){
