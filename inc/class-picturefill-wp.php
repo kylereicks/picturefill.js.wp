@@ -128,10 +128,16 @@ if(!class_exists('Picturefill_WP')){
     }
 
     public function register_srcset($handle, $srcset_array, $attached = array()){
+      if(is_string($attached)){
+        return $this->model->register_srcset($handle, $srcset_array, array($attached));
+      }
       return $this->model->register_srcset($handle, $srcset_array, $attached);
     }
 
     public function register_sizes($handle, $sizes_string, $attached = array()){
+      if(is_string($attached)){
+        return $this->model->register_sizes($handle, $sizes_string, array($attached));
+      }
       return $this->model->register_sizes($handle, $sizes_string, $attached);
     }
 

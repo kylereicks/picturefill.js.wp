@@ -40,11 +40,12 @@ if(!class_exists('Model_Application_Picturefill_WP')){
         'attached' => $attached
       );
 
-      if(!empty($attached)){
+      if(is_array($attached) && !empty($attached)){
         foreach($attached as $image_size){
           $this->image_attachments[$image_size]['sizes'] = $handle;
         }
       }
+      return true;
     }
 
     public function register_srcset($handle, $srcset_array, $attached = array()){
@@ -58,12 +59,11 @@ if(!class_exists('Model_Application_Picturefill_WP')){
         'attached' => $attached
       );
 
-      if(!empty($attached)){
+      if(is_array($attached) && !empty($attached)){
         foreach($attached as $image_size){
           $this->image_attachments[$image_size]['srcset'] = $handle;
         }
       }
-
       return true;
     }
 
