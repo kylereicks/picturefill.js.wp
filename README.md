@@ -1,4 +1,6 @@
-Picturefill.wp 2
+**Important! The functions, actions, and filters used to extend and customize Picturefill.WP 1 (Picturefill.WP 1.3.x) are not compatible with Picturefill.WP 2 (Picturefill.WP 2.0 and above).**
+
+Picturefill.WP 2
 ================
 
 Picturefill.WP 2 is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
