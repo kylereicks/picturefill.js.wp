@@ -18,13 +18,22 @@ Details
 Picturefill.wp looks through `the_content` to find `<img>` elements like this:
 
 ```html
-<img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-700x525.jpg" width="700" height="525" />
+<img class="alignnone size-large wp-image-123"
+  alt="Accessible alternate text for the image"
+  title="A title that displays on hover"
+  src="http://sitename.com/wp-content/uploads/2013/4/image-700x525.jpg"
+  width="700" height="525" />
 ```
 
 then replaces them with something like this:
 
 ```html
-<img alt="Accessible alternate text for the image" title="A title that displays on hover" class="alignnone size-large wp-image-123" width="700" height="525" sizes="(max-width: 700px) 100vw, 700px" srcset="http://sitename.com/wp-content/uploads/2013/04/image-150x150.jpg 150w, http://sitename.com/wp-content/uploads/2013/04/image-300x225.jpg 300w, http://sitename.com/wp-content/uploads/2013/04/image-700x525.jpg 700w, http://sitename.com/wp-content/uploads/2013/04/image.jpg 2048w" />
+<img alt="Accessible alternate text for the image"
+  title="A title that displays on hover"
+  class="alignnone size-large wp-image-123"
+  width="700" height="525"
+  sizes="(max-width: 700px) 100vw, 700px"
+  srcset="http://sitename.com/wp-content/uploads/2013/04/image-150x150.jpg 150w, http://sitename.com/wp-content/uploads/2013/04/image-300x225.jpg 300w, http://sitename.com/wp-content/uploads/2013/04/image-700x525.jpg 700w, http://sitename.com/wp-content/uploads/2013/04/image.jpg 2048w" />
 ```
 
 ###Heights and Widths and Breakpoints
