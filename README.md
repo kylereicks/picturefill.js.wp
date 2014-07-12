@@ -36,11 +36,9 @@ then replaces them with something like this:
   srcset="http://sitename.com/wp-content/uploads/2013/04/image-150x150.jpg 150w, http://sitename.com/wp-content/uploads/2013/04/image-300x225.jpg 300w, http://sitename.com/wp-content/uploads/2013/04/image-700x525.jpg 700w, http://sitename.com/wp-content/uploads/2013/04/image.jpg 2048w" />
 ```
 
-###Heights and Widths and Breakpoints
-
 One of the goals of this plugin is to be completely "plug and play" i.e. no setup and no options. Just turn it on and it works. To do this, the plugin relies on several Wordpress defaults and conventions.
 
-####Wordpress Image Sizes
+###Wordpress Image Sizes
 
 By default, Wordpress creates as many as 3 images of different sizes for each uploaded image ("large", "medium", and "thumbnail"), in addition to the "full" image size.
 
@@ -48,9 +46,24 @@ By default, the plugin lists all of these default sizes in the srcset and instru
 
 To use this plugin most effectively, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
 
-####Wordpress Image Classes
+###Setting srcsets and sizes
 
-The responsiveness of an image can be limited by adding the class `min-size-{image size}`. For example, an image with the class `min-size-medium` will not load an image smaller than size `medium`.
+The srcset and sizes attributes can be set a few different ways. These attributes can be set manually in the edditor. If the plugin sees the srcset attribute already in an `<img>` tag, it will ignore that image and simply enqueue the picturefill.js script. If the sizes attribute is already set in an `<img>` tag, but the srcset is not present, the plugin will add the srcset registered for that image size but leave the sizes attribute alone.
+
+New srcsets can be registered via the `picturefill_wp_register_srcset` function. Likewise, new sizes attributes can be registered via the `picturefill_wp_register_sizes` function. See Extending and Customizing Picturefill.WP for more detaill on these functions.
+
+Once a srcset or sizes attribute is registered, it will apply to the image sizes to wich it is attached; however, it can be overridden with a image's class attribute. `srcset-{srcset-handle}` applies the "srcset-handle" srcset to the image, and `sizes-{sizes-handle}` applies the "sizes-handle" sizes attribute to the image.
+
+For example, in the following image the srcset attribute is set with the `srcset-` class, and the sizes attribute is set manually.
+
+```html
+<img class="alignnone size-large wp-image-123 srcset-special-theme-srcset"
+  sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw - 100px)"
+  alt="Accessible alternate text for the image"
+  title="A title that displays on hover"
+  src="http://sitename.com/wp-content/uploads/2013/4/image-700x525.jpg"
+  width="700" height="525" />
+```
 
 ###Caching
 
