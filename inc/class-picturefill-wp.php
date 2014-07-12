@@ -62,7 +62,7 @@ if(!class_exists('Picturefill_WP')){
     public function set_parent_model(){
       require_once(PICTUREFILL_WP_PATH . 'inc/class-model-application-picturefill-wp.php');
       $this->model = new Model_Application_Picturefill_WP();
-      do_action('register_srcset');
+      do_action('picturefill_wp_register_srcset');
     }
 
     public function register_picturefill_scripts(){
