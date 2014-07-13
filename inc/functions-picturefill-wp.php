@@ -4,10 +4,6 @@
  */
 require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 
-function picturefill_wp_disable_cache(){
-  add_filter('picturefill_wp_cache', '__return_false');
-}
-
 function picturefill_wp_apply_to_filter($filter){
   add_filter($filter, array(Picturefill_WP::get_instance(), 'picturefill_wp_apply_to_html'));
 }
