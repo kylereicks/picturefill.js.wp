@@ -5,19 +5,19 @@ Picturefill.WP 2
 
 Picturefill.WP 2 is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
 
-This plugin parses post and page content replacing images with the syntax for the HTML5 `picture` element, then uses [picturefill.js](https://github.com/scottjehl/picturefill) to pollyfill the functionality on unsuported browsers.
+This plugin parses post and page content replacing images with the syntax for the HTML5 `picture` element, then uses [picturefill.js](https://github.com/scottjehl/picturefill) to polyfill the functionality on unsupported browsers.
 
 Download
 --------
 
-Picturefill.WP 2 is in beta. it seems to be working pretty well, but deserves more scutiny before making its way to the WrodPress.org plugin repository.
+Picturefill.WP 2 is in beta. it seems to be working pretty well, but deserves more scrutiny before making its way to the WordPress.org plugin repository.
 
-The latest stable version of Picturefill.WP 1 is available in the Wordpress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
+The latest stable version of Picturefill.WP 1 is available in the WordPress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
 
 Details
 -------
 
-Picturefill.wp looks through `the_content` to find `<img>` elements like this:
+Picturefill.WP 2 looks through `the_content` to find `<img>` elements like this:
 
 ```html
 <img class="alignnone size-large wp-image-123"
@@ -44,17 +44,17 @@ One of the goals of this plugin is to be completely "plug and play" i.e. no setu
 
 By default, Wordpress creates as many as 3 images of different sizes for each uploaded image ("large", "medium", and "thumbnail"), in addition to the "full" image size.
 
-By default, the plugin lists all of these default sizes in the srcset and instructs the browser to serve up the apropreate image based on browser window width and screen resolution, not exceeding the original image width. 
+By default, the plugin lists all of these default sizes in the srcset and instructs the browser to serve up the appropriate image based on browser window width and screen resolution, not exceeding the original image width. 
 
 To use this plugin most effectively, set the default image sizes ("large", "medium", and "thumbnail") to reflect useful breakpoints in your theme design.
 
 ###Setting srcsets and sizes
 
-The srcset and sizes attributes can be set a few different ways. These attributes can be set manually in the edditor. If the plugin sees the srcset attribute already in an `<img>` tag, it will ignore that image and simply enqueue the picturefill.js script. If the sizes attribute is already set in an `<img>` tag, but the srcset is not present, the plugin will add the srcset registered for that image size but leave the sizes attribute alone.
+The srcset and sizes attributes can be set a few different ways. These attributes can be set manually in the editor. If the plugin sees the srcset attribute already in an `<img>` tag, it will ignore that image and simply enqueue the picturefill.js script. If the sizes attribute is already set in an `<img>` tag, but the srcset is not present, the plugin will add the srcset registered for that image size but leave the sizes attribute alone.
 
-New srcsets can be registered via the `picturefill_wp_register_srcset` function. Likewise, new sizes attributes can be registered via the `picturefill_wp_register_sizes` function. See Extending and Customizing Picturefill.WP for more detaill on these functions.
+New srcsets can be registered via the `picturefill_wp_register_srcset` function. Likewise, new sizes attributes can be registered via the `picturefill_wp_register_sizes` function. See Extending and Customizing Picturefill.WP for more detail on these functions.
 
-Once a srcset or sizes attribute is registered, it will apply to the image sizes to wich it is attached; however, it can be overridden with a image's class attribute. `srcset-{srcset-handle}` applies the "srcset-handle" srcset to the image, and `sizes-{sizes-handle}` applies the "sizes-handle" sizes attribute to the image.
+Once a srcset or sizes attribute is registered, it will apply to the image sizes to which it is attached; however, it can be overridden with a image's class attribute. `srcset-{srcset-handle}` applies the "srcset-handle" srcset to the image, and `sizes-{sizes-handle}` applies the "sizes-handle" sizes attribute to the image.
 
 For example, in the following image the srcset attribute is set with the `srcset-` class, and the sizes attribute is set manually.
 
@@ -104,7 +104,7 @@ if(defined('PICTUREFILL_WP_VERSION') && '2' === substr(PICTUREFILL_WP_VERSION, 0
 
 ####picturefill_wp_register_srcset($handle, $srcset_array, $attach_to)
 
-This function registers a srcset and optionally asigns it to an image size. It should be called with the `picturefill_wp_register_srcset` action.
+This function registers a srcset and optionally assigns it to an image size. It should be called with the `picturefill_wp_register_srcset` action.
 
 #####Parameters
 
@@ -121,12 +121,12 @@ function register_theme_srcsets(){
   picturefill_wp_register_srcset('medium-min-size', array('medium', 'large', 'full'), 'medium');
 }
 
-add_filter('picturefill_wp_register_srcset', 'register_theme_sresets');
+add_filter('picturefill_wp_register_srcset', 'register_theme_srcsets');
 ```
 
 ####picturefill_wp_register_sizes($handle, $sizes_string, $attach_to)
 
-This function registers a sizes attribute and optionally asigns it to an image size. It should be called with the `picturefill_wp_register_srcset` action.
+This function registers a sizes attribute and optionally assigns it to an image size. It should be called with the `picturefill_wp_register_srcset` action.
 
 #####Parameters
 
@@ -196,7 +196,7 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_syntax_present_libxml_errors`
 * `picturefill_wp_get_images_libxml_errors`
 * `picturefill_wp_image_attributes`
-* `picturefill_wp_html_standerdized_img_tags`
+* `picturefill_wp_html_standardized_img_tags`
 * `picturefill_wp_srcset_array`
 * `picturefill_wp_image_attachment_data`
 * `picturefill_wp_template_path`
@@ -235,7 +235,7 @@ echo picturefill_wp_apply_to_html($image_output);
 
 Picturefill.WP will replace any images that run through `the_content` filters with the picturefill HTML syntax, but picturefill.js is only run on page load and when the browser window is resized. It will not be run on any additional content added to the page after the page is loaded.
 
-To work with an infinate scroll plugin, `window.picturefill();` will need to be added as a callback function, to be called anytime new content has loaded. In the case of the [infinite scroll plugin](http://wordpress.org/plugins/infinite-scroll/) linked at the top, there is a callback field in the plugin options where `window.picturefill();` can be added.
+To work with an infinite scroll plugin, `window.picturefill();` will need to be added as a callback function, to be called anytime new content has loaded. In the case of the [infinite scroll plugin](http://wordpress.org/plugins/infinite-scroll/) linked at the top, there is a callback field in the plugin options where `window.picturefill();` can be added.
 
 ###Using Picturefill.WP with the [NextGen Gallery](http://wordpress.org/plugins/nextgen-gallery/)
 
