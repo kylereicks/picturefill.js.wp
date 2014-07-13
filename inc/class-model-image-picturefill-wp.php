@@ -230,7 +230,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
           }
         }
 
-        $this->srcset_array = apply_filters('picturefill_wp_image_sizes', $srcset, $this->image_attributes);
+        $this->srcset_array = apply_filters('picturefill_wp_srcset_array', $srcset, $this->image_attributes);
       }
     }
 
