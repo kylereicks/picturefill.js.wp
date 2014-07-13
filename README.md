@@ -10,7 +10,9 @@ This plugin parses post and page content replacing images with the syntax for th
 Download
 --------
 
-The latest stable version of Picturefill.WP is available in the Wordpress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
+Picturefill.WP 2 is in beta. it seems to be working pretty well, but deserves more scutiny before making its way to the WrodPress.org plugin repository.
+
+The latest stable version of Picturefill.WP 1 is available in the Wordpress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
 
 Details
 -------
