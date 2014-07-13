@@ -90,14 +90,88 @@ Extending and Customizing Picturefill.WP
 
 ###Functions
 
-Picturefill.WP 2 includes a number of functions to simplify common customizations.
+Picturefill.WP 2 includes a number of functions to better interact with the plugin.
 
-For extra safety, it's a good idea to wrap your code that targets Picturefill.WP in a conditional statement so it will only run if the plugin is active.
+For extra safety, it's a good idea to wrap your code that targets Picturefill.WP 2 in a conditional statement so it will only run if the plugin is active.
 
 ```php
-if(defined('PICTUREFILL_WP_VERSION')){
+if(defined('PICTUREFILL_WP_VERSION') && '2' === substr(PICTUREFILL_WP_VERSION, 0, 1)){
   // Add Picturefill.WP specific code here.
 }
+```
+
+####picturefill_wp_register_srcset($handle, $srcset_array, $attach_to)
+
+This function registers a srcset and optionally asigns it to an image size. It should be called with the `picturefill_wp_register_srcset` action.
+
+#####Parameters
+
+**$handle** (string) (required) Name of the srcset. Should be unique. Can later be assigned to an image via the class `srcset-{$handle}`.
+
+**$srcset_array** (array) (required) An array of image sizes that make up the srcset.
+
+**$attach_to** (string or array) (optional) A single image (string) or list of images (array) to which this srcset should be applied.
+
+#####Example
+
+```php
+function register_theme_srcsets(){
+  picturefill_wp_register_srcset('medium-min-size', array('medium', 'large', 'full'), 'medium');
+}
+
+add_filter('picturefill_wp_register_srcset', 'register_theme_sresets');
+```
+
+####picturefill_wp_register_sizes($handle, $sizes_string, $attach_to)
+
+This function registers a sizes attribute and optionally asigns it to an image size. It should be called with the `picturefill_wp_register_srcset` action.
+
+#####Parameters
+
+**$handle** (string) (required) Name of the sizes attribute. Should be unique. Can later be assigned to an image via the class `sizes-{$handle}`.
+
+**$sizes_string** (string) (required) The sizes attribute.
+
+**$attach_to** (string or array) (optional) A single image (string) or list of images (array) to which this sizes attribute should be applied.
+
+#####Example
+
+```php
+function register_theme_sizes(){
+  picturefill_wp_register_sizes('theme-medium-sizes', '(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw - 100px)', 'medium');
+}
+
+add_filter('picturefill_wp_register_srcset', 'register_theme_sizes');
+```
+
+####picturefill_wp_apply_to_html($html, $cache)
+
+This function applies Picturefill.WP to the passed HTML.
+
+#####Parameters
+
+**$html** (string) (required) HTML string that includes an image.
+
+**$cache** (boolean) (optional) Whether or not the output will be cached.
+
+#####Example
+
+```php
+echo picturefill_wp_apply_to_html(the_post_thumbnail('large'));
+```
+
+####picturefill_wp_apply_to_filter($filter)
+
+This function applies Picturefill.WP to the passed filter.
+
+#####Parameters
+
+**$filter** (string) (required) A WordPress filter.
+
+#####Example
+
+```php
+picturefill_wp_apply_to_filter('post_thumbnail_html');
 ```
 
 ###Hooks
