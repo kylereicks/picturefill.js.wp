@@ -181,28 +181,30 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 ####Actions
 
 * `picturefill_wp_updated`
+* `picturefill_wp_register_srcset`
 * `picturefill_wp_before_replace_images`
 * `picturefill_wp_after_replace_images`
 
 ####Filters
 
 * `picturefill_wp_the_content_filter_priority`
-* `picturefill_wp_content_html`
+* `picturefill_wp_the_replace_images_output`
+* `picturefill_wp_cache`
+* `picturefill_wp_cache_duration`
+* `picturefill_wp_syntax_present_libxml_errors`
+* `picturefill_wp_get_images_libxml_errors`
 * `picturefill_wp_image_attributes`
+* `picturefill_wp_html_standerdized_img_tags`
+* `picturefill_wp_srcset_array`
 * `picturefill_wp_image_attachment_data`
-* `picturefill_wp_image_sizes`
-* `picturefill_wp_source_list`
-* `picturefill_wp_picture_attribute_string`
-* `picturefill_wp_media_query_breakpoint`
-* `picturefill_wp_media_query_resolution_query`
 * `picturefill_wp_template_path`
 * `picturefill_wp_{$template}_template_file_path`
 * `picturefill_wp_{$template}_template_data`
 * `picturefill_wp_{$template}_template`
-* `picturefill_wp_the_content_output`
-* `picturefill_wp_cache_duration`
-* `picturefill_wp_syntax_present_libxml_errors`
-* `picturefill_wp_get_images_libxml_errors`
+* `picturefill_wp_sizes_string_{$image_size}`
+* `picturefill_wp_image_attribute_string`
+* `picturefill_wp_use_explicit_width`
+* `picturefill_wp_output_src`
 
 
 Use With Other Plugins
@@ -210,18 +212,10 @@ Use With Other Plugins
 
 ###Using Picturefill.WP with the [Advanced Custom Fields Plugin](http://wordpress.org/plugins/advanced-custom-fields/)
 
-If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, apply Picturefill.WP to the `acf/format_value_for_api` filter.
+If you use [Advanced Custom Fields shortcodes](http://www.advancedcustomfields.com/resources/functions/shortcode/) in your post or page content, Picturefill.WP 2 will work automatically. To use Advanced Custom Fields outside of `the_content` in theme files, apply Picturefill.WP 2 to the `acf/format_value_for_api` filter.
 
 ```php
-add_filter('acf/format_value_for_api', 'theme_function_picturefill_for_acf', 11, 3);
-
-function theme_function_picturefill_for_acf($content, $post_id, $field){
-  if(in_array($field['type'], array('textarea', 'wysiwyg', text))){
-    return picturefill_wp_apply_to_html($content);
-  }else{
-    return $content;
-  }
-}
+picturefill_wp_apply_to_filter('acf/format_value_for_api');
 ```
 
 For image fields.
@@ -233,15 +227,6 @@ $image_object = get_field('image');
 $image_output = '<img src="' . $image_object['sizes']['medium'] . '" title="' . $image_object['title'] . '" alt="' . $image_object['alt'] . '" />';
 echo picturefill_wp_apply_to_html($image_output);
 ?>
-```
-
-In functions.php:
-```php
-add_filter('theme_acf_image', 'theme_function_for_acf_image', 10, 2);
-
-function theme_function_for_acf_image($content, $name_of_the_image_field){
-  return Picturefill_WP::get_instance()->cache_picturefill_output($content, $name_of_the_image_field);
-}
 ```
 
 ###Using Picturefill.WP with the [Infinite Scroll Plugin](http://wordpress.org/plugins/infinite-scroll/)
@@ -262,9 +247,7 @@ Disabling transient caching altogether.
 
 In functions.php:
 ```php
-if(defined('PICTUREFILL_WP_VERSION')){
-  disable_picturefill_wp_cache();
-}
+add_filter('picturefill_wp_cache', '__return_false');
 ```
 
 Disabling transient caching on the cart shortcode.
@@ -277,17 +260,8 @@ if(defined('PICTUREFILL_WP_VERSION')){
 
 function do_not_cache_woocommerce_cart($content){
   if(has_shortcode($content, 'woocommerce_cart')){
-    disable_picturefill_wp_cache();
+    add_filter('picturefill_wp_cache', '__return_false');
   }
   return $content;
-}
-```
-
-Telling Picturefill.WP to ignore the shopping cart.
-
-In functions.php:
-```php
-if(defined('PICTUREFILL_WP_VERSION')){
-  picturefill_wp_exclude_post_slug('cart');
 }
 ```
