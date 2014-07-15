@@ -159,7 +159,7 @@ This function applies Picturefill.WP to the passed HTML.
 #####Example
 
 ```php
-echo picturefill_wp_apply_to_html(the_post_thumbnail('large'));
+echo picturefill_wp_apply_to_html(get_the_post_thumbnail());
 ```
 
 ####picturefill_wp_apply_to_filter($filter)
