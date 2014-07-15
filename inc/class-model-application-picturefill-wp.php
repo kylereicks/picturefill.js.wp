@@ -7,6 +7,7 @@ if(!class_exists('Model_Application_Picturefill_WP')){
     private $upload_base_url;
     private $registered_image_sizes;
     private $choosable_image_sizes;
+    private $allowed_image_extensions;
 
     public $registered_sizes = array();
 
@@ -22,6 +23,7 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       $this->upload_base_url = $upload_dir_data['baseurl'];
       $this->registered_image_sizes = get_intermediate_image_sizes();
       $this->choosable_image_sizes = self::set_choosable_image_sizes();
+      $this->allowed_image_extensions = self::set_allowed_image_extensions();
 
       $this->register_sizes('default', '100vw');
 
@@ -75,6 +77,10 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       return $this->upload_base_dir;
     }
 
+    public function get_allowed_image_extensions(){
+      return $this->allowed_image_extensions;
+    }
+
     public function get_srcset_by_handle($handle){
       if(!empty($this->registered_srcsets[$handle]['srcset_array'])){
         return $this->registered_srcsets[$handle]['srcset_array'];
@@ -105,6 +111,19 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       }
 
       return $sizes;
+    }
+
+    private static function set_allowed_image_extensions(){
+      $image_extensions = array();
+      $mime_types = get_allowed_mime_types();
+
+      foreach($mime_types as $extensions => $type){
+        if('image/' === substr($type, 0, 6)){
+          $image_extensions = array_merge($image_extensions, explode('|', $extensions));
+        }
+      }
+
+      return $image_extensions;
     }
   }
 }

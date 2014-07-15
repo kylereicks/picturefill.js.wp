@@ -145,7 +145,10 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     private function set_image_attachment_data($attachment_id){
       if(false !== $attachment_id){
         $image_attachment_metadata = wp_get_attachment_metadata($attachment_id);
-        $this->upload_subdir = '/' . substr($image_attachment_metadata['file'], 0, 7);
+        if(preg_match('/.*\/(?=[^\/]+\.(?:' . implode('|', $this->application_model->get_allowed_image_extensions()) . '))/', $image_attachment_metadata['file'], $upload_subdir_match)){
+          $this->upload_subdir = $upload_subdir_match[0];
+        }
+
         $image_attachment_data = $image_attachment_metadata['sizes'];
         $image_attachment_data['full'] = array(
           'file' => substr($image_attachment_metadata['file'], 8),
@@ -154,7 +157,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
         );
 
         foreach($image_attachment_data as $image_size => $image_data){
-          $image_attachment_data[$image_size]['url'] = $this->application_model->get_upload_base_url() . $this->upload_subdir . '/' . $image_data['file'];
+          $image_attachment_data[$image_size]['url'] = $this->application_model->get_upload_base_url() . '/' . $this->upload_subdir . $image_data['file'];
         }
 
         $image_attachment_data = apply_filters('picturefill_wp_image_attachment_data', $image_attachment_data, $attachment_id);
