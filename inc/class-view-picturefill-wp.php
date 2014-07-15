@@ -35,11 +35,11 @@ if(!class_exists('View_Picturefill_WP')){
         'sizes_name'
       );
 
-      if(!apply_filters('picturefill_wp_output_src', false, $this->image_attributes) && false !== $this->model->get_image_attributes()['attachment_id']){
+      if(!apply_filters('picturefill_wp_output_src', false, $this->image_attributes) && false !== $this->image_attributes['attachment_id']){
         $ignore_attributes[] = 'src';
       }
 
-      if(!apply_filters('picturefill_wp_use_explicit_width', true, $this->image_attributes) && false !== $this->model->get_image_attributes()['attachment_id']){
+      if(!apply_filters('picturefill_wp_use_explicit_width', true, $this->image_attributes) && false !== $this->image_attributes['attachment_id']){
         $ignore_attributes[] = 'width';
         $ignore_attributes[] = 'height';
       }
