@@ -151,7 +151,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
         $image_attachment_data = $image_attachment_metadata['sizes'];
         $image_attachment_data['full'] = array(
-          'file' => substr($image_attachment_metadata['file'], 8),
+          'file' => str_replace($this->upload_subdir, '', $image_attachment_metadata['file']),
           'width' => $image_attachment_metadata['width'],
           'height' => $image_attachment_metadata['height']
         );
