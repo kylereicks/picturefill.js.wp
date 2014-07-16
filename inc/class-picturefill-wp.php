@@ -67,9 +67,9 @@ if(!class_exists('Picturefill_WP')){
 
     public function register_picturefill_scripts(){
       if(WP_DEBUG){
-        wp_register_script('picturefill', PICTUREFILL_WP_URL . 'js/libs/picturefill.js', array(), PICTUREFILL_WP_VERSION, true);
+        wp_register_script('picturefill', PICTUREFILL_WP_URL . 'js/libs/picturefill.js', array(), PICTUREFILL_JS_VERSION, true);
       }else{
-        wp_register_script('picturefill', PICTUREFILL_WP_URL . 'js/libs/picturefill.min.js', array(), PICTUREFILL_WP_VERSION, true);
+        wp_register_script('picturefill', PICTUREFILL_WP_URL . 'js/libs/picturefill.min.js', array(), PICTUREFILL_JS_VERSION, true);
       }
     }
 
