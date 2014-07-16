@@ -3,18 +3,20 @@ defined('ABSPATH') OR exit;
 if(!class_exists('Picturefill_WP')){
   class Picturefill_WP{
 
+    private static $instance;
     public static $wpdb;
     private $model;
 
     // Setup singleton pattern
-    public static function get_instance(){
-      static $instance;
-
-      if(null === $instance){
-        $instance = new self();
+    public static function init(){
+      if(null === self::$instance){
+        self::$instance = new self();
       }
+    }
 
-      return $instance;
+    public static function get_instance(){
+      self::init();
+      return self::$instance;
     }
 
     private function __clone(){
