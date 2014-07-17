@@ -5,7 +5,7 @@ Picturefill.WP 2
 
 Picturefill.WP 2 is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
 
-This plugin parses post and page content replacing images with the syntax for the HTML5 `picture` element, then uses [picturefill.js](https://github.com/scottjehl/picturefill) to polyfill the functionality on unsupported browsers.
+This plugin parses post and page content augmenting images with the syntax for the HTML5 `srcset` and `sizes` attributes, then uses [picturefill.js](https://github.com/scottjehl/picturefill) to polyfill the functionality on unsupported browsers.
 
 Download
 --------
