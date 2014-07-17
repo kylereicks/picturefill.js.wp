@@ -15,8 +15,8 @@ if(!class_exists('View_Picturefill_WP')){
     }
 
     // Constructor, get data from model object
-    public function __construct($model_picturefill_wp){
-      $this->model = $model_picturefill_wp;
+    public function __construct(Model_Image_Picturefill_WP $model){
+      $this->model = $model;
       $this->original_image = html_entity_decode(self::standardize_img_tags($this->model->get_image_xml()), ENT_COMPAT, 'UTF-8');
       $this->image_attributes = apply_filters('picturefill_wp_image_attributes', $this->model->get_image_attributes());
       $this->image_attachment_data = $this->model->get_image_attachment_data();

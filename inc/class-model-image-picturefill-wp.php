@@ -19,7 +19,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       return new DOMDocument();
     }
 
-    static function syntax_present($DOMDocument, $html){
+    static function syntax_present(DOMDocument $DOMDocument, $html){
       $libxml_previous_error_state = libxml_use_internal_errors(true);
       $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
       apply_filters('picturefill_wp_syntax_present_libxml_errors', libxml_get_errors(), $html, $DOMDocument);
@@ -32,7 +32,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       return true;
     }
 
-    static function get_images($DOMDocument, $html){
+    static function get_images(DOMDocument $DOMDocument, $html){
       $libxml_previous_error_state = libxml_use_internal_errors(true);
       $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
       apply_filters('picturefill_wp_get_images_libxml_errors', libxml_get_errors(), $html, $DOMDocument);
@@ -42,7 +42,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     }
 
     // Constructor, set the object variables
-    public function __construct($application_model, $DOMDocument, $image){
+    public function __construct(Model_Application_Picturefill_WP $application_model, DOMDocument $DOMDocument, DOMNode $image){
       require_once(ABSPATH . 'wp-admin/includes/image.php');
       $this->application_model = $application_model;
       $this->DOMDocument = $DOMDocument;
@@ -168,7 +168,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       }
     }
 
-    private function get_unadjusted_size($image_attachment_data, $image_attributes){
+    private function get_unadjusted_size(array $image_attachment_data, array $image_attributes){
       if(empty($image_attributes['width'])){
         $image_attributes_url_width_height = array($image_attributes['src'], $image_attributes['width'], $image_attributes['height']);
         $image_attributes_url_width_height = $this->get_image_width_height($image_attributes_url_width_height);
@@ -191,7 +191,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       return false;
     }
 
-    private function get_image_width_height($attachment_data){
+    private function get_image_width_height(array $attachment_data){
       if(ini_get('allow_url_fopen')){
         $image_size = getimagesize($attachment_data['url']);
 
