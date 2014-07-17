@@ -99,7 +99,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
 
     // Methods to set object data
     private function set_image_attributes(){
-      $DOMDocument_image = $this->image;
+      $DOMNode_image = $this->image;
 
       $attributes = array(
         'attachment_id' => null,
@@ -113,7 +113,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
         'height' => null
       );
 
-      foreach($DOMDocument_image->attributes as $attr => $node){
+      foreach($DOMNode_image->attributes as $attr => $node){
         $attributes[$attr] = $node->nodeValue;
       }
 
