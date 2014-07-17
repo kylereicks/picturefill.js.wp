@@ -117,7 +117,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
         $attributes[$attr] = $node->nodeValue;
       }
 
-      $attributes['attachment_id'] = self::url_to_attachment_id($attributes['src']);
+      $attributes['attachment_id'] = $this->url_to_attachment_id($attributes['src']);
 
       if(preg_match('/(?:(?:^|\s)size-)([\w|-]+)/', $attributes['class'], $size_match)){
         $attributes['size'] = $size_match[1];
@@ -200,7 +200,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
           $attachment_data['height'] = $image_size[1];
         }
       }else{
-        preg_match('/^(?:.+?)(?:-(\d+)x(\d+))\.(?:jpg|jpeg|png|gif)(?:(?:\?|#).+)?$/i', $attachment_data['url'], $image_width_height);
+        preg_match('/^(?:.+?)(?:-(\d+)x(\d+))\.(?:' . implode('|', $this->application_model->get_allowed_image_extensions()) . ')(?:(?:\?|#).+)?$/i', $attachment_data['url'], $image_width_height);
         if(!empty($image_width_height)){
           $attachment_data['width'] = $image_width_height[1];
           $attachment_data['width'] = $image_width_height[2];
@@ -247,9 +247,9 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       }
     }
 
-    public static function url_to_attachment_id($image_url){
+    private function url_to_attachment_id($image_url){
       $original_image_url = $image_url;
-      $image_url = preg_replace('/^(.+?)(-\d+x\d+)?\.(jpg|jpeg|png|gif)((?:\?|#).+)?$/i', '$1.$3', $image_url);
+      $image_url = preg_replace('/^(.+?)(-\d+x\d+)?\.(' . implode('|', $this->application_model->get_allowed_image_extensions()) . ')((?:\?|#).+)?$/i', '$1.$3', $image_url);
       $prefix = Picturefill_WP::$wpdb->prefix;
       $attachment_id = Picturefill_WP::$wpdb->get_col(Picturefill_WP::$wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $image_url ));
       if(!empty($attachment_id)){

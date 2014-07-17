@@ -22,8 +22,8 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       $this->upload_base_dir = $upload_dir_data['basedir'];
       $this->upload_base_url = $upload_dir_data['baseurl'];
       $this->registered_image_sizes = get_intermediate_image_sizes();
-      $this->choosable_image_sizes = self::set_choosable_image_sizes();
-      $this->allowed_image_extensions = self::set_allowed_image_extensions();
+      $this->set_choosable_image_sizes();
+      $this->set_allowed_image_extensions();
 
       $this->register_sizes('default', '100vw');
 
@@ -97,7 +97,7 @@ if(!class_exists('Model_Application_Picturefill_WP')){
       }
     }
 
-    private static function set_choosable_image_sizes(){
+    private function set_choosable_image_sizes(){
       $sizes = array();
       $choosable_image_size_names = apply_filters('image_size_names_choose', array(
         'thumbnail' => __('Thumbnail'),
@@ -110,10 +110,10 @@ if(!class_exists('Model_Application_Picturefill_WP')){
         $sizes[] = $size;
       }
 
-      return $sizes;
+      $this->choosable_image_sizes = $sizes;
     }
 
-    private static function set_allowed_image_extensions(){
+    private function set_allowed_image_extensions(){
       $image_extensions = array();
       $mime_types = get_allowed_mime_types();
 
@@ -123,7 +123,7 @@ if(!class_exists('Model_Application_Picturefill_WP')){
         }
       }
 
-      return $image_extensions;
+      $this->allowed_image_extensions = $image_extensions;
     }
   }
 }
