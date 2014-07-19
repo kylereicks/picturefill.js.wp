@@ -15,10 +15,6 @@ if(!class_exists('Model_Image_Picturefill_WP')){
     private $upload_subdir = '';
 
     // Static methods to generate the input needed to instatiante the object
-    static function get_DOMDocument(){
-      return new DOMDocument();
-    }
-
     static function syntax_present(DOMDocument $DOMDocument, $html){
       $libxml_previous_error_state = libxml_use_internal_errors(true);
       $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);

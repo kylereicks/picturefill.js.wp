@@ -106,7 +106,7 @@ if(!class_exists('Picturefill_WP')){
     public function replace_images($html){
       do_action('picturefill_wp_before_replace_images');
       require_once(PICTUREFILL_WP_PATH . 'inc/class-model-image-picturefill-wp.php');
-      $DOMDocument = Model_Image_Picturefill_WP::get_DOMDocument();
+      $DOMDocument = new DOMDocument();
       $images = Model_Image_Picturefill_WP::get_images($DOMDocument, $html);
       if($images->length > 0){
         require_once(PICTUREFILL_WP_PATH . 'inc/class-view-picturefill-wp.php');
