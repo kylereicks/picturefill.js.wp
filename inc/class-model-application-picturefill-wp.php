@@ -15,6 +15,29 @@ if(!class_exists('Model_Application_Picturefill_WP')){
 
     public $image_attachments = array();
 
+    // Static methods to generate the input needed to instatiante the object
+    static function syntax_present(DOMDocument $DOMDocument, $html){
+      $libxml_previous_error_state = libxml_use_internal_errors(true);
+      $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
+      apply_filters('picturefill_wp_syntax_present_libxml_errors', libxml_get_errors(), $html, $DOMDocument);
+      libxml_clear_errors();
+      libxml_use_internal_errors($libxml_previous_error_state);
+      $spans = $DOMDocument->getElementsByTagName('picture');
+      if(0 === $spans->length){
+        return false;
+      }
+      return true;
+    }
+
+    static function get_images(DOMDocument $DOMDocument, $html){
+      $libxml_previous_error_state = libxml_use_internal_errors(true);
+      $DOMDocument->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $html);
+      apply_filters('picturefill_wp_get_images_libxml_errors', libxml_get_errors(), $html, $DOMDocument);
+      libxml_clear_errors();
+      libxml_use_internal_errors($libxml_previous_error_state);
+      return $DOMDocument->getElementsByTagName('img');
+    }
+
     // Constructor, set the object variables
     public function __construct(){
       $upload_dir_data = wp_upload_dir();
