@@ -45,7 +45,7 @@ if(!class_exists('View_Picturefill_WP')){
       }
 
       foreach($image_attributes as $attribute => $value){
-        $output_string .= !empty($value) && !is_array($value) && !in_array($attribute, $ignore_attributes) ? ' ' . $attribute . '="' . html_entity_decode($value, ENT_COMPAT, 'UTF-8') . '"' : '';
+        $output_string .= !empty($value) && !is_array($value) && !in_array($attribute, $ignore_attributes) ? ' ' . $attribute . '="' . apply_filters('picturefill_wp_image_attribute_' . $attribute, html_entity_decode($value, ENT_COMPAT, 'UTF-8')) . '"' : '';
       }
 
       return apply_filters('picturefill_wp_image_attribute_string', $output_string);
@@ -64,7 +64,7 @@ if(!class_exists('View_Picturefill_WP')){
 
       foreach($sizes as $size){
         $resolution = $this->model->get_srcset_resolution($size);
-        $srcset_components[] = $this->model->get_image_url($size) . $resolution;
+        $srcset_components[] = apply_filters('picturefill_wp_srcset_url', $this->model->get_image_url($size), $size) . $resolution;
       }
 
       return implode(', ', $srcset_components);
