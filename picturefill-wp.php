@@ -12,7 +12,7 @@ Author URI: http://github.com/kylereicks/
 define('PICTUREFILL_WP_PATH', plugin_dir_path(__FILE__));
 define('PICTUREFILL_WP_URL', plugins_url('/', __FILE__));
 define('PICTUREFILL_WP_VERSION', '2.0.0');
-define('PICTUREFILL_JS_VERSION', '2.1.0-Beta');
+define('PICTUREFILL_JS_VERSION', '2.1.0');
 
 require_once(PICTUREFILL_WP_PATH . 'inc/class-picturefill-wp.php');
 
