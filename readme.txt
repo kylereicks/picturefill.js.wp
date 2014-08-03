@@ -107,7 +107,7 @@ See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.
 
 There aren't any. Breakpoints, as well as retina and responsive images are created based on the image sizes in your media settings. See [Extending and Customizing Picturefill.WP 1](https://github.com/kylereicks/picturefill.js.wp/tree/1.3.x#extending-and-customizing-picturefillwp-1) For information on customizing the plugin.
 
-= Should I use this plugin (1.3.x), or the implementation of [Picturefill 2.0 on GitHub](https://github.com/kylereicks/picturefill.js.wp/tree/master)? =
+= Should I use this plugin (1.3.x), or the implementation of <a href="https://github.com/kylereicks/picturefill.js.wp/tree/master">Picturefill 2.0 on GitHub</a>? =
 
 There are a number of reasons why you might want to use either. The Picturefill project site provides a basic [breakdown of the two versions](http://scottjehl.github.io/picturefill/#download), as well as some [support caveats to keep in mind for version 2](http://scottjehl.github.io/picturefill/#gotchas). 
 
