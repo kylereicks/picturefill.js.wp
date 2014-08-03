@@ -1,19 +1,21 @@
-Picturefill.wp
-==============
+Picturefill.wp 1
+================
 
-Picturefill.WP is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
+**Note: This is an implementation of Picturefill.js version 1.2.x. For an implementation of Picturefill.js 2.x, see the [master branch of this repository](https://github.com/kylereicks/picturefill.js.wp/tree/master).**
+
+Picturefill.WP 1 is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
 
 This plugin parses post and page content replacing images with a special syntax similar to the proposed syntax for the HTML5 `picture` element, then uses an adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) to load the appropriate image to the browser.
 
 Download
 --------
 
-The latest stable version of Picturefill.WP is available in the Wordpress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
+The latest stable version of Picturefill.WP 1 is available in the Wordpress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
 
 Details
 -------
 
-Picturefill.wp looks through `the_content` to find `<img>` elements like this:
+Picturefill.wp 1 looks through `the_content` to find `<img>` elements like this:
 
 ```html
 <img class="alignnone size-large wp-image-123" alt="Accessible alternate text for the image" title="A title that displays on hover" src="http://sitename.com/wp-content/uploads/2013/4/image-770x577.jpg" width="770" height="577" />
@@ -106,8 +108,8 @@ If you are installing Picturefill.WP on a large and image heavy site, you may wa
 
 These errors are related to the slow loading listed above. If the server reaches its timeout limit before it is finished processing new images, it will return a 500 or 504 error. Refreshing the page usually gives the server the time it needs to finish processing the images. On some image-heavy posts, it may take more than one refresh.
 
-Extending and Customizing Picturefill.WP
-------------------------
+Extending and Customizing Picturefill.WP 1
+------------------------------------------
 
 ###Helper Functions
 
@@ -116,7 +118,7 @@ Picturefill.WP, as of version 1.3.0, includes a number of helper functions to si
 For extra safety, it's a good idea to wrap your code that targets Picturefill.WP in a conditional statement so it will only run if the plugin is active.
 
 ```php
-if(defined('PICTUREFILL_WP_VERSION')){
+if(defined('PICTUREFILL_WP_VERSION') && '1' === substr(PICTUREFILL_WP_VERSION, 0, 1)){
   // Add Picturefill.WP specific code here.
 }
 ```
