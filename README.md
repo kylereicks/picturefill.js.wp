@@ -1,18 +1,11 @@
 Picturefill.WP 2
 ================
 
-**Important! The functions, actions, and filters used to extend and customize Picturefill.WP 1 (Picturefill.WP 1.3.x) are not compatible with Picturefill.WP 2 (Picturefill.WP 2.0 and above). Picturefill.WP 1 documentation can be found in the 1.3.x branch of this repository.**
+**Note: This is an implementation of Picturefill.js version 2.x. For an implementation of Picturefill.js 1.2.x, see the [1.3.x branch of this repository](https://github.com/kylereicks/picturefill.js.wp/tree/1.3.x).**
 
 Picturefill.WP 2 is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
 
 This plugin parses post and page content augmenting images with the syntax for the HTML5 `srcset` and `sizes` attributes, then uses [picturefill.js](https://github.com/scottjehl/picturefill) to polyfill the functionality on unsupported browsers.
-
-Download
---------
-
-Picturefill.WP 2 is in beta. it seems to be working pretty well, but deserves more scrutiny before making its way to the WordPress.org plugin repository.
-
-The latest stable version of Picturefill.WP 1 is available in the WordPress.org plugin directory [http://wordpress.org/extend/plugins/picturefillwp/](http://wordpress.org/extend/plugins/picturefillwp/).
 
 Details
 -------
@@ -37,8 +30,6 @@ then replaces them with something like this:
   sizes="(max-width: 700px) 100vw, 700px"
   srcset="http://sitename.com/wp-content/uploads/2013/04/image-150x150.jpg 150w, http://sitename.com/wp-content/uploads/2013/04/image-300x225.jpg 300w, http://sitename.com/wp-content/uploads/2013/04/image-700x525.jpg 700w, http://sitename.com/wp-content/uploads/2013/04/image.jpg 2048w" />
 ```
-
-One of the goals of this plugin is to be completely "plug and play" i.e. no setup and no options. Just turn it on and it works. To do this, the plugin relies on several Wordpress defaults and conventions.
 
 ###Wordpress Image Sizes
 
@@ -98,7 +89,7 @@ For extra safety, it's a good idea to wrap your code that targets Picturefill.WP
 
 ```php
 if(defined('PICTUREFILL_WP_VERSION') && '2' === substr(PICTUREFILL_WP_VERSION, 0, 1)){
-  // Add Picturefill.WP specific code here.
+  // Add Picturefill.WP 2 specific code here.
 }
 ```
 
@@ -195,6 +186,7 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_cache_duration`
 * `picturefill_wp_syntax_present_libxml_errors`
 * `picturefill_wp_get_images_libxml_errors`
+* `picturefill_wp_attachment_id_search_url`
 * `picturefill_wp_image_attributes`
 * `picturefill_wp_html_standardized_img_tags`
 * `picturefill_wp_srcset_array`
@@ -204,7 +196,9 @@ Like many WordPress themes and plugins, Picturefill.WP can be altered and extend
 * `picturefill_wp_{$template}_template_data`
 * `picturefill_wp_{$template}_template`
 * `picturefill_wp_sizes_string_{$image_size}`
+* `picturefill_wp_srcset_url`
 * `picturefill_wp_image_attribute_string`
+* `picturefill_wp_image_attribute_{$attribute}`
 * `picturefill_wp_use_explicit_width`
 * `picturefill_wp_output_src`
 
