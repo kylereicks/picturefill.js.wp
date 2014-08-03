@@ -12,6 +12,8 @@ A Wordpress plugin to use picturefill.js to load responsive/retina images, mimic
 
 == Description ==
 
+**Note: This is an implementation of [Picturefill.js version 1.2.x](https://github.com/scottjehl/picturefill/tree/1.2). For an implementation of [Picturefill.js 2.x](http://scottjehl.github.io/picturefill/), see the [master branch of the GitHub repository](https://github.com/kylereicks/picturefill.js.wp/tree/master).**
+
 Picturefill.WP is a simple and option-less plugin to serve HDPI and responsive images on a WordPress website.
 
 This plugin parses post and page content replacing images with a special syntax similar to the proposed syntax for the HTML5 `picture` element, then uses an adapted version of [picturefill.js](https://github.com/scottjehl/picturefill) to load the appropriate image to the browser.
@@ -103,19 +105,23 @@ See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.
 
 = Where are the plugin options? =
 
-There aren't any. Breakpoints, as well as retina and responsive images are created based on the image sizes in your media settings.
+There aren't any. Breakpoints, as well as retina and responsive images are created based on the image sizes in your media settings. See [Extending and Customizing Picturefill.WP 1](https://github.com/kylereicks/picturefill.js.wp/tree/1.3.x#extending-and-customizing-picturefillwp-1) For information on customizing the plugin.
+
+= Should I use this plugin (1.3.x), or the implementation of [Picturefill 2.0 on GitHub](https://github.com/kylereicks/picturefill.js.wp/tree/master)? =
+
+There are a number of reasons why you might want to use either. The Picturefill project site provides a basic [breakdown of the two versions](http://scottjehl.github.io/picturefill/#download), as well as some [support caveats to keep in mind for version 2](http://scottjehl.github.io/picturefill/#gotchas). 
 
 = Is this plugin on GitHub? =
 
-Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp)
+Yes it is. [Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp/tree/1.3.x)
 
 = Where can I find information about extending the plugin? =
 
-See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp#extending-picturefillwp) subsection of the GitHub repository for a list of plugin hooks and examples.
+See the [Extending Picturefill.WP](https://github.com/kylereicks/picturefill.js.wp/tree/1.3.x#extending-and-customizing-picturefillwp-1) subsection of the GitHub repository for a list of plugin hooks and examples.
 
 = Can I use this plugin with another plugin that I always use? =
 
-Probably. See the [using Picturefill.WP with other plugins](https://github.com/kylereicks/picturefill.js.wp#use-with-other-plugins) section of the documentation on GitHub for a few of the plugins that have been discovered may need special consideration.
+Probably. See the [using Picturefill.WP with other plugins](https://github.com/kylereicks/picturefill.js.wp/tree/1.3.x#use-with-other-plugins) section of the documentation on GitHub for a few of the plugins that have been discovered may need special consideration.
 
 = Why does this plugin use an "adapted" version of picturefill.js =
 
@@ -123,8 +129,7 @@ The standard version of [picturefill.js](https://github.com/scottjehl/picturefil
 
 = Are there any plans to update this plugin to Picturefill 2.0 =
 
-A new version of Picturefill.WP using Picturefill 2.x is in the works. Because of significant diferences between Picturefill 1.x and Picturefill 2.x, the new Picturefill.WP 2 will be maintained alongside the original Picteufill.WP 1.3.x. I will update this plugin with more details as they become available.
-
+The plugin in this repository will remain an implementation of Picturefill 1.2. If you are looking for an implementation of Picturefill 2.0, please see the [master branch of the GitHub repository](https://github.com/kylereicks/picturefill.js.wp/tree/master).
 
 == Advanced Use ==
 
