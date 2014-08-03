@@ -125,7 +125,7 @@ Probably. See the [using Picturefill.WP with other plugins](https://github.com/k
 
 = Why does this plugin use an "adapted" version of picturefill.js =
 
-The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly diferent goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax.
+The standard version of [picturefill.js](https://github.com/scottjehl/picturefill) will work well enough with Picturefill.WP; however, Picturefill.WP has a slightly different goal than picturefill.js. Picturefill.js aims to pollyfill the proposed `<picture>` element. It expects a special `<picture>` like markup, and outputs the appropriate `<img>`, but the resulting `<img>` does not include a class, id or other attribute. The generated `<img>` tags can only be targeted by the attributes of its parent elements. Picturefill.WP aims to take an `<img>` and then output an `<img>` exactly like it, apart form the width or pixel density. This way, `<img>` tags can be targeted without regard to the `<picture>` syntax.
 
 = Are there any plans to update this plugin to Picturefill 2.0 =
 
@@ -145,7 +145,7 @@ To skip images and load them normally add the attribute `data-picturefill-wp-ign
 
 ###Helper Functions
 
-See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helper-functions) section of the documentatin on GitHub.
+See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helper-functions) section of the documentation on GitHub.
 
 == Changelog ==
 
@@ -183,7 +183,7 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 = 1.2.3 =
 * Fix error in template hooks
 * Add minified templates
-* Add example to minify HTML ouput
+* Add example to minify HTML output
 
 = 1.2.2 =
 * Account for post pagination
@@ -210,7 +210,7 @@ See the [helper functions](https://github.com/kylereicks/picturefill.js.wp#helpe
 
 = 1.1 =
 * Allow for responsive images for non-standard sizes
-* Add a `min-size` class to limit the resposiveness of an image.
+* Add a `min-size` class to limit the responsiveness of an image.
 
 = 1.0 =
 * Release 1.0.
