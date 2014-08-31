@@ -250,12 +250,12 @@ Disabling transient caching on the cart shortcode.
 
 In functions.php:
 ```php
-if(defined('PICTUREFILL_WP_VERSION')){
+if(defined('PICTUREFILL_WP_VERSION') && function_exists('is_cart')){
   add_filter('the_content', 'do_not_cache_woocommerce_cart');
 }
 
 function do_not_cache_woocommerce_cart($content){
-  if(has_shortcode($content, 'woocommerce_cart')){
+  if(is_cart()){
     add_filter('picturefill_wp_cache', '__return_false');
   }
   return $content;
