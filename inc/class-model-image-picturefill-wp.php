@@ -97,7 +97,7 @@ if(!class_exists('Model_Image_Picturefill_WP')){
       }
 
       if(preg_match('/(?:(?:^|\s)srcset-)([\w|-]+)/', $attributes['class'], $srcset_match)){
-        $attributes['scrset_name'] = $srcset_match[1];
+        $attributes['srcset_name'] = $srcset_match[1];
       }
 
       if(preg_match('/(?:(?:^|\s)sizes-)([\w|-]+)/', $attributes['class'], $sizes_match)){
