@@ -113,7 +113,7 @@ if(!class_exists('Picturefill_WP')){
         wp_enqueue_script('picturefill');
         $html = View_Picturefill_WP::standardize_img_tags($html);
         foreach($images as $image){
-          if('picture' !== $image->parentNode->tagName && !$image->hasAttribute('data-picturefill-wp-ignore') && !$image->hasAttribute('srcset')){
+          if('picture' !== $image->parentNode->tagName && !$image->hasAttribute('data-picturefill-wp-ignore') && !$image->hasAttribute('srcset') && apply_filters('picturefill_wp_process_this_image', true, $image, $html)){
             $model_image_picturefill_wp = new Model_Image_Picturefill_WP($this->model, $DOMDocument, $image);
             $view_picturefill_wp = new View_Picturefill_WP($model_image_picturefill_wp);
 
